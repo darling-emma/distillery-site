@@ -1,4 +1,4 @@
-console.log("connected - debug-2");
+console.log("connected - debug-3");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -99,5 +99,4 @@ document.addEventListener("DOMContentLoaded", (event) => {
         pin: ".hero",
         markers: false,
     });
-
-    
+});
