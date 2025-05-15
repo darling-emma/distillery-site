@@ -1,4 +1,4 @@
-console.log("connected - imagesequence - no stretch");
+console.log("connected - imagesequence - no stretch take 3");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -173,22 +173,25 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const img = images[imageSeq.frame];
         if(!img?.complete) return;
 
-        const canvasAspect = canvas.width / canvas.height;
+        const container = document.querySelector(".subhero-window");
+        const displayWidth = container.clientWidth;
+        const displayHeight = container.clientHeight;
+
+        const canvasAspect = displayWidth / displayHeight;
         const imgAspect = img.width / img.height;
 
         let drawWidth, drawHeight, x, y;
 
         if (imgAspect > canvasAspect) {
-            drawWidth = canvas.width;
-            drawHeight = canvas.width / imgAspect;
-            x = 0;
-            y = (canvas.height - drawHeight) / 2;
+            drawWidth = displayHeight;
+            drawWidth = drawHeight * imgAspect;
         } else {
-            drawHeight = canvas.height;
-            drawWidth = canvas.height * imgAspect;
-            x = (canvas.width - drawWidth) / 2;
-            y = 0;
+            drawHeight = displayWidth;
+            drawHeight = drawWidth / imgAspect;
         }
+
+        x = (displayWidth - drawWidth) / 2;
+        y = (displayHeight - drawHeight) / 2;
 
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.drawImage(img, x, y, drawWidth, drawHeight);
@@ -196,12 +199,23 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     function resizeCanvas() {
         const container = document.querySelector(".subhero-window");
-        canvas.width = container.clientWidth;
-        canvas.height = container.clientHeight;
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+
+        // Match display size
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+
+        // Match pixel buffer for sharpness
+        canvas.width = width;
+        canvas.height = height;
+
         render();
     }
 
-    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("resize", () => {
+        resizeCanvas();
+    });
 
     preloadImages();
     resizeCanvas();
