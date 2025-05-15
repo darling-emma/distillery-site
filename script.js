@@ -1,4 +1,4 @@
-console.log("connected - canvas-window");
+console.log("connected - debug-1");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
