@@ -1,4 +1,4 @@
-console.log("connected - pinfixed");
+console.log("connected - pin-disabled-mobile");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -233,13 +233,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
     preloadImages();
     resizeCanvas();
 
+    function isTouchDevice() {
+        return (
+            "ontouchstart" in window ||
+            navigator.maxTouchPoints > 0 ||
+            navigator.msMaxTouchPoints > 0
+        );
+    }
+
     const subheroTimeline = gsap.timeline({
         scrollTrigger: {
             trigger: ".end-scroll",
             start: "top bottom",
             end: "top top",
             scrub: true,
-            pin: ".subhero-window",
+            pin: !isTouchDevice() ? ".subhero-window" : false,
             pinType: "fixed",
             markers: false,
         }
