@@ -1,4 +1,4 @@
-console.log("connected - imagesequence");
+console.log("connected - imagesequence - no stretch");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -173,12 +173,25 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const img = images[imageSeq.frame];
         if(!img?.complete) return;
 
-        const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
-        const x = (canvas.width / 2) - (img.width / 2) * scale;
-        const y = (canvas.height / 2) - (img.height / 2) * scale;
+        const canvasAspect = canvas.width / canvas.height;
+        cons imgAspect = img.width / img.height;
+
+        let drawWidth, drawHeight, x, y;
+
+        if (imgAspect > canvasAspect) {
+            drawWidth = canvas.width;
+            drawHeight = canvas.width / imgAspect;
+            x = 0;
+            y = (canvas.height - drawHeight) / 2;
+        } else {
+            drawHeight = canvas.height;
+            drawWidth = canvas.height * imgAspect;
+            x = (canvas.width - drawWidth) / 2;
+            y = 0;
+        }
 
         context.clearRect(0, 0, canvas.width, canvas.height);
-        context.drawImage(img, x, y, img.width*scale, img.height*scale);
+        context.drawImage(img, x, y, drawWidth, drawHeight);
     }
 
     function resizeCanvas() {
