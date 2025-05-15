@@ -1,4 +1,4 @@
-console.log("connected - imagesequence - no stretch take 4");
+console.log("connected - pinType transform");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -240,6 +240,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             end: "top top",
             scrub: true,
             pin: ".subhero-window",
+            pinType: "transform",
             markers: false,
         }
     });
