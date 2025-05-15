@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if(!img?.complete) return;
 
         const canvasAspect = canvas.width / canvas.height;
-        cons imgAspect = img.width / img.height;
+        const imgAspect = img.width / img.height;
 
         let drawWidth, drawHeight, x, y;
 
