@@ -1,4 +1,4 @@
-console.log("connected - imagesequence - no stretch take 3");
+console.log("connected - imagesequence - no stretch take 4");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     function render() {
         const img = images[imageSeq.frame];
-        if(!img?.complete) return;
+        if (!img?.complete) return;
 
         const container = document.querySelector(".subhero-window");
         const displayWidth = container.clientWidth;
@@ -180,21 +180,34 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const canvasAspect = displayWidth / displayHeight;
         const imgAspect = img.width / img.height;
 
-        let drawWidth, drawHeight, x, y;
+        let drawWidth, drawHeight;
 
         if (imgAspect > canvasAspect) {
-            drawWidth = displayHeight;
+            drawHeight = displayHeight;
             drawWidth = drawHeight * imgAspect;
         } else {
-            drawHeight = displayWidth;
+            drawWidth = displayWidth;
             drawHeight = drawWidth / imgAspect;
         }
 
-        x = (displayWidth - drawWidth) / 2;
-        y = (displayHeight - drawHeight) / 2;
+        const x = (displayWidth - drawWidth) / 2;
+        const y = (displayHeight - drawHeight) / 2;
 
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.drawImage(img, x, y, drawWidth, drawHeight);
+    }
+
+    function resizeCanvas() {
+        const container = document.querySelector(".subhero-window");
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        canvas.width = width;
+        canvas.height = height;
+
+        render();
     }
 
     function resizeCanvas() {
