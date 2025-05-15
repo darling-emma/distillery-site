@@ -103,9 +103,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // SUBHERO ANIMATION
     // Pinning + video scrubbing with scroll
     const coolVideo = document.querySelector("video");
-    coolVideo.playbackRate = 0;
+    if (!coolVideo) return; 
 
     coolVideo.onloadedmetadata = function () {
+        coolVideo.playbackRate = 0;
+        
         const subheroTimeline = gsap.timeline({
             scrollTrigger: {
                 trigger: ".end-scroll",
