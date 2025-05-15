@@ -1,4 +1,4 @@
-console.log("connected - backtoOG");
+console.log("connected - pinfixed");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             end: "top top",
             scrub: true,
             pin: ".subhero-window",
-            pinType: "transform",
+            pinType: "fixed",
             markers: false,
         }
     });
