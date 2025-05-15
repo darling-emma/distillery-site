@@ -1,4 +1,4 @@
-console.log("connected");
+console.log("connected - imagesequence");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -101,171 +101,244 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     // SUBHERO ANIMATION
-    // Pinning + video scrubbing with scroll
-    const coolVideo = document.querySelector("video");
-    if (!coolVideo) return; 
+    const imageURLs = [
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321960/01_wmfw04.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321960/02_t4y3dq.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321960/03_rqpwid.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321961/04_wtwh9j.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321961/05_nn5zst.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321961/06_mtehvs.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321961/07_xkfv9t.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321961/08_izkkbi.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321962/09_g7qdnb.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321961/10_u2arir.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321962/11_ca579c.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321962/12_eq57wt.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321962/13_rdu0zf.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321962/14_usjip1.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321963/15_jgdn4l.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321963/16_xvutpd.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321963/17_lwmuez.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321963/18_lrz2ld.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321964/19_r6mhad.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321964/20_bb7czi.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321964/21_pifxub.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321964/22_lj1nhw.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321965/23_xwo9bb.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321965/24_xsyc7x.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321965/25_uwn4p5.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321966/26_k5nfb7.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321966/27_rsovjs.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321966/28_ifjfkn.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321966/29_up8jh8.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321967/30_pwvsju.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321967/31_jiykee.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321967/32_kmoruf.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321968/33_gpvl8v.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321968/34_qrvmam.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321968/35_p03hd3.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321969/36_a8o4j4.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321969/37_jret6y.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321969/38_pe6qem.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321970/39_emcscw.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321970/40_mqam03.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322261/41_tylms7.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322262/42_qwjoao.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322264/43_f8gss0.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322254/44_hq3xos.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322256/45_al18pr.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322257/46_ztcdx3.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322259/47_eijxun.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322260/48_bqiauq.webp"
+    ];
 
-    coolVideo.onloadedmetadata = function () {
-        coolVideo.playbackRate = 0;
-        
-        const subheroTimeline = gsap.timeline({
-            scrollTrigger: {
-                trigger: ".end-scroll",
-                start: "top bottom",
-                end: "top top",
-                scrub: true,
-                pin: ".subhero-window",
-                markers: false,
-            }
-        });
+    const frameCount = imageURLs.length;
+    const canvas = document.getElementById("sequence-canvas");
+    const context = canvas.getContext("2d");
 
-        subheroTimeline
-        .to(coolVideo, {
-            currentTime: coolVideo.duration
-        }, 0)
-        .to(".scramble",{
-            y: -40,
-            opacity: 0
-        })
-        .from(".subhero-paragraph",{
-            y: 40,
-            opacity: 0
-        });
-
-        // Scramble Text Animation
-        ScrollTrigger.create({
-            trigger: ".scramble-trigger",
-            start: "center center",
-            onEnter: () => {
-                gsap.to (".scramble", {
-                    scrambleText: "DISTILLING BRANDS TO THEIR ESSENCE",
-                    duration: 2,
-                    chars: "ABCDEFGHIJ!@#$%^&*"
-                });  
-            },
-            onEnterBack: () => {
-                gsap.to(".scramble", {
-                    scrambleText: "THE BRAND STRATEGY COMPANY",
-                    duration: 2,
-                    chars: "ABCDEFGHIJ!@#$%^&*"
-                });
-            },
-            markers: false
-        });
-
-        ScrollTrigger.refresh();
-
-        // Pipes Animation
-        let CircleShow = gsap.to(".dot", {
-            visibility: "visible",
-            opacity: 1,
-            duration: 0.05,
-            paused: true
-        });
-
-        const Pipes = gsap.timeline({
-            scrollTrigger: {
-                trigger: ".pipes-wrapper",
-                start: "top top",
-                end: "bottom bottom",
-                scrub: true,
-                anticipatePin: 1,
-                onEnter: () => CircleShow.play(),
-                onLeave: () => CircleShow.reverse(),
-                onEnterBack: () => CircleShow.play(),
-                onLeaveBack: () => CircleShow.reverse()
-            }
-        });
-
-        Pipes
-        .to(".one", {
-            motionPath: {
-                path: ".path-1",
-                align: ".path-1",
-                alignOrigin: [0.5, 0.5]
-            }
-        })
-        .to(".two", {
-            motionPath: {
-                path: ".path-2",
-                align: ".path-2",
-                alignOrigin: [0.5, 0.5]
-            }
-        }, 0);
-
-        let delayOne = Pipes.duration() * 0.2;
-        Pipes.add("delayOne", delayOne);
-
-        Pipes
-        .to(".three", {
-            motionPath: {
-                path: ".path-1",
-                align: ".path-1",
-                alignOrigin: [0.5, 0.5]
-            }
-        }, delayOne)
-        .to(".four", {
-            motionPath: {
-                path: ".path-2",
-                align: ".path-2",
-                alignOrigin: [0.5, 0.5]
-            }
-        }, delayOne);
-
-        let delayTwo = Pipes.duration() * 0.4;
-        Pipes.add("delayTwo", delayTwo);
-
-        Pipes
-        .to(".five", {
-            motionPath: {
-                path: ".path-1",
-                align: ".path-1",
-                alignOrigin: [0.5, 0.5]
-            }
-        }, delayTwo)
-        .to(".six", {
-            motionPath: {
-                path: ".path-2",
-                align: ".path-2",
-                alignOrigin: [0.5, 0.5]
-            }
-        }, delayTwo);
-
-        let delayThree = Pipes.duration() * 0.8;
-        Pipes.add("delayThree", delayThree);
-
-        Pipes
-        .to(".seven", {
-            motionPath: {
-                path: ".path-1",
-                align: ".path-1",
-                alignOrigin: [0.5, 0.5]
-            }
-        }, delayThree)
-        .to(".eight", {
-            motionPath: {
-                path: ".path-2",
-                align: ".path-2",
-                alignOrigin: [0.5, 0.5]
-            }
-        }, delayThree);
-
-        window.addEventListener("load", () => {
-            ScrollTrigger.refresh();
-        });
+    const images = [];
+    const imageSeq = {
+        frame: 0
     };
 
-    // Touch device handling
-    function isTouchDevice() {
-        return (
-            "ontouchstart" in window ||
-            navigator.maxTouchPoints > 0 ||
-            navigator.msMaxTouchPoints > 0
-        );
+    function preloadImages() {
+        imageURLs.forEach((url) => {
+            const img = new Image();
+            img.src = url;
+            images.push(img);
+        });
     }
-    if (isTouchDevice()) {
-        coolVideo.play();
-        coolVideo.pause();
-    };
 
+    function render() {
+        const img = images[imageSeq.frame];
+        if(!img?.complete) return;
+
+        const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+        const x = (canvas.width / 2) - (img.width / 2) * scale;
+        const y = (canvas.height / 2) - (img.height / 2) * scale;
+
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(img, x, y, img.width*scale, img.height*scale);
+    }
+
+    function resizeCanvas() {
+        const container = document.querySelector(".subhero-window");
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+        render();
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+
+    preloadImages();
+    resizeCanvas();
+
+    const subheroTimeline = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".end-scroll",
+            start: "top bottom",
+            end: "top top",
+            scrub: true,
+            pin: ".subhero-window",
+            markers: false,
+        }
+    });
+
+    subheroTimeline
+    .to(imageSeq, {
+        frame: frameCount - 1,
+        snap: "frame",
+        ease: "none",
+        onUpdate: render
+    })
+    .to(".scramble",{
+        y: -40,
+        opacity: 0
+    })
+    .from(".subhero-paragraph",{
+        y: 40,
+        opacity: 0
+    });
+
+    // Scramble Text Animation
+    ScrollTrigger.create({
+        trigger: ".scramble-trigger",
+        start: "center center",
+        onEnter: () => {
+            gsap.to (".scramble", {
+                scrambleText: "DISTILLING BRANDS TO THEIR ESSENCE",
+                duration: 2,
+                chars: "ABCDEFGHIJ!@#$%^&*"
+            });  
+        },
+        onEnterBack: () => {
+            gsap.to(".scramble", {
+                scrambleText: "THE BRAND STRATEGY COMPANY",
+                duration: 2,
+                chars: "ABCDEFGHIJ!@#$%^&*"
+            });
+        },
+        markers: false
+    });
+
+    ScrollTrigger.refresh();
+
+    // Pipes Animation
+    let CircleShow = gsap.to(".dot", {
+        visibility: "visible",
+        opacity: 1,
+        duration: 0.05,
+        paused: true
+    });
+
+    const Pipes = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".pipes-wrapper",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: true,
+            anticipatePin: 1,
+            onEnter: () => CircleShow.play(),
+            onLeave: () => CircleShow.reverse(),
+            onEnterBack: () => CircleShow.play(),
+            onLeaveBack: () => CircleShow.reverse()
+        }
+    });
+
+    Pipes
+    .to(".one", {
+        motionPath: {
+            path: ".path-1",
+            align: ".path-1",
+            alignOrigin: [0.5, 0.5]
+        }
+    })
+    .to(".two", {
+        motionPath: {
+            path: ".path-2",
+            align: ".path-2",
+            alignOrigin: [0.5, 0.5]
+        }
+    }, 0);
+
+    let delayOne = Pipes.duration() * 0.2;
+    Pipes.add("delayOne", delayOne);
+
+    Pipes
+    .to(".three", {
+        motionPath: {
+            path: ".path-1",
+            align: ".path-1",
+            alignOrigin: [0.5, 0.5]
+        }
+    }, delayOne)
+    .to(".four", {
+        motionPath: {
+            path: ".path-2",
+            align: ".path-2",
+            alignOrigin: [0.5, 0.5]
+        }
+    }, delayOne);
+
+    let delayTwo = Pipes.duration() * 0.4;
+    Pipes.add("delayTwo", delayTwo);
+
+    Pipes
+    .to(".five", {
+        motionPath: {
+            path: ".path-1",
+            align: ".path-1",
+            alignOrigin: [0.5, 0.5]
+        }
+     }, delayTwo)
+    .to(".six", {
+        motionPath: {
+            path: ".path-2",
+            align: ".path-2",
+            alignOrigin: [0.5, 0.5]
+        }
+    }, delayTwo);
+
+    let delayThree = Pipes.duration() * 0.8;
+    Pipes.add("delayThree", delayThree);
+
+    Pipes
+    .to(".seven", {
+        motionPath: {
+            path: ".path-1",
+            align: ".path-1",
+            alignOrigin: [0.5, 0.5]
+        }
+    }, delayThree)
+    .to(".eight", {
+        motionPath: {
+            path: ".path-2",
+            align: ".path-2",
+            alignOrigin: [0.5, 0.5]
+        }
+    }, delayThree);
+
+    window.addEventListener("load", () => {
+        ScrollTrigger.refresh();
+    });
 });
