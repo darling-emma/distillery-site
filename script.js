@@ -1,4 +1,4 @@
-console.log("connected - pinType transform");
+console.log("connected - canvas-window");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const img = images[imageSeq.frame];
         if (!img?.complete) return;
 
-        const container = document.querySelector(".subhero-window");
+        const container = document.querySelector(".canvas-window");
         const displayWidth = container.clientWidth;
         const displayHeight = container.clientHeight;
 
@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
     function resizeCanvas() {
-        const container = document.querySelector(".subhero-window");
+        const container = document.querySelector(".canvas-window");
         const width = container.clientWidth;
         const height = container.clientHeight;
 
@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
     function resizeCanvas() {
-        const container = document.querySelector(".subhero-window");
+        const container = document.querySelector(".canvas-window");
         const width = container.clientWidth;
         const height = container.clientHeight;
 
