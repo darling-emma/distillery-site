@@ -1,8 +1,8 @@
-console.log("connected - removesmooth-2");
+console.log("connected - backtoOG");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
-    gsap.registerPlugin(DrawSVGPlugin, ScrambleTextPlugin, ScrollTrigger, MotionPathPlugin)
+    gsap.registerPlugin(DrawSVGPlugin, ScrambleTextPlugin, ScrollTrigger, ScrollSmoother, MotionPathPlugin)
 
     // Event listener for resizing
     let resizeTimeout;
@@ -11,6 +11,19 @@ document.addEventListener("DOMContentLoaded", (event) => {
         resizeTimeout = setTimeout(() => {
             ScrollTrigger.refresh();
         }, 200);
+    });
+    
+    // Initialize ScrollSmoother, Desktop only
+    let mm = gsap.matchMedia();
+    mm.add("(min-width: 768px)", () => {
+        ScrollSmoother.create({
+            wrapper: "#smooth-wrapper",
+            content: "#smooth-content",
+            smooth: 1,
+            effects: true,
+            ignoreMobileResize: true,
+            normalizeScroll: true
+        });
     });
 
     // HERO ANIMATION
