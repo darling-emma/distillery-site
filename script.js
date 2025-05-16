@@ -1,6 +1,4 @@
-console.log("connected - video not found debug");
-
-console.log("connected");
+console.log("connected - corrected pin from .subhero-window to .subhero-track");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -105,8 +103,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // SUBHERO ANIMATION
     // Pinning + video scrubbing with scroll
     const coolVideo = document.querySelector("video");
-    console.log("video found?", !!video, video);
-    if (!video) return; 
+    if (!coolVideo) return; 
 
     coolVideo.onloadedmetadata = function () {
         coolVideo.playbackRate = 0;
@@ -117,7 +114,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 start: "top bottom",
                 end: "top top",
                 scrub: true,
-                pin: ".subhero-window",
+                pin: ".subhero-track",
                 markers: false,
             }
         });
