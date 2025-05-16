@@ -1,4 +1,4 @@
-console.log("connected - backtovideo");
+console.log("connected - video not found debug");
 
 console.log("connected");
 
@@ -105,7 +105,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // SUBHERO ANIMATION
     // Pinning + video scrubbing with scroll
     const coolVideo = document.querySelector("video");
-    if (!coolVideo) return; 
+    console.log("video found?", !!video, video);
+    if (!video) return; 
 
     coolVideo.onloadedmetadata = function () {
         coolVideo.playbackRate = 0;
