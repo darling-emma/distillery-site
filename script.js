@@ -1,4 +1,4 @@
-console.log("connected - sticky subhero");
+console.log("connected - sticky subhero - markers");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             start: "top bottom",
             end: "50% top",
             scrub: 0.5,
-            markers: false,
+            markers: true,
             onEnter: () => Fade.play(), // Play animation to fade out .scroll-prompt-wrapper
             onLeaveBack: () => Fade.reverse() // Reverse animation to fade out .scroll-prompt-wrapper
         }
@@ -97,7 +97,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
         end: "50% top",
         scrub: true,
         pin: ".hero",
-        markers: false,
+        markers: {
+            indent: 200px,
+        },
     });
 
     // SUBHERO ANIMATION
@@ -239,7 +241,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
             start: "top bottom",
             end: "top top",
             scrub: true,
-            markers: false,
+            markers: {
+                indent: 400px,
+            },
         }
     });
 
