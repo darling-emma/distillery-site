@@ -1,4 +1,4 @@
-console.log("connected - pinsubhero");
+console.log("connected - remove-pinsubhero");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -239,7 +239,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
             start: "top bottom",
             end: "top top",
             scrub: true,
-            pin: ".subhero-track",
             markers: false,
         }
     });
