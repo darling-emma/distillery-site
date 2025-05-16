@@ -1,4 +1,4 @@
-console.log("connected - fixing canvas context error?");
+console.log("connected - canvas debug");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -154,6 +154,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     const frameCount = imageURLs.length;
     const canvas = document.getElementById("sequence-canvas");
+    console.log("Canvas found?", !!canvas, canvas);
+    if (!canvas) return; // Prevent further errors if not found
+    
     const context = canvas.getContext("2d");
 
     const images = [];
