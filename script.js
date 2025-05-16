@@ -1,4 +1,4 @@
-console.log("connected - canvas debug");
+console.log("connected - removed-resizecanvas");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -154,9 +154,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     const frameCount = imageURLs.length;
     const canvas = document.getElementById("sequence-canvas");
-    console.log("Canvas found?", !!canvas, canvas);
-    if (!canvas) return; // Prevent further errors if not found
-    
     const context = canvas.getContext("2d");
 
     const images = [];
@@ -198,19 +195,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.drawImage(img, x, y, drawWidth, drawHeight);
-    }
-
-    function resizeCanvas() {
-        const container = document.querySelector(".canvas-window");
-        const width = container.clientWidth;
-        const height = container.clientHeight;
-
-        canvas.style.width = width + 'px';
-        canvas.style.height = height + 'px';
-        canvas.width = width;
-        canvas.height = height;
-
-        render();
     }
 
     function resizeCanvas() {
