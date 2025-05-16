@@ -1,4 +1,4 @@
-console.log("connected - sticky subhero - takethree");
+console.log("connected - pinsubhero");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         scrollTrigger: {
             trigger: ".helper",
             start: "top bottom",
-            end: "50% top",
+            end: "top top",
             scrub: 0.5,
             markers: false,
             onEnter: () => Fade.play(), // Play animation to fade out .scroll-prompt-wrapper
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     ScrollTrigger.create({
         trigger: ".helper",
         start: "top bottom",
-        end: "50% top",
+        end: "top top",
         scrub: true,
         pin: ".hero",
         markers: false,
@@ -239,6 +239,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             start: "top bottom",
             end: "top top",
             scrub: true,
+            pin: ".subhero-track",
             markers: false,
         }
     });
