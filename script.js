@@ -1,4 +1,4 @@
-console.log("connected - worksondesktop,nopointereventsmobile");
+console.log("connected - fixing canvas context error?");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
