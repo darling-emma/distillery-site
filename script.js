@@ -1,4 +1,4 @@
-console.log("connected - squareburst-newimages");
+console.log("connected - addlottie");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -235,6 +235,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
         opacity: 0
     })
     .from(".subhero-paragraph",{
+        y: 40,
+        opacity: 0
+    })
+    .from(".scroll-indicator-lottie", {
         y: 40,
         opacity: 0
     });
