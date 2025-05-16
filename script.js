@@ -1,4 +1,4 @@
-console.log("connected - noburst");
+console.log("connected - squareburst");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -101,6 +101,118 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     // SUBHERO ANIMATION
+    // === CENTERED SQUARE IMAGE SEQUENCE ===
+
+// 1. List your image URLs (replace with your own if needed)
+const centerImageURLs = [
+  // Example images; replace with your own sequence
+  "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321960/01_wmfw04.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321960/02_t4y3dq.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321960/03_rqpwid.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321961/04_wtwh9j.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321961/05_nn5zst.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321961/06_mtehvs.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321961/07_xkfv9t.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321961/08_izkkbi.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321962/09_g7qdnb.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321961/10_u2arir.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321962/11_ca579c.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321962/12_eq57wt.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321962/13_rdu0zf.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321962/14_usjip1.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321963/15_jgdn4l.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321963/16_xvutpd.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321963/17_lwmuez.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321963/18_lrz2ld.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321964/19_r6mhad.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321964/20_bb7czi.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321964/21_pifxub.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321964/22_lj1nhw.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321965/23_xwo9bb.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321965/24_xsyc7x.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321965/25_uwn4p5.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321966/26_k5nfb7.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321966/27_rsovjs.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321966/28_ifjfkn.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321966/29_up8jh8.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321967/30_pwvsju.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321967/31_jiykee.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321967/32_kmoruf.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321968/33_gpvl8v.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321968/34_qrvmam.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321968/35_p03hd3.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321969/36_a8o4j4.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321969/37_jret6y.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321969/38_pe6qem.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321970/39_emcscw.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747321970/40_mqam03.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322261/41_tylms7.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322262/42_qwjoao.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322264/43_f8gss0.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322254/44_hq3xos.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322256/45_al18pr.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322257/46_ztcdx3.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322259/47_eijxun.webp",
+        "https://res.cloudinary.com/dwxgs5mgk/image/upload/v1747322260/48_bqiauq.webp"
+];
+
+// 2. Setup
+const centerFrameCount = centerImageURLs.length;
+const centerCanvas = document.getElementById("center-sequence-canvas");
+const centerContext = centerCanvas.getContext("2d");
+const centerImages = [];
+const centerImageSeq = { frame: 0 };
+
+// 3. Preload images
+function preloadCenterImages() {
+  centerImageURLs.forEach((url) => {
+    const img = new Image();
+    img.src = url;
+    centerImages.push(img);
+  });
+}
+
+// 4. Resize canvas to be a centered square (max possible size)
+function resizeCenterCanvas() {
+  const size = Math.min(window.innerWidth, window.innerHeight);
+  centerCanvas.style.width = size + "px";
+  centerCanvas.style.height = size + "px";
+  centerCanvas.width = size;
+  centerCanvas.height = size;
+  renderCenterImage();
+}
+
+// 5. Render current frame, cover the square area
+function renderCenterImage() {
+  const img = centerImages[centerImageSeq.frame];
+  if (!img?.complete) return;
+
+  const size = centerCanvas.width;
+  // Fit image into square, cover style (object-fit: cover)
+  const imgAspect = img.width / img.height;
+  let drawWidth, drawHeight;
+  if (imgAspect > 1) {
+    drawHeight = size;
+    drawWidth = imgAspect * size;
+  } else {
+    drawWidth = size;
+    drawHeight = size / imgAspect;
+  }
+  const x = (size - drawWidth) / 2;
+  const y = (size - drawHeight) / 2;
+
+  centerContext.clearRect(0, 0, size, size);
+  centerContext.drawImage(img, x, y, drawWidth, drawHeight);
+}
+
+// 6. Handle resizing
+window.addEventListener("resize", resizeCenterCanvas);
+
+// 7. Preload and initialize
+preloadCenterImages();
+resizeCenterCanvas();
+
+// 8. ScrollTrigger timeline
     const subheroTimeline = gsap.timeline({
         scrollTrigger: {
             trigger: ".end-scroll",
@@ -113,6 +225,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     subheroTimeline
+    .to(centerImageSeq, {
+        frame: centerFrameCount - 1,
+        snap: "frame",
+        ease: "none",
+        onUpdate: renderCenterImage
+    })
     .to(".scramble",{
         y: -40,
         opacity: 0
