@@ -1,4 +1,4 @@
-console.log("connected - corrected pin from .subhero-window to .subhero-track");
+console.log("connected - noburst");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -101,171 +101,146 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     // SUBHERO ANIMATION
-    // Pinning + video scrubbing with scroll
-    const coolVideo = document.querySelector("video");
-    if (!coolVideo) return; 
+    const subheroTimeline = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".end-scroll",
+            start: "top bottom",
+            end: "top top",
+            scrub: true,
+            pin: ".subhero-track",
+            markers: false,
+        }
+    });
 
-    coolVideo.onloadedmetadata = function () {
-        coolVideo.playbackRate = 0;
-        
-        const subheroTimeline = gsap.timeline({
-            scrollTrigger: {
-                trigger: ".end-scroll",
-                start: "top bottom",
-                end: "top top",
-                scrub: true,
-                pin: ".subhero-track",
-                markers: false,
-            }
-        });
+    subheroTimeline
+    .to(".scramble",{
+        y: -40,
+        opacity: 0
+    })
+    .from(".subhero-paragraph",{
+        y: 40,
+        opacity: 0
+    });
 
-        subheroTimeline
-        .to(coolVideo, {
-            currentTime: coolVideo.duration
-        }, 0)
-        .to(".scramble",{
-            y: -40,
-            opacity: 0
-        })
-        .from(".subhero-paragraph",{
-            y: 40,
-            opacity: 0
-        });
+    // Scramble Text Animation
+    ScrollTrigger.create({
+        trigger: ".scramble-trigger",
+        start: "top top",
+        onEnter: () => {
+            gsap.to (".scramble", {
+                scrambleText: "DISTILLING BRANDS TO THEIR ESSENCE",
+                duration: 2,
+                chars: "DISTLERY"
+            });  
+        },
+        onLeaveBack: () => {
+            gsap.to(".scramble", {
+                scrambleText: "THE BRAND STRATEGY COMPANY",
+                duration: 2,
+                chars: "DISTLERY"
+            });
+        },
+        markers: false
+    });
 
-        // Scramble Text Animation
-        ScrollTrigger.create({
-            trigger: ".scramble-trigger",
-            start: "center center",
-            onEnter: () => {
-                gsap.to (".scramble", {
-                    scrambleText: "DISTILLING BRANDS TO THEIR ESSENCE",
-                    duration: 2,
-                    chars: "ABCDEFGHIJ!@#$%^&*"
-                });  
-            },
-            onEnterBack: () => {
-                gsap.to(".scramble", {
-                    scrambleText: "THE BRAND STRATEGY COMPANY",
-                    duration: 2,
-                    chars: "ABCDEFGHIJ!@#$%^&*"
-                });
-            },
-            markers: false
-        });
+    ScrollTrigger.refresh();
 
+    // Pipes Animation
+    let CircleShow = gsap.to(".dot", {
+        visibility: "visible",
+        opacity: 1,
+        duration: 0.05,
+        paused: true
+    });
+
+    const Pipes = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".pipes-wrapper",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: true,
+            anticipatePin: 1,
+            onEnter: () => CircleShow.play(),
+            onLeave: () => CircleShow.reverse(),
+            onEnterBack: () => CircleShow.play(),
+            onLeaveBack: () => CircleShow.reverse()
+        }
+    });
+
+    Pipes
+    .to(".one", {
+        motionPath: {
+            path: ".path-1",
+            align: ".path-1",
+            alignOrigin: [0.5, 0.5]
+        }
+    })
+    .to(".two", {
+        motionPath: {
+            path: ".path-2",
+            align: ".path-2",
+            alignOrigin: [0.5, 0.5]
+        }
+    }, 0);
+
+    let delayOne = Pipes.duration() * 0.2;
+    Pipes.add("delayOne", delayOne);
+
+    Pipes
+    .to(".three", {
+        motionPath: {
+            path: ".path-1",
+            align: ".path-1",
+            alignOrigin: [0.5, 0.5]
+        }
+    }, delayOne)
+    .to(".four", {
+        motionPath: {
+            path: ".path-2",
+            align: ".path-2",
+            alignOrigin: [0.5, 0.5]
+        }
+    }, delayOne);
+
+    let delayTwo = Pipes.duration() * 0.4;
+    Pipes.add("delayTwo", delayTwo);
+
+    Pipes
+    .to(".five", {
+        motionPath: {
+            path: ".path-1",
+            align: ".path-1",
+            alignOrigin: [0.5, 0.5]
+        }
+     }, delayTwo)
+    .to(".six", {
+        motionPath: {
+            path: ".path-2",
+            align: ".path-2",
+            alignOrigin: [0.5, 0.5]
+        }
+    }, delayTwo);
+
+    let delayThree = Pipes.duration() * 0.8;
+    Pipes.add("delayThree", delayThree);
+
+    Pipes
+    .to(".seven", {
+        motionPath: {
+            path: ".path-1",
+            align: ".path-1",
+            alignOrigin: [0.5, 0.5]
+        }
+    }, delayThree)
+    .to(".eight", {
+        motionPath: {
+            path: ".path-2",
+            align: ".path-2",
+            alignOrigin: [0.5, 0.5]
+        }
+    }, delayThree);
+
+    window.addEventListener("load", () => {
         ScrollTrigger.refresh();
-
-        // Pipes Animation
-        let CircleShow = gsap.to(".dot", {
-            visibility: "visible",
-            opacity: 1,
-            duration: 0.05,
-            paused: true
-        });
-
-        const Pipes = gsap.timeline({
-            scrollTrigger: {
-                trigger: ".pipes-wrapper",
-                start: "top top",
-                end: "bottom bottom",
-                scrub: true,
-                anticipatePin: 1,
-                onEnter: () => CircleShow.play(),
-                onLeave: () => CircleShow.reverse(),
-                onEnterBack: () => CircleShow.play(),
-                onLeaveBack: () => CircleShow.reverse()
-            }
-        });
-
-        Pipes
-        .to(".one", {
-            motionPath: {
-                path: ".path-1",
-                align: ".path-1",
-                alignOrigin: [0.5, 0.5]
-            }
-        })
-        .to(".two", {
-            motionPath: {
-                path: ".path-2",
-                align: ".path-2",
-                alignOrigin: [0.5, 0.5]
-            }
-        }, 0);
-
-        let delayOne = Pipes.duration() * 0.2;
-        Pipes.add("delayOne", delayOne);
-
-        Pipes
-        .to(".three", {
-            motionPath: {
-                path: ".path-1",
-                align: ".path-1",
-                alignOrigin: [0.5, 0.5]
-            }
-        }, delayOne)
-        .to(".four", {
-            motionPath: {
-                path: ".path-2",
-                align: ".path-2",
-                alignOrigin: [0.5, 0.5]
-            }
-        }, delayOne);
-
-        let delayTwo = Pipes.duration() * 0.4;
-        Pipes.add("delayTwo", delayTwo);
-
-        Pipes
-        .to(".five", {
-            motionPath: {
-                path: ".path-1",
-                align: ".path-1",
-                alignOrigin: [0.5, 0.5]
-            }
-        }, delayTwo)
-        .to(".six", {
-            motionPath: {
-                path: ".path-2",
-                align: ".path-2",
-                alignOrigin: [0.5, 0.5]
-            }
-        }, delayTwo);
-
-        let delayThree = Pipes.duration() * 0.8;
-        Pipes.add("delayThree", delayThree);
-
-        Pipes
-        .to(".seven", {
-            motionPath: {
-                path: ".path-1",
-                align: ".path-1",
-                alignOrigin: [0.5, 0.5]
-            }
-        }, delayThree)
-        .to(".eight", {
-            motionPath: {
-                path: ".path-2",
-                align: ".path-2",
-                alignOrigin: [0.5, 0.5]
-            }
-        }, delayThree);
-
-        window.addEventListener("load", () => {
-            ScrollTrigger.refresh();
-        });
-    };
-
-    // Touch device handling
-    function isTouchDevice() {
-        return (
-            "ontouchstart" in window ||
-            navigator.maxTouchPoints > 0 ||
-            navigator.msMaxTouchPoints > 0
-        );
-    }
-    if (isTouchDevice()) {
-        coolVideo.play();
-        coolVideo.pause();
-    };
-
+    });
 });
