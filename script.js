@@ -1,4 +1,4 @@
-console.log("connected - pin-disabled-mobile");
+console.log("connected - sticky subhero");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         scrollTrigger: {
             trigger: ".helper",
             start: "top bottom",
-            end: "top top",
+            end: "50% top",
             scrub: 0.5,
             markers: false,
             onEnter: () => Fade.play(), // Play animation to fade out .scroll-prompt-wrapper
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     ScrollTrigger.create({
         trigger: ".helper",
         start: "top bottom",
-        end: "top top",
+        end: "50% top",
         scrub: true,
         pin: ".hero",
         markers: false,
@@ -233,22 +233,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
     preloadImages();
     resizeCanvas();
 
-    function isTouchDevice() {
-        return (
-            "ontouchstart" in window ||
-            navigator.maxTouchPoints > 0 ||
-            navigator.msMaxTouchPoints > 0
-        );
-    }
-
     const subheroTimeline = gsap.timeline({
         scrollTrigger: {
             trigger: ".end-scroll",
             start: "top bottom",
             end: "top top",
             scrub: true,
-            pin: !isTouchDevice() ? ".subhero-window" : false,
-            pinType: "fixed",
             markers: false,
         }
     });
@@ -272,19 +262,19 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Scramble Text Animation
     ScrollTrigger.create({
         trigger: ".scramble-trigger",
-        start: "center center",
+        start: "top top",
         onEnter: () => {
             gsap.to (".scramble", {
                 scrambleText: "DISTILLING BRANDS TO THEIR ESSENCE",
                 duration: 2,
-                chars: "ABCDEFGHIJ!@#$%^&*"
+                chars: "DISTLERY"
             });  
         },
-        onEnterBack: () => {
+        onLeaveBack: () => {
             gsap.to(".scramble", {
                 scrambleText: "THE BRAND STRATEGY COMPANY",
                 duration: 2,
-                chars: "ABCDEFGHIJ!@#$%^&*"
+                chars: "DISTLERY"
             });
         },
         markers: false
