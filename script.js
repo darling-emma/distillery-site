@@ -1,4 +1,4 @@
-console.log("connected - removed-resizecanvas");
+console.log("connected - copied from script.js");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
