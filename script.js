@@ -1,8 +1,8 @@
-console.log("connected - addlottie");
+console.log("connected - addDrag");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
-    gsap.registerPlugin(DrawSVGPlugin, ScrambleTextPlugin, ScrollTrigger, ScrollSmoother, MotionPathPlugin)
+    gsap.registerPlugin(DrawSVGPlugin, ScrambleTextPlugin, ScrollTrigger, ScrollSmoother, MotionPathPlugin, Draggable, InertiaPlugin)
 
     // Event listener for resizing
     let resizeTimeout;
@@ -364,4 +364,25 @@ document.addEventListener("DOMContentLoaded", (event) => {
     window.addEventListener("load", () => {
         ScrollTrigger.refresh();
     });
+
+    Draggable.create("#drag-me", {
+        type: "x",
+        bounds: document.getElementById("#drag-container"),
+        ease: "power2.in",
+        inertia: true,
+        dragResistance: 0.3,
+        onDrag: function () {
+            const direction = this.getDirection("start") === "left" ? 1 : -1;
+            gsap.to(".client-image-card", {
+                rotation: direction * 25,
+                ease: "power1.in"
+            });
+        },
+        onDragEnd: function () {
+            gsap.to(".client-image-card", {
+                rotation: 0,
+            });
+        },
+    });
+
 });
