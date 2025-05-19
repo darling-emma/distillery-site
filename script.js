@@ -1,4 +1,4 @@
-console.log("connected - addDrag");
+console.log("connected - change drag container ID");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -367,7 +367,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     Draggable.create("#drag-me", {
         type: "x",
-        bounds: document.getElementById("#drag-container"),
+        bounds: document.getElementById("#container"),
         ease: "power2.in",
         inertia: true,
         dragResistance: 0.3,
