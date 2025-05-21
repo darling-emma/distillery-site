@@ -1,8 +1,8 @@
-console.log("connected - drag container ID doesn't need #");
+console.log("connected - adding process section");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
-    gsap.registerPlugin(DrawSVGPlugin, ScrambleTextPlugin, ScrollTrigger, ScrollSmoother, MotionPathPlugin, Draggable, InertiaPlugin)
+    gsap.registerPlugin(DrawSVGPlugin, ScrambleTextPlugin, ScrollTrigger, ScrollSmoother, MotionPathPlugin, Draggable, InertiaPlugin, SplitText)
 
     // Event listener for resizing
     let resizeTimeout;
@@ -365,6 +365,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         ScrollTrigger.refresh();
     });
 
+    // Draggable Section Animation
     Draggable.create("#drag-me", {
         type: "x",
         bounds: document.getElementById("container"), 
@@ -383,6 +384,138 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 rotation: 0,
             });
         },
+    });
+
+    // Process Section Animation
+    const ProgressLottie = lottie.loadAnimation({
+        container: document.getElementById("lottie-container"),
+        path: "https://cdn.prod.website-files.com/682387662b01db59008838c3/682e160d47982ad4729294d0_Distillery_Process_052025-B.json",
+        renderer: "svg",
+        autoplay: false,
+    }); 
+
+    document.fonts.ready.then(() => {
+
+        let tOneTrigger = false;
+        let tTwoTrigger = false;
+
+        const paragraphs = document.querySelectorAll(".process-paragraph");
+        const splitInstances = Array.from(paragraphs).map(p => SplitText.create(p, {
+            type: "words, lines",
+            mask: "lines",
+        }));
+
+        const transitionOne = gsap.timeline({ paused: true });
+        transitionOne
+        .to(splitInstances[0].words, {
+                yPercent: 100,
+                stagger: {
+                    amount: 0.7
+                },
+        })
+        .to(".one", {
+                opacity: 0,
+                duration: 0.3,
+        }, "<")
+        .from(splitInstances[1].words, {
+                yPercent: -100,
+                stagger: {
+                    amount: 0.7
+                },
+        }, "<+0.2")
+        .from(".two", {
+                opacity: 0,
+                duration: 0.3,
+        }, "<");
+        
+        const transitionTwo = gsap.timeline({ paused: true });
+        transitionTwo
+        .to(splitInstances[1].words, {
+                yPercent: 100,
+                stagger: {
+                    amount: 0.7
+                },
+        })
+        .to(".two", {
+                opacity: 0,
+                duration: 0.3
+        }, "<")
+        .from(splitInstances[2].words, {
+                yPercent: -100,
+                stagger: {
+                    amount: 1
+                },
+        }, "<+0.2")
+        .from(".three", {
+                opacity: 0,
+                duration: 0.3
+        }, "<");
+
+
+        const ProgressAnimation = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".process-section",
+                start: "top top",
+                end: "+=3000",
+                scrub: 0.5,
+                markers: true,
+                onUpdate: function (self) {
+                    const progress = self.progress;
+                    ProgressLottie.goToAndStop(ProgressLottie.totalFrames * progress, true);
+    
+                    if (progress >= 1/3 && !tOneTrigger) {
+                        tOneTrigger = true;
+                        transitionOne.play();
+                    } else if (progress < 1/3 && tOneTrigger) {
+                        tOneTrigger = false ;
+                        transitionOne.reverse();
+                    }
+    
+                    if (progress >= 2/3 && !tTwoTrigger) {
+                        tTwoTrigger = true;
+                        transitionTwo.play();
+                    } else if (progress < 2/3 && tTwoTrigger) {
+                        tTwoTrigger = false;
+                        transitionTwo.reverse();
+                    }
+                },
+            }
+        });
+    
+       ProgressAnimation
+       .from(".one", {
+            width: "0%",
+       })
+       .from (".two", {
+            width: "0%",
+       })
+       .from (".three", {
+            width: "0%",
+       });
+    
+    
+       ScrollTrigger.create({
+            trigger: ".process-section",
+            start: "top top",
+            end: "+=3000",
+            scrub: 0.5,
+            pin: true,
+       });
+    });
+
+    let headerFade = gsap.timeline({ paused: true});
+
+    headerFade.to(".process-heading", {
+        opacity: 0,
+        ease: "power2.out",
+        duration: 0.5,
+    });
+
+    ScrollTrigger.create({
+        trigger: ".end",
+        start: "top bottom",
+        onEnter: () => headerFade.play(),
+        onLeaveBack: () => headerFade.reverse(),
     });
 
 });
