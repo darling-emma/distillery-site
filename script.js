@@ -1,4 +1,4 @@
-console.log("connected - lottie loader");
+console.log("connected - nativelottie");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -387,21 +387,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     // Process Section Animation
-    const ProgressLottie = lottie.loadAnimation({
-        container: document.getElementById("lottie-container"),
-        path: "https://cdn.prod.website-files.com/682387662b01db59008838c3/682e160d47982ad4729294d0_Distillery_Process_052025-B.json",
-        renderer: "svg",
-        autoplay: false,
-    }); 
+    const progressLottie = document.querySelector(".progress-lottie");
+    const totalFrames = progressLottie.getAttribute("data-frames");
+    const frameCount = parseInt(totalFrames, 10);
 
-    ProgressLottie.addEventListener("DOMLoaded", () => {
-        const svg = document.querySelector("#lottie-container svg");
-        if (svg) {
-            svg.setAttribute("preserveAspectRatio", "xMidYMid slice")
-        }
-    });
-
-        document.fonts.ready.then(() => {
+    document.fonts.ready.then(() => {
 
         let tOneTrigger = false;
         let tTwoTrigger = false;
@@ -483,7 +473,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 scrub: 0.5,
                 onUpdate: function (self) {
                     const progress = self.progress;
-                    ProgressLottie.goToAndStop(ProgressLottie.totalFrames * progress, true);
+                    cons frame = frameCount * progress
+                    ProgressLottie.goToAndStop(frame, true);
     
                     if (progress >= 1/3 && !tOneTrigger) {
                         tOneTrigger = true;
