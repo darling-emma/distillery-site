@@ -1,4 +1,4 @@
-console.log("connected - cleaned up process section");
+console.log("connected - fixed naming");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -470,7 +470,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         const ProgressAnimation = gsap.timeline({
             scrollTrigger: {
-                trigger: ".animation-section",
+                trigger: ".process-section",
                 start: "top top",
                 end: "+=3000",
                 scrub: 0.5,
@@ -505,7 +505,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     
     
        ScrollTrigger.create({
-            trigger: ".animation-section",
+            trigger: ".process-section",
             start: "top top",
             end: "+=3000",
             scrub: 0.5,
