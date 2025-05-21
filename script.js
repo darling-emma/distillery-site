@@ -1,4 +1,4 @@
-console.log("connected - remove smooth scroll temp");
+console.log("connected - put back smooth scroll");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -13,7 +13,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }, 200);
     });
     
-
+    // Initialize ScrollSmoother, Desktop only
+    let mm = gsap.matchMedia();
+    mm.add("(min-width: 768px)", () => {
+        ScrollSmoother.create({
+            wrapper: "#smooth-wrapper",
+            content: "#smooth-content",
+            smooth: 1,
+            effects: true,
+            ignoreMobileResize: true,
+            normalizeScroll: true
+        });
+    });
 
     // HERO ANIMATION
     // Get Rid of Flash on Load
