@@ -1,4 +1,4 @@
-console.log("connected - editing process section");
+console.log("connected - cleaned up process section");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -400,44 +400,77 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let tTwoTrigger = false;
 
         const paragraphs = document.querySelectorAll(".process-paragraph");
-        const splitInstances = Array.from(paragraphs).map(p => SplitText.create(p, {
+        const paraSplit = Array.from(paragraphs).map(p => SplitText.create(p, {
             type: "words, lines",
             mask: "lines",
         }));
 
+        const tags = document.querySelectorAll(".section-label");
+        const tagSplit = Array.from(tags).map(t => SplitText.create(t, {
+            type: "lines",
+            mask: "lines",
+        }));
+
+        const progressBars = document.querySelectorAll(".process-progressbar-fill");
+
         const transitionOne = gsap.timeline({ paused: true });
         transitionOne
-        .to(splitInstances[0].words, {
+        .to(paraSplit[0].words, {
                 yPercent: 100,
                 stagger: {
                     amount: 0.7
                 },
         })
-        .from(splitInstances[1].words, {
+        .to(tagSplit[0].lines, {
+                yPercent: 100,
+                stagger: {
+                    amount: 0.7
+                }
+        }, "<")
+        .from(paraSplit[1].words, {
                 yPercent: -100,
                 stagger: {
                     amount: 0.7
                 },
         }, "<+0.2")
+        .from(tagSplit[1].lines, {
+                yPercent: -100,
+                stagger: {
+                    amount: 0.7
+                }
+        }, "<");
         
         const transitionTwo = gsap.timeline({ paused: true });
         transitionTwo
-        .to(splitInstances[1].words, {
+        .to(paraSplit[1].words, {
                 yPercent: 100,
                 stagger: {
                     amount: 0.7
                 },
         })
-        .from(splitInstances[2].words, {
+        .to(tagSplit[1].lines, {
+                yPercent: 100,
+                stagger: {
+                    amount: 0.7
+                }
+        }, "<")
+        .from(paraSplit[2].words, {
                 yPercent: -100,
                 stagger: {
                     amount: 1
                 },
         }, "<+0.2")
+       .from(tagSplit[2].lines, {
+                yPercent: -100,
+                stagger: {
+                    amount: 0.7
+                }
+        }, "<");
+
 
         const ProgressAnimation = gsap.timeline({
             scrollTrigger: {
-                trigger: ".process-section",
+                trigger: ".animation-section",
                 start: "top top",
                 end: "+=3000",
                 scrub: 0.5,
@@ -464,20 +497,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
         });
     
-       ProgressAnimation
-       .from(".one", {
-            width: "0%",
-       })
-       .from (".two", {
-            width: "0%",
-       })
-       .from (".three", {
-            width: "0%",
+       progressBars.forEach((bar) => {
+            ProgressAnimation.from(bar, {
+                width: "0%",
+            });
        });
     
     
        ScrollTrigger.create({
-            trigger: ".process-section",
+            trigger: ".animation-section",
             start: "top top",
             end: "+=3000",
             scrub: 0.5,
