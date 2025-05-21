@@ -1,4 +1,4 @@
-console.log("connected - adding process section");
+console.log("connected - editing process section");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -413,20 +413,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     amount: 0.7
                 },
         })
-        .to(".one", {
-                opacity: 0,
-                duration: 0.3,
-        }, "<")
         .from(splitInstances[1].words, {
                 yPercent: -100,
                 stagger: {
                     amount: 0.7
                 },
         }, "<+0.2")
-        .from(".two", {
-                opacity: 0,
-                duration: 0.3,
-        }, "<");
         
         const transitionTwo = gsap.timeline({ paused: true });
         transitionTwo
@@ -436,21 +428,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     amount: 0.7
                 },
         })
-        .to(".two", {
-                opacity: 0,
-                duration: 0.3
-        }, "<")
         .from(splitInstances[2].words, {
                 yPercent: -100,
                 stagger: {
                     amount: 1
                 },
         }, "<+0.2")
-        .from(".three", {
-                opacity: 0,
-                duration: 0.3
-        }, "<");
-
 
         const ProgressAnimation = gsap.timeline({
             scrollTrigger: {
@@ -458,7 +441,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 start: "top top",
                 end: "+=3000",
                 scrub: 0.5,
-                markers: true,
                 onUpdate: function (self) {
                     const progress = self.progress;
                     ProgressLottie.goToAndStop(ProgressLottie.totalFrames * progress, true);
