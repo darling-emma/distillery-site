@@ -1,4 +1,4 @@
-console.log("connected - nativelottie");
+console.log("connected - nativelottie / typo");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -473,7 +473,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 scrub: 0.5,
                 onUpdate: function (self) {
                     const progress = self.progress;
-                    cons frame = frameCount * progress
+                    const frame = frameCount * progress
                     ProgressLottie.goToAndStop(frame, true);
     
                     if (progress >= 1/3 && !tOneTrigger) {
