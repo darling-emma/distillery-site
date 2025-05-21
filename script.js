@@ -1,4 +1,4 @@
-console.log("connected - nativelottie / take three");
+console.log("connected - nativelottie / take four");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -388,150 +388,160 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     // Process Section Animation
     const lottieElement = document.querySelector(".progress-lottie");
-
-    const checkforLottie = setInterval(() => {
-        if (lottieElement && lottieElement.lottie) {
-            const lottieInstance = lottieElement.lottie;
-
-            lottieInstance.goToAndStop(0, true);
-
-            document.fonts.ready.then(() => {
-
-                let tOneTrigger = false;
-                let tTwoTrigger = false;
-        
-                const paragraphs = document.querySelectorAll(".process-paragraph");
-                const paraSplit = Array.from(paragraphs).map(p => SplitText.create(p, {
-                    type: "words, lines",
-                    mask: "lines",
-                }));
-        
-                const tags = document.querySelectorAll(".section-label");
-                const tagSplit = Array.from(tags).map(t => SplitText.create(t, {
-                    type: "lines",
-                    mask: "lines",
-                }));
-        
-                const progressBars = document.querySelectorAll(".process-progressbar-fill");
-        
-                const transitionOne = gsap.timeline({ paused: true });
-                transitionOne
-                .to(paraSplit[0].words, {
-                        yPercent: 100,
-                        stagger: {
-                            amount: 0.7
-                        },
-                })
-                .to(tagSplit[0].lines, {
-                        yPercent: 100,
-                        stagger: {
-                            amount: 0.7
-                        }
-                }, "<")
-                .from(paraSplit[1].words, {
-                        yPercent: -100,
-                        stagger: {
-                            amount: 0.7
-                        },
-                }, "<+0.2")
-                .from(tagSplit[1].lines, {
-                        yPercent: -100,
-                        stagger: {
-                            amount: 0.7
-                        }
-                }, "<");
-                
-                const transitionTwo = gsap.timeline({ paused: true });
-                transitionTwo
-                .to(paraSplit[1].words, {
-                        yPercent: 100,
-                        stagger: {
-                            amount: 0.7
-                        },
-                })
-                .to(tagSplit[1].lines, {
-                        yPercent: 100,
-                        stagger: {
-                            amount: 0.7
-                        }
-                }, "<")
-                .from(paraSplit[2].words, {
-                        yPercent: -100,
-                        stagger: {
-                            amount: 1
-                        },
-                }, "<+0.2")
-               .from(tagSplit[2].lines, {
-                        yPercent: -100,
-                        stagger: {
-                            amount: 0.7
-                        }
-                }, "<");
-        
-        
-                const ProgressAnimation = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: ".process-section",
-                        start: "top top",
-                        end: "+=3000",
-                        scrub: 0.5,
-                        onUpdate: (self) => {
-                            const frame = lottieInstance.totalFrames * self.progress;
-                            lottieInstance.goToAndStop(frame, true);
-            
-                            if (progress >= 1/3 && !tOneTrigger) {
-                                tOneTrigger = true;
-                                transitionOne.play();
-                            } else if (progress < 1/3 && tOneTrigger) {
-                                tOneTrigger = false ;
-                                transitionOne.reverse();
-                            }
-            
-                            if (progress >= 2/3 && !tTwoTrigger) {
-                                tTwoTrigger = true;
-                                transitionTwo.play();
-                            } else if (progress < 2/3 && tTwoTrigger) {
-                                tTwoTrigger = false;
-                                transitionTwo.reverse();
-                            }
-                        },
-                    }
-                });
-            
-               progressBars.forEach((bar) => {
-                    ProgressAnimation.from(bar, {
-                        width: "0%",
-                    });
-               });
-            
-            
-               ScrollTrigger.create({
-                    trigger: ".process-section",
-                    start: "top top",
-                    end: "+=3000",
-                    scrub: 0.5,
-                    pin: true,
-               });
+  
+    const checkForLottie = setInterval(() => {
+      if (lottieElement && lottieElement._lottie) {
+        const lottieInstance = lottieElement._lottie;
+  
+        // Stop autoplay
+        lottieInstance.goToAndStop(0, true);
+  
+        document.fonts.ready.then(() => {
+          let tOneTrigger = false;
+          let tTwoTrigger = false;
+  
+          const paragraphs = document.querySelectorAll(".process-paragraph");
+          const paraSplit = Array.from(paragraphs).map(p =>
+            SplitText.create(p, {
+              type: "words, lines",
+              mask: "lines",
+            })
+          );
+  
+          const tags = document.querySelectorAll(".section-label");
+          const tagSplit = Array.from(tags).map(t =>
+            SplitText.create(t, {
+              type: "lines",
+              mask: "lines",
+            })
+          );
+  
+          const progressBars = document.querySelectorAll(".process-progressbar-fill");
+  
+          const transitionOne = gsap.timeline({ paused: true });
+          transitionOne
+            .to(paraSplit[0].words, {
+              yPercent: 100,
+              stagger: { amount: 0.7 },
+            })
+            .to(
+              tagSplit[0].lines,
+              {
+                yPercent: 100,
+                stagger: { amount: 0.7 },
+              },
+              "<"
+            )
+            .from(
+              paraSplit[1].words,
+              {
+                yPercent: -100,
+                stagger: { amount: 0.7 },
+              },
+              "<+0.2"
+            )
+            .from(
+              tagSplit[1].lines,
+              {
+                yPercent: -100,
+                stagger: { amount: 0.7 },
+              },
+              "<"
+            );
+  
+          const transitionTwo = gsap.timeline({ paused: true });
+          transitionTwo
+            .to(paraSplit[1].words, {
+              yPercent: 100,
+              stagger: { amount: 0.7 },
+            })
+            .to(
+              tagSplit[1].lines,
+              {
+                yPercent: 100,
+                stagger: { amount: 0.7 },
+              },
+              "<"
+            )
+            .from(
+              paraSplit[2].words,
+              {
+                yPercent: -100,
+                stagger: { amount: 1 },
+              },
+              "<+0.2"
+            )
+            .from(
+              tagSplit[2].lines,
+              {
+                yPercent: -100,
+                stagger: { amount: 0.7 },
+              },
+              "<"
+            );
+  
+          const ProgressAnimation = gsap.timeline({
+            scrollTrigger: {
+              trigger: ".process-section",
+              start: "top top",
+              end: "+=3000",
+              scrub: 0.5,
+              onUpdate: (self) => {
+                const progress = self.progress;
+                const frame = lottieInstance.totalFrames * progress;
+                lottieInstance.goToAndStop(frame, true);
+  
+                if (progress >= 1 / 3 && !tOneTrigger) {
+                  tOneTrigger = true;
+                  transitionOne.play();
+                } else if (progress < 1 / 3 && tOneTrigger) {
+                  tOneTrigger = false;
+                  transitionOne.reverse();
+                }
+  
+                if (progress >= 2 / 3 && !tTwoTrigger) {
+                  tTwoTrigger = true;
+                  transitionTwo.play();
+                } else if (progress < 2 / 3 && tTwoTrigger) {
+                  tTwoTrigger = false;
+                  transitionTwo.reverse();
+                }
+              },
+            },
+          });
+  
+          progressBars.forEach((bar) => {
+            ProgressAnimation.from(bar, {
+              width: "0%",
             });
-        
-            let headerFade = gsap.timeline({ paused: true});
-        
-            headerFade.to(".process-heading", {
-                opacity: 0,
-                ease: "power2.out",
-                duration: 0.5,
-            });
-        
-            ScrollTrigger.create({
-                trigger: ".end",
-                start: "top 98%",
-                onEnter: () => headerFade.play(),
-                onLeaveBack: () => headerFade.reverse(),
-            });
-        
-            ScrollTrigger.refresh();
-
-            clearInterval(checkforLottie);
-        }
+          });
+  
+          ScrollTrigger.create({
+            trigger: ".process-section",
+            start: "top top",
+            end: "+=3000",
+            scrub: 0.5,
+            pin: true,
+          });
+  
+          let headerFade = gsap.timeline({ paused: true });
+          headerFade.to(".process-heading", {
+            opacity: 0,
+            ease: "power2.out",
+            duration: 0.5,
+          });
+  
+          ScrollTrigger.create({
+            trigger: ".end",
+            start: "top 98%",
+            onEnter: () => headerFade.play(),
+            onLeaveBack: () => headerFade.reverse(),
+          });
+  
+          ScrollTrigger.refresh();
+        });
+  
+        clearInterval(checkForLottie);
+      }
     }, 100);
 });
