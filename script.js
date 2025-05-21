@@ -1,4 +1,4 @@
-console.log("connected - back to loading lottie / take two");
+console.log("connected - back to loading lottie / take three");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -398,15 +398,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const svg = document.querySelector("#lottie-container svg");
         if (svg) {
             svg.setAttribute("preserveAspectRatio", "xMidYMid slice")
-            svg.style.width = "100vw";
+            svg.setAttribute("width", "100%");
+            svg.setAttribute("height", "auto");
+            svg.style.width = "100%";
             svg.style.height = "auto";
-            svg.style.position = "static";
-            //svg.style.position = "absolute";
-            svg.style.top = "0";
-            svg.style.left = "0";
             svg.style.display = "block";
-            //svg.style.zIndex = "0";
             svg.style.pointerEvents = "none";
+
+            const clip = svg.querySelector("clipPath");
+            if (clip) {
+                clip.parentNode.removeChild(clip);
+            }
+
+            const g = svg.querySelector("g[clip-path]");
+            if (g) {
+                g.removeAttribute("clip-path");
+            }
         }
     });
 
