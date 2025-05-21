@@ -1,4 +1,4 @@
-console.log("connected - put back smooth scroll");
+console.log("connected - fadeout timing");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -394,7 +394,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         autoplay: false,
     }); 
 
-    document.fonts.ready.then(() => {
+        document.fonts.ready.then(() => {
 
         let tOneTrigger = false;
         let tTwoTrigger = false;
@@ -523,9 +523,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     ScrollTrigger.create({
         trigger: ".end",
-        start: "top bottom",
+        start: "top 98%",
         onEnter: () => headerFade.play(),
         onLeaveBack: () => headerFade.reverse(),
     });
+
+    ScrollTrigger.refresh();
 
 });
