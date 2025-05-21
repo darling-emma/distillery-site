@@ -1,4 +1,4 @@
-console.log("connected - fadeout timing");
+console.log("connected - lottie loader");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -393,6 +393,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
         renderer: "svg",
         autoplay: false,
     }); 
+
+    ProgressLottie.addEventListener("DOMLoaded", () => {
+        const svg = document.querySelector("#lottie-container svg");
+        if (svg) {
+            svg.setAttribute("preserveAspectRatio", "xMidYMid slice")
+        }
+    });
 
         document.fonts.ready.then(() => {
 
