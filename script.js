@@ -1,4 +1,4 @@
-console.log("connected - autosplit-fix");
+console.log("connected - speedup-scramble, add-processheader");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -250,15 +250,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
         onEnter: () => {
             gsap.to (".scramble", {
                 scrambleText: "DISTILLING BRANDS TO THEIR ESSENCE",
-                duration: 2,
-                chars: "DISTLERY"
+                duration: 1,
             });  
         },
         onLeaveBack: () => {
             gsap.to(".scramble", {
                 scrambleText: "THE BRAND STRATEGY COMPANY",
-                duration: 2,
-                chars: "DISTLERY"
+                duration: 1,
             });
         },
         markers: false
@@ -420,6 +418,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     // PROCESS SECTION
+    // Header Animation
+    gsap.to(".process-head", {
+        opacity: 0,
+        ypercent: -25,
+        scrollTrigger: {
+            trigger: ".process-head",
+            start: "center center",
+            end: "center 20%",
+            scrub: true,
+        }
+    });
+
     // Load Lottie
     const ProgressLottie = lottie.loadAnimation({
         container: document.getElementById("lottie-container"),
