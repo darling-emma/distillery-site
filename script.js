@@ -1,4 +1,4 @@
-console.log("connected - deliverables tweak");
+console.log("connected - processhead tweak");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -436,7 +436,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     .to(".process-head", {
         opacity: 0,
         yPercent: -80,
-        delay: 0.5,
     });
 
     // Load Lottie
