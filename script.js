@@ -1,4 +1,4 @@
-console.log("connected - test-removing js svg set");
+console.log("connected - adding pipes text animation");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -267,6 +267,37 @@ document.addEventListener("DOMContentLoaded", (event) => {
     ScrollTrigger.refresh();
 
     // PIPES SECTION ANIMATION
+    // Attribute-based text splitting and animation
+    document.querySelectorAll("[text-split]").forEach(el => {
+        const split = new SplitText(el, {
+            type: "lines, words",
+            mask: "lines",
+        });
+
+        if (el.hasAttribute("trickle-in")) {
+            let tl = gsap.timeline({ paused: true });
+            tl.from(split.words, {
+                yPercent: -100,
+                ease: "power1.in",
+                stagger: {
+                    amount: 1
+                }
+            });
+            createScrollTrigger(el, tl);
+        }
+    });
+
+    // Helper function for attribute-based text animation scroll control
+    function createScrollTrigger(triggerElement, timeline) {
+        ScrollTrigger.create({
+            trigger: triggerElement,
+            start: "top 60%",
+            onEnter: () => timeline.play(),
+            onLeaveBack: () => timeline.reverse(),
+        });
+    };
+    
+    // Changing circles from hide to show tor animation
     let CircleShow = gsap.to(".dot", {
         visibility: "visible",
         opacity: 1,
@@ -395,7 +426,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         autoplay: false,
     }); 
 
-    // Get rid of clipping path and svg settings that were causing chaos
+    // Get rid of clipping path was causing chaos
     ProgressLottie.addEventListener("DOMLoaded", () => {
         const svg = document.querySelector("#lottie-container svg");
         if (svg) {
@@ -549,6 +580,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
         onLeaveBack: () => headerFade.reverse(),
     });
 
+    ScrollTrigger.refresh();
+
+});
     ScrollTrigger.refresh();
 
 });
