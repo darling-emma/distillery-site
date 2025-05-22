@@ -1,4 +1,4 @@
-console.log("connected - back to loading lottie / take three");
+console.log("connected - levelset");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -266,7 +266,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     ScrollTrigger.refresh();
 
-    // Pipes Animation
+    // PIPES SECTION ANIMATION
     let CircleShow = gsap.to(".dot", {
         visibility: "visible",
         opacity: 1,
@@ -365,10 +365,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
         ScrollTrigger.refresh();
     });
 
-    // Draggable Section Animation
+    // DRAGGABLE CLIENT SECTION
     Draggable.create("#drag-me", {
         type: "x",
-        bounds: document.getElementById("container"), 
+        bounds: document.getElementById("container"), // removed '#' from id
         ease: "power2.in",
         inertia: true,
         dragResistance: 0.3,
@@ -386,7 +386,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
         },
     });
 
-    // Process Section Animation
+    // PROCESS SECTION
+    // Load Lottie
     const ProgressLottie = lottie.loadAnimation({
         container: document.getElementById("lottie-container"),
         path: "https://cdn.prod.website-files.com/682387662b01db59008838c3/682e160d47982ad4729294d0_Distillery_Process_052025-B.json",
@@ -394,6 +395,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         autoplay: false,
     }); 
 
+    // Get rid of clipping path and svg settings that were causing chaos
     ProgressLottie.addEventListener("DOMLoaded", () => {
         const svg = document.querySelector("#lottie-container svg");
         if (svg) {
@@ -422,21 +424,24 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let tOneTrigger = false;
         let tTwoTrigger = false;
 
+        // Prepare paragraphs for text animation
         const paragraphs = document.querySelectorAll(".process-paragraph");
         const paraSplit = Array.from(paragraphs).map(p => SplitText.create(p, {
             type: "words, lines",
             mask: "lines",
         }));
 
+        // Prepare section tags for text animation
         const tags = document.querySelectorAll(".section-label");
         const tagSplit = Array.from(tags).map(t => SplitText.create(t, {
             type: "lines",
             mask: "lines",
         }));
 
+        // Prepare progress bars for animation
         const progressBars = document.querySelectorAll(".process-progressbar-fill");
 
-        const transitionOne = gsap.timeline({ paused: true });
+        const transitionOne = gsap.timeline({ paused: true }); // Timeline for text animation 1/3 of the way through scroll
         transitionOne
         .to(paraSplit[0].words, {
                 yPercent: 100,
@@ -463,7 +468,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 }
         }, "<");
         
-        const transitionTwo = gsap.timeline({ paused: true });
+        const transitionTwo = gsap.timeline({ paused: true }); // Timeline for text animation 2/3 of the way through scroll
         transitionTwo
         .to(paraSplit[1].words, {
                 yPercent: 100,
@@ -491,7 +496,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }, "<");
 
 
-        const ProgressAnimation = gsap.timeline({
+        const ProgressAnimation = gsap.timeline({ // Scroll Trigger for Lottie progression, text animations, and progress bars
             scrollTrigger: {
                 trigger: ".process-section",
                 start: "top top",
@@ -520,14 +525,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
         });
     
-       progressBars.forEach((bar) => {
+       progressBars.forEach((bar) => { // Timeline for progress bar animation
             ProgressAnimation.from(bar, {
                 width: "0%",
             });
        });
     
     
-       ScrollTrigger.create({
+       ScrollTrigger.create({ // Separate scroll trigger to pin process section during animations
             trigger: ".process-section",
             start: "top top",
             end: "+=3000",
@@ -536,7 +541,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
        });
     });
 
-    let headerFade = gsap.timeline({ paused: true});
+    let headerFade = gsap.timeline({ paused: true}); // Fade out header section after animation finishes
 
     headerFade.to(".process-heading", {
         opacity: 0,
@@ -552,4 +557,5 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     ScrollTrigger.refresh();
+
 });
