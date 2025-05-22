@@ -1,4 +1,4 @@
-console.log("connected - adding pipes text animation / typo");
+console.log("connected - adding pipes text animation / edit");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -279,9 +279,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
             tl.from(split.words, {
                 yPercent: -100,
                 ease: "power1.in",
+                duration: 0.5,
                 stagger: {
-                    amount: 1
-                }
+                    each: 0.07,
+                },
             });
             createScrollTrigger(el, tl);
         }
