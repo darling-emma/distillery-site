@@ -1,4 +1,4 @@
-console.log("connected - fixed typos");
+console.log("connected - updated header, add deliverable lottie");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -419,15 +419,24 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     // PROCESS SECTION
     // Header Animation
-    gsap.to(".process-head", {
-        opacity: 0,
-        yPercent: -25,
+    let processHead = gsap.timeline({
         scrollTrigger: {
             trigger: ".process-head",
-            start: "center center",
-            end: "center 20%",
+            start: "top 35%",
+            end: "bottom 65%",
             scrub: true,
         }
+    });
+
+    processHead
+    .from(".process-head", {
+        opacity: 0,
+        yPercent: 80,
+    })
+    .to(".process-head", {
+        opacity: 0,
+        yPercent: -80,
+        delay: 0.5,
     });
 
     // Load Lottie
@@ -599,6 +608,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
             autoSplit: true,
         }));
 
+        // Load Lottie
+        const DeliverablesLottie = lottie.loadAnimation({
+            container: document.getElementById("deliverables-lottie"),
+            path: "https://cdn.prod.website-files.com/682387662b01db59008838c3/682f7af9065ea5d6e1b36e2c_Distillery_Deliverables_052225.json",
+            renderer: "svg",
+            autoplay: false,
+        });
+
         // Deliverables timeline
         const deliAnimation = gsap.timeline({
             scrollTrigger: {
@@ -607,6 +624,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 end: "+=1500px",
                 scrub: true,
                 pin: ".deliverables-section",
+                onUpdate: function (self) {
+                    const progress = self.progress;
+                    DeliverablesLottie.goToAndStop(DeliverablesLottie.totalFrames * progress, true);
+                },
             }
         });
 
@@ -631,6 +652,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
             stagger: 0.02,
             duration: 0.5,
         }, "<");
-    });
+    }); 
 
 });
