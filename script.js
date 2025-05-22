@@ -1,4 +1,4 @@
-console.log("connected - adding pipes text animation");
+console.log("connected - adding pipes text animation / typo");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -580,9 +580,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         onLeaveBack: () => headerFade.reverse(),
     });
 
-    ScrollTrigger.refresh();
-
-});
     ScrollTrigger.refresh();
 
 });
