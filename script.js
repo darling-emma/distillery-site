@@ -1,4 +1,4 @@
-console.log("connected - processhead tweak 2");
+console.log("connected - processhead fix");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -421,7 +421,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Header Animation
     let processHead = gsap.timeline({
         scrollTrigger: {
-            trigger: ".section",
+            trigger: ".process-header",
             start: "top 40%",
             end: "bottom 65%",
             scrub: true,
