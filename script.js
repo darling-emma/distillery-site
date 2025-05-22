@@ -1,4 +1,4 @@
-console.log("connected - updated header, add deliverable lottie");
+console.log("connected - deliverables tweak");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -632,6 +632,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
         });
 
         deliAnimation
+        .from(deliSplit[0].words, {
+            yPercent: -100,
+            stagger: 0.02,
+            duration: 0.5,
+        })
         .to(deliSplit[0].words, {
             yPercent: 100,
             stagger: 0.02,
