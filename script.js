@@ -1,4 +1,4 @@
-console.log("connected - textanimations-tweak-2, add autosplit");
+console.log("connected - autosplit-fix");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -267,34 +267,37 @@ document.addEventListener("DOMContentLoaded", (event) => {
     ScrollTrigger.refresh();
 
     // PIPES SECTION ANIMATION
-    // Attribute-based text splitting and animation
-    document.querySelectorAll("[text-split]").forEach(el => {
-        const split = new SplitText(el, {
-            type: "lines, words",
-            mask: "lines",
-            autoSplit: true,
-        });
 
-        if (el.hasAttribute("trickle-in")) {
-            let tl = gsap.timeline({ paused: true });
-            tl.from(split.words, {
-                yPercent: -100,
-                duration: 0.7,
-                stagger: 0.02,
+    document.fonts.ready.then(() => {
+        // Attribute-based text splitting and animation
+        document.querySelectorAll("[text-split]").forEach(el => {
+            const split = new SplitText(el, {
+                type: "lines, words",
+                mask: "lines",
+                autoSplit: true,
             });
-            createScrollTrigger(el, tl);
-        }
-    });
 
-    // Helper function for attribute-based text animation scroll control
-    function createScrollTrigger(triggerElement, timeline) {
-        ScrollTrigger.create({
-            trigger: triggerElement,
-            start: "top 75%",
-            onEnter: () => timeline.play(),
-            onLeaveBack: () => timeline.reverse(),
+            if (el.hasAttribute("trickle-in")) {
+                let tl = gsap.timeline({ paused: true });
+                tl.from(split.words, {
+                    yPercent: -100,
+                    duration: 0.7,
+                    stagger: 0.02,
+                });
+                createScrollTrigger(el, tl);
+            }
         });
-    };
+
+        // Helper function for attribute-based text animation scroll control
+        function createScrollTrigger(triggerElement, timeline) {
+            ScrollTrigger.create({
+                trigger: triggerElement,
+                start: "top 75%",
+                onEnter: () => timeline.play(),
+                onLeaveBack: () => timeline.reverse(),
+            });
+        };
+    });
     
     // Changing circles from hide to show tor animation
     let CircleShow = gsap.to(".dot", {
