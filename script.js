@@ -1,4 +1,4 @@
-console.log("connected - adding pipes text animation / edit-2");
+console.log("connected - adding pipes text animation / autosplit-remove");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -272,7 +272,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const split = new SplitText(el, {
             type: "lines, words",
             mask: "lines",
-            autoSplit: true,
         });
 
         if (el.hasAttribute("trickle-in")) {
@@ -452,7 +451,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const paraSplit = Array.from(paragraphs).map(p => SplitText.create(p, {
             type: "words, lines",
             mask: "lines",
-            autoSplit: true,
         }));
 
         // Prepare section tags for text animation
@@ -460,7 +458,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const tagSplit = Array.from(tags).map(t => SplitText.create(t, {
             type: "lines",
             mask: "lines",
-            autoSplit: true,
         }));
 
         // Prepare progress bars for animation
