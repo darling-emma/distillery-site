@@ -1,4 +1,4 @@
-console.log("connected - adding pipes text animation / autosplit-remove");
+console.log("connected - textanimations-tweak, no autosplit");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -467,54 +467,46 @@ document.addEventListener("DOMContentLoaded", (event) => {
         transitionOne
         .to(paraSplit[0].words, {
                 yPercent: 100,
-                stagger: {
-                    amount: 0.7
-                },
+                duration: 0.5,
+                stagger: 0.02,
         })
         .to(tagSplit[0].lines, {
                 yPercent: 100,
-                stagger: {
-                    amount: 0.7
-                }
+                duration: 0.5,
+                stagger: 0.02,
         }, "<")
         .from(paraSplit[1].words, {
-                yPercent: -100,
-                stagger: {
-                    amount: 0.7
-                },
-        }, "<+0.2")
+                yPercent: 100,
+                duration: 0.5,
+                stagger: 0.02,
+        }, "<+0.05")
         .from(tagSplit[1].lines, {
-                yPercent: -100,
-                stagger: {
-                    amount: 0.7
-                }
+                yPercent: 100,
+                duration: 0.5,
+                stagger: 0.02,
         }, "<");
         
         const transitionTwo = gsap.timeline({ paused: true }); // Timeline for text animation 2/3 of the way through scroll
         transitionTwo
         .to(paraSplit[1].words, {
                 yPercent: 100,
-                stagger: {
-                    amount: 0.7
-                },
+                duration: 0.5,
+                stagger: 0.02,
         })
         .to(tagSplit[1].lines, {
                 yPercent: 100,
-                stagger: {
-                    amount: 0.7
-                }
+                duration: 0.5,
+                stagger: 0.02,
         }, "<")
         .from(paraSplit[2].words, {
-                yPercent: -100,
-                stagger: {
-                    amount: 1
-                },
-        }, "<+0.2")
+                yPercent: 100,
+                duration: 0.5,
+                stagger: 0.02,
+        }, "<+0.05")
        .from(tagSplit[2].lines, {
-                yPercent: -100,
-                stagger: {
-                    amount: 0.7
-                }
+                yPercent: 100,
+                duration: 0.5,
+                stagger: 0.02,
         }, "<");
 
 
