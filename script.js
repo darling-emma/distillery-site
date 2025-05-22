@@ -1,4 +1,4 @@
-console.log("connected - levelset");
+console.log("connected - test-removing js svg set");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -399,13 +399,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     ProgressLottie.addEventListener("DOMLoaded", () => {
         const svg = document.querySelector("#lottie-container svg");
         if (svg) {
-            svg.setAttribute("preserveAspectRatio", "xMidYMid slice")
-            svg.setAttribute("width", "100%");
-            svg.setAttribute("height", "auto");
-            svg.style.width = "100%";
-            svg.style.height = "auto";
-            svg.style.display = "block";
-            svg.style.pointerEvents = "none";
 
             const clip = svg.querySelector("clipPath");
             if (clip) {
