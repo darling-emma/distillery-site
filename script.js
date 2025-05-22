@@ -1,4 +1,4 @@
-console.log("connected - adding pipes text animation / edit");
+console.log("connected - adding pipes text animation / edit-2");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -272,17 +272,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const split = new SplitText(el, {
             type: "lines, words",
             mask: "lines",
+            autoSplit: true,
         });
 
         if (el.hasAttribute("trickle-in")) {
             let tl = gsap.timeline({ paused: true });
             tl.from(split.words, {
                 yPercent: -100,
-                ease: "power1.in",
-                duration: 0.5,
-                stagger: {
-                    each: 0.07,
-                },
+                duration: 0.7,
+                stagger: 0.02,
             });
             createScrollTrigger(el, tl);
         }
@@ -292,7 +290,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     function createScrollTrigger(triggerElement, timeline) {
         ScrollTrigger.create({
             trigger: triggerElement,
-            start: "top 60%",
+            start: "top 75%",
             onEnter: () => timeline.play(),
             onLeaveBack: () => timeline.reverse(),
         });
@@ -454,6 +452,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const paraSplit = Array.from(paragraphs).map(p => SplitText.create(p, {
             type: "words, lines",
             mask: "lines",
+            autoSplit: true,
         }));
 
         // Prepare section tags for text animation
@@ -461,6 +460,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const tagSplit = Array.from(tags).map(t => SplitText.create(t, {
             type: "lines",
             mask: "lines",
+            autoSplit: true,
         }));
 
         // Prepare progress bars for animation
