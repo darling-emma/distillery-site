@@ -1,4 +1,4 @@
-console.log("connected - speedup-scramble, add-processheader");
+console.log("connected - add deliverables animation");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -587,5 +587,50 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     ScrollTrigger.refresh();
+
+    // DELIVERABLES SECTION
+    document.fonts.ready.then(() => {
+        
+        // Prepare deliverables for text animation
+        const deliverables = document.querySelectorAll(".deliverable-text");
+        const deliSplit = Array.from(deliverables).map(d => SplitText.create(d, {
+            type: "words, lines",
+            mask: "lines",
+            autoSplit: true,
+        }));
+
+        // Deliverables timeline
+        const deliAnimation = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".deliverables-section",
+                start: "top top",
+                end: "+=1500px",
+                scrub: true,
+                pin: ".deliverables-section",
+            }
+        });
+
+        deliAnimation
+        .to(deliSplit[0].words, {
+            yPercent: 100,
+            stagger: 0.02,
+            duration: 0.5,
+        })
+        .from(deliSplit[1].words, {
+            yPercent: -100,
+            stagger: 0.02,
+            duration: 0.5,
+        }, "<")
+        .to(deliSplit[1].words, {
+            yPercent: 100,
+            stagger: 0.02,
+            duration: 0.5,
+        })
+        .from(deliSplit[2].words, {
+            yPercent: -100,
+            stagger: 0.02,
+            duration: 0.5,
+        }, "<");
+    });
 
 });
