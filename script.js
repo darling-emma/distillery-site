@@ -1,4 +1,4 @@
-console.log("connected - textanimations-tweak, no autosplit");
+console.log("connected - textanimations-tweak-2, add autosplit");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -272,6 +272,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const split = new SplitText(el, {
             type: "lines, words",
             mask: "lines",
+            autoSplit: true,
         });
 
         if (el.hasAttribute("trickle-in")) {
@@ -451,6 +452,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const paraSplit = Array.from(paragraphs).map(p => SplitText.create(p, {
             type: "words, lines",
             mask: "lines",
+            autoSplit: true,
         }));
 
         // Prepare section tags for text animation
@@ -458,6 +460,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const tagSplit = Array.from(tags).map(t => SplitText.create(t, {
             type: "lines",
             mask: "lines",
+            autoSplit: true,
         }));
 
         // Prepare progress bars for animation
@@ -476,12 +479,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 stagger: 0.02,
         }, "<")
         .from(paraSplit[1].words, {
-                yPercent: 100,
+                yPercent: -100,
                 duration: 0.5,
                 stagger: 0.02,
         }, "<+0.05")
         .from(tagSplit[1].lines, {
-                yPercent: 100,
+                yPercent: -100,
                 duration: 0.5,
                 stagger: 0.02,
         }, "<");
@@ -499,12 +502,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 stagger: 0.02,
         }, "<")
         .from(paraSplit[2].words, {
-                yPercent: 100,
+                yPercent: -100,
                 duration: 0.5,
                 stagger: 0.02,
         }, "<+0.05")
        .from(tagSplit[2].lines, {
-                yPercent: 100,
+                yPercent: -100,
                 duration: 0.5,
                 stagger: 0.02,
         }, "<");
