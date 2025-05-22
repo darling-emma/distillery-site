@@ -1,4 +1,4 @@
-console.log("connected - add deliverables animation");
+console.log("connected - fixed typos");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -421,7 +421,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Header Animation
     gsap.to(".process-head", {
         opacity: 0,
-        ypercent: -25,
+        yPercent: -25,
         scrollTrigger: {
             trigger: ".process-head",
             start: "center center",
