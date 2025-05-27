@@ -1,4 +1,4 @@
-console.log("connected - addgridfollow");
+console.log("connected - gridfollow-update");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -673,42 +673,51 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     // GRID CTA SECTION
     const svgObject = document.querySelector(".my-svg");
+
     svgObject.addEventListener("load", () => {
-        
-        const svgDoc = svgObject.contentDocument;
-        const arrows = svgDoc.querySelectorAll(".wiggle-arrow");
+    const svgDoc = svgObject.contentDocument;
+    if (!svgDoc) {
+        console.error("SVG document not loaded correctly.");
+        return;
+    }
 
-            function rotateArrows(event) {
-            arrows.forEach(arrow => {
-                const rect = arrow.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
+    const arrows = svgDoc.querySelectorAll(".wiggle-arrow");
+    if (!arrows.length) {
+        console.warn("No .wiggle-arrow elements found.");
+    }
 
-                const dx = event.clientX - centerX;
-                const dy = event.clientY - centerY;
-                const angle = Math.atan2(dy, dx) * (180 / Math.PI) - 90; // initial pointing down
+        function rotateArrows(event) {
+        arrows.forEach(arrow => {
+            const rect = arrow.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
 
-                gsap.to(arrow, {
-                rotation: angle,
-                transformOrigin: "50% 50%",
-                duration: 0.8,
-                ease: "power1"
-                });
+            const dx = event.clientX - centerX;
+            const dy = event.clientY - centerY;
+            const angle = Math.atan2(dy, dx) * (180 / Math.PI) - 90; // initial pointing down
+
+            gsap.to(arrow, {
+            rotation: angle,
+            transformOrigin: "50% 50%",
+            duration: 0.8,
+            ease: "power1"
             });
-            }
+        });
+        }
 
-            function resetArrows() {
-            arrows.forEach(arrow => {
-                gsap.to(arrow, {
-                rotation: 0,
-                duration: 0.8,
-                ease: "power1"
-                });
+        function resetArrows() {
+        arrows.forEach(arrow => {
+            gsap.to(arrow, {
+            rotation: 0,
+            duration: 0.8,
+            ease: "power1"
             });
-            }
+        });
+        }
 
-            section.addEventListener("mousemove", rotateArrows);
-            section.addEventListener("mouseleave", resetArrows);
+        section.addEventListener("mousemove", rotateArrows);
+        section.addEventListener("mouseleave", resetArrows);
+    
     });
 
 });
