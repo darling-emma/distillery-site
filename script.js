@@ -1,4 +1,4 @@
-console.log("connected - lottielink");
+console.log("connected - lottielink-2");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -441,7 +441,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Load Lottie
     const ProgressLottie = lottie.loadAnimation({
         container: document.getElementById("lottie-container"),
-        path: "https://cdn.prod.website-files.com/682387662b01db59008838c3/6835dde18607841057a88992_Distillery_Process_052725.json",
+        path: "https://cdn.prod.website-files.com/682387662b01db59008838c3/6835dde18607841057a88992_1329a5d6d7407cf9e5d1ff92eea7b5d0_Distillery_Process_052725.json",
         renderer: "svg",
         autoplay: false,
     }); 
