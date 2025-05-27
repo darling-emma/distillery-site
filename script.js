@@ -1,4 +1,4 @@
-console.log("connected - removecursor");
+console.log("connected - mousefollowupdate");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Mouse Follow Animation
     gsap.set(".cursor", {xPercent: -50, yPercent: -50});
 
-    let xTo = gsap.quickTo(".cursor", "x", {duration: 0.6, ease: "power3"}),
-        yTo = gsap.quickTo(".cursor", "y", {duration: 0.6, ease: "power3"});
+    let xTo = gsap.quickTo(".cursor", "x", {duration: 0.4, ease: "power1"}),
+        yTo = gsap.quickTo(".cursor", "y", {duration: 0.4, ease: "power1"});
 
     window.addEventListener("mousemove", m => {
         xTo(m.clientX);
