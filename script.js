@@ -1,4 +1,4 @@
-console.log("connected - mousefollow");
+console.log("connected - removecursor");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -414,6 +414,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
         ease: "power2.in",
         inertia: true,
         dragResistance: 0.3,
+        cursor: "none",
+        activeCursor: "none",
         onDrag: function () {
             const direction = this.getDirection("start") === "left" ? 1 : -1;
             gsap.to(".client-image-card", {
