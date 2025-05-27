@@ -1,4 +1,4 @@
-console.log("connected - gridsvg-fetch");
+console.log("connected - gridsvg-fetch - classname");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -710,8 +710,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
         });
         }
 
-        section.addEventListener("mousemove", rotateArrows);
-        section.addEventListener("mouseleave", resetArrows);
+        wrapper.addEventListener("mousemove", rotateArrows);
+        wrapper.addEventListener("mouseleave", resetArrows);
     })
     .catch(err => console.error("SVG fetch failed", err));
 
