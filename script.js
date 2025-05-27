@@ -1,4 +1,4 @@
-console.log("connected - gridfollow-update");
+console.log("connected - gridsvg-fetch");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -672,19 +672,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }); 
 
     // GRID CTA SECTION
-    const svgObject = document.querySelector(".my-svg");
+    // GRID CTA SECTION
+    fetch("https://darling-emma.github.io/distillery-site/Distillery_CTAGrid_Named_052725.svg")
+    .then(res => res.text())
+    .then(svg => {
+        const wrapper = document.querySelector(".cta-section");
+        wrapper.insertAdjacentHTML("beforeend", svg);
 
-    svgObject.addEventListener("load", () => {
-    const svgDoc = svgObject.contentDocument;
-    if (!svgDoc) {
-        console.error("SVG document not loaded correctly.");
-        return;
-    }
-
-    const arrows = svgDoc.querySelectorAll(".wiggle-arrow");
-    if (!arrows.length) {
-        console.warn("No .wiggle-arrow elements found.");
-    }
+        const arrows = wrapper.querySelectorAll(".wiggle-arrow");
 
         function rotateArrows(event) {
         arrows.forEach(arrow => {
@@ -717,7 +712,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         section.addEventListener("mousemove", rotateArrows);
         section.addEventListener("mouseleave", resetArrows);
-    
-    });
+    })
+    .catch(err => console.error("SVG fetch failed", err));
 
 });
