@@ -1,4 +1,4 @@
-console.log("connected - lottielink-2");
+console.log("connected - mousefollow");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -24,6 +24,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
             ignoreMobileResize: true,
             normalizeScroll: true
         });
+    });
+
+    // Mouse Follow Animation
+    gsap.set(".cursor", {xPercent: -50, yPercent: -50});
+
+    let xTo = gsap.quickTo(".cursor", "x", {duration: 0.6, ease: "power3"}),
+        yTo = gsap.quickTo(".cursor", "y", {duration: 0.6, ease: "power3"});
+
+    window.addEventListener("mousemove", m => {
+        xTo(m.clientX);
+        yTo(m.clientY);
     });
 
     // HERO ANIMATION
