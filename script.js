@@ -1,17 +1,8 @@
-console.log("connected - gridsvg-fetch - classname");
+console.log("connected - resizehandlingtest");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(DrawSVGPlugin, ScrambleTextPlugin, ScrollTrigger, ScrollSmoother, MotionPathPlugin, Draggable, InertiaPlugin, SplitText)
-
-    // Event listener for resizing
-    let resizeTimeout;
-    window.addEventListener("resize", () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            ScrollTrigger.refresh();
-        }, 200);
-    });
     
     // Initialize ScrollSmoother, Desktop only
     let mm = gsap.matchMedia();
@@ -451,103 +442,120 @@ document.addEventListener("DOMContentLoaded", (event) => {
         yPercent: -80,
     });
 
-    // Load Lottie
-    const ProgressLottie = lottie.loadAnimation({
-        container: document.getElementById("lottie-container"),
-        path: "https://cdn.prod.website-files.com/682387662b01db59008838c3/6835dde18607841057a88992_1329a5d6d7407cf9e5d1ff92eea7b5d0_Distillery_Process_052725.json",
-        renderer: "svg",
-        autoplay: false,
-    }); 
+    // --- Progress & Deliverables Section Animation Setup ---
+    let progressSplit = [];
+    let tagSplit = [];
+    let deliSplit = [];
+    let progressTimelines = [];
+    let deliverablesTimeline = null;
+    let progressScrollTriggers = [];
+    let deliverablesScrollTrigger = null;
 
-    // Get rid of clipping path was causing chaos
-    ProgressLottie.addEventListener("DOMLoaded", () => {
-        const svg = document.querySelector("#lottie-container svg");
-        if (svg) {
+    function setupProcessAndDeliverables() {
+        // --- Clean up old instances ---
+        progressSplit.forEach(split => split.revert && split.revert());
+        tagSplit.forEach(split => split.revert && split.revert());
+        deliSplit.forEach(split => split.revert && split.revert());
+        progressTimelines.forEach(tl => tl.kill && tl.kill());
+        if (deliverablesTimeline && deliverablesTimeline.kill) deliverablesTimeline.kill();
+        progressScrollTriggers.forEach(st => st.kill && st.kill());
+        if (deliverablesScrollTrigger && deliverablesScrollTrigger.kill) deliverablesScrollTrigger.kill();
 
-            const clip = svg.querySelector("clipPath");
-            if (clip) {
-                clip.parentNode.removeChild(clip);
-            }
+        progressSplit = [];
+        tagSplit = [];
+        deliSplit = [];
+        progressTimelines = [];
+        progressScrollTriggers = [];
 
-            const g = svg.querySelector("g[clip-path]");
-            if (g) {
-                g.removeAttribute("clip-path");
-            }
-        }
-    });
-
-    document.fonts.ready.then(() => {
-
+        // --- Progress Section ---
         let tOneTrigger = false;
         let tTwoTrigger = false;
 
-        // Prepare paragraphs for text animation
         const paragraphs = document.querySelectorAll(".process-paragraph");
-        const paraSplit = Array.from(paragraphs).map(p => SplitText.create(p, {
+        progressSplit = Array.from(paragraphs).map(p => SplitText.create(p, {
             type: "words, lines",
             mask: "lines",
             autoSplit: true,
         }));
 
-        // Prepare section tags for text animation
         const tags = document.querySelectorAll(".section-label");
-        const tagSplit = Array.from(tags).map(t => SplitText.create(t, {
+        tagSplit = Array.from(tags).map(t => SplitText.create(t, {
             type: "lines",
             mask: "lines",
             autoSplit: true,
         }));
 
-        // Prepare progress bars for animation
         const progressBars = document.querySelectorAll(".process-progressbar-fill");
 
-        const transitionOne = gsap.timeline({ paused: true }); // Timeline for text animation 1/3 of the way through scroll
+        const transitionOne = gsap.timeline({ paused: true });
         transitionOne
-        .to(paraSplit[0].words, {
+            .to(progressSplit[0].words, {
                 yPercent: 100,
                 duration: 0.5,
                 stagger: 0.02,
-        })
-        .to(tagSplit[0].lines, {
+            })
+            .to(tagSplit[0].lines, {
                 yPercent: 100,
                 duration: 0.5,
                 stagger: 0.02,
-        }, "<")
-        .from(paraSplit[1].words, {
+            }, "<")
+            .from(progressSplit[1].words, {
                 yPercent: -100,
                 duration: 0.5,
                 stagger: 0.02,
-        }, "<+0.05")
-        .from(tagSplit[1].lines, {
+            }, "<+0.05")
+            .from(tagSplit[1].lines, {
                 yPercent: -100,
                 duration: 0.5,
                 stagger: 0.02,
-        }, "<");
-        
-        const transitionTwo = gsap.timeline({ paused: true }); // Timeline for text animation 2/3 of the way through scroll
+            }, "<");
+
+        const transitionTwo = gsap.timeline({ paused: true });
         transitionTwo
-        .to(paraSplit[1].words, {
+            .to(progressSplit[1].words, {
                 yPercent: 100,
                 duration: 0.5,
                 stagger: 0.02,
-        })
-        .to(tagSplit[1].lines, {
+            })
+            .to(tagSplit[1].lines, {
                 yPercent: 100,
                 duration: 0.5,
                 stagger: 0.02,
-        }, "<")
-        .from(paraSplit[2].words, {
+            }, "<")
+            .from(progressSplit[2].words, {
                 yPercent: -100,
                 duration: 0.5,
                 stagger: 0.02,
-        }, "<+0.05")
-       .from(tagSplit[2].lines, {
+            }, "<+0.05")
+            .from(tagSplit[2].lines, {
                 yPercent: -100,
                 duration: 0.5,
                 stagger: 0.02,
-        }, "<");
+            }, "<");
 
+        progressTimelines = [transitionOne, transitionTwo];
 
-        const ProgressAnimation = gsap.timeline({ // Scroll Trigger for Lottie progression, text animations, and progress bars
+        // Progress Lottie (keep reference from your existing code)
+        const ProgressLottie = lottie.loadAnimation({
+            container: document.getElementById("lottie-container"),
+            path: "https://cdn.prod.website-files.com/682387662b01db59008838c3/6835dde18607841057a88992_1329a5d6d7407cf9e5d1ff92eea7b5d0_Distillery_Process_052725.json",
+            renderer: "svg",
+            autoplay: false,
+        });
+
+        // Remove Lottie clip-path chaos
+        ProgressLottie.addEventListener("DOMLoaded", () => {
+            const svg = document.querySelector("#lottie-container svg");
+            if (svg) {
+                const clip = svg.querySelector("clipPath");
+                if (clip) clip.parentNode.removeChild(clip);
+                const g = svg.querySelector("g[clip-path]");
+                if (g) g.removeAttribute("clip-path");
+            }
+        });
+
+        // Progress Animation Timeline
+        const ProgressAnimation = gsap.timeline({
             scrollTrigger: {
                 trigger: ".process-section",
                 start: "top top",
@@ -556,15 +564,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 onUpdate: function (self) {
                     const progress = self.progress;
                     ProgressLottie.goToAndStop(ProgressLottie.totalFrames * progress, true);
-    
+
                     if (progress >= 1/3 && !tOneTrigger) {
                         tOneTrigger = true;
                         transitionOne.play();
                     } else if (progress < 1/3 && tOneTrigger) {
-                        tOneTrigger = false ;
+                        tOneTrigger = false;
                         transitionOne.reverse();
                     }
-    
+
                     if (progress >= 2/3 && !tTwoTrigger) {
                         tTwoTrigger = true;
                         transitionTwo.play();
@@ -575,52 +583,32 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 },
             }
         });
-    
-       progressBars.forEach((bar) => { // Timeline for progress bar animation
-            ProgressAnimation.from(bar, {
-                width: "0%",
-            });
-       });
-    
-    
-       ScrollTrigger.create({ // Separate scroll trigger to pin process section during animations
-            trigger: ".process-section",
-            start: "top top",
-            end: "+=3000",
-            scrub: 0.5,
-            pin: true,
-       });
-    });
 
-    let headerFade = gsap.timeline({ paused: true}); // Fade out header section after animation finishes
+        progressBars.forEach((bar) => {
+            ProgressAnimation.from(bar, { width: "0%" });
+        });
 
-    headerFade.to(".process-heading", {
-        opacity: 0,
-        ease: "power2.out",
-        duration: 0.5,
-    });
+        // Pin process section
+        progressScrollTriggers.push(
+            ProgressAnimation.scrollTrigger,
+            ScrollTrigger.create({
+                trigger: ".process-section",
+                start: "top top",
+                end: "+=3000",
+                scrub: 0.5,
+                pin: true,
+            })
+        );
 
-    ScrollTrigger.create({
-        trigger: ".end",
-        start: "top 98%",
-        onEnter: () => headerFade.play(),
-        onLeaveBack: () => headerFade.reverse(),
-    });
-
-    ScrollTrigger.refresh();
-
-    // DELIVERABLES SECTION
-    document.fonts.ready.then(() => {
-        
-        // Prepare deliverables for text animation
+        // --- Deliverables Section ---
         const deliverables = document.querySelectorAll(".deliverable-text");
-        const deliSplit = Array.from(deliverables).map(d => SplitText.create(d, {
+        deliSplit = Array.from(deliverables).map(d => SplitText.create(d, {
             type: "words, lines",
             mask: "lines",
             autoSplit: true,
         }));
 
-        // Load Lottie
+        // Deliverables Lottie
         const DeliverablesLottie = lottie.loadAnimation({
             container: document.getElementById("deliverables-lottie"),
             path: "https://cdn.prod.website-files.com/682387662b01db59008838c3/682f7af9065ea5d6e1b36e2c_Distillery_Deliverables_052225.json",
@@ -628,8 +616,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             autoplay: false,
         });
 
-        // Deliverables timeline
-        const deliAnimation = gsap.timeline({
+        // Deliverables Timeline
+        deliverablesTimeline = gsap.timeline({
             scrollTrigger: {
                 trigger: ".deliverables-section",
                 start: "top top",
@@ -643,35 +631,51 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
         });
 
-        deliAnimation
-        .from(deliSplit[0].words, {
-            yPercent: -100,
-            stagger: 0.02,
-            duration: 0.5,
-        })
-        .to(deliSplit[0].words, {
-            yPercent: 100,
-            stagger: 0.02,
-            duration: 0.5,
-        })
-        .from(deliSplit[1].words, {
-            yPercent: -100,
-            stagger: 0.02,
-            duration: 0.5,
-        }, "<")
-        .to(deliSplit[1].words, {
-            yPercent: 100,
-            stagger: 0.02,
-            duration: 0.5,
-        })
-        .from(deliSplit[2].words, {
-            yPercent: -100,
-            stagger: 0.02,
-            duration: 0.5,
-        }, "<");
-    }); 
+        deliverablesTimeline
+            .from(deliSplit[0].words, {
+                yPercent: -100,
+                stagger: 0.02,
+                duration: 0.5,
+            })
+            .to(deliSplit[0].words, {
+                yPercent: 100,
+                stagger: 0.02,
+                duration: 0.5,
+            })
+            .from(deliSplit[1].words, {
+                yPercent: -100,
+                stagger: 0.02,
+                duration: 0.5,
+            }, "<")
+            .to(deliSplit[1].words, {
+                yPercent: 100,
+                stagger: 0.02,
+                duration: 0.5,
+            })
+            .from(deliSplit[2].words, {
+                yPercent: -100,
+                stagger: 0.02,
+                duration: 0.5,
+            }, "<");
 
-    // GRID CTA SECTION
+        deliverablesScrollTrigger = deliverablesTimeline.scrollTrigger;
+    }
+
+    // Initial setup after fonts are ready
+    document.fonts.ready.then(() => {
+        setupProcessAndDeliverables();
+    });
+
+    // Debounced resize handler
+    let resizeTimeout;
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            setupProcessAndDeliverables();
+            ScrollTrigger.refresh();
+        }, 200);
+    });
+
     // GRID CTA SECTION
     fetch("https://darling-emma.github.io/distillery-site/Distillery_CTAGrid_Named_052725.svg")
     .then(res => res.text())
