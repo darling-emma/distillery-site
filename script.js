@@ -1,4 +1,4 @@
-console.log("connected - speed up mouse follow 2");
+console.log("connected - pipe animation timing");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -318,7 +318,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         scrollTrigger: {
             trigger: ".pipes-wrapper",
             start: "top top",
-            end: "bottom bottom",
+            end: "bottom top",
             scrub: true,
             anticipatePin: 1,
             onEnter: () => CircleShow.play(),
