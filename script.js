@@ -1,4 +1,4 @@
-console.log("connected - prevent fade out on mobile");
+console.log("connected - prevent fade out on mobile 2");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -570,20 +570,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
        });
     });
 
-    let headerFade = gsap.timeline({ paused: true}); // Fade out header section after animation finishes
-
-    headerFade.to(".process-heading", {
+    ProgressAnimation.to(".process-heading", {
         opacity: 0,
         ease: "power2.out",
-        duration: 0.5,
-    });
-
-    ScrollTrigger.create({
-        trigger: ".end",
-        start: "top 90%",
-        onEnter: () => headerFade.play(),
-        onLeaveBack: () => headerFade.reverse(),
-    });
+    }, "+=0.033");
 
     ScrollTrigger.refresh();
 
