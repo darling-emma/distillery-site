@@ -1,4 +1,4 @@
-console.log("connected - document fonts ready for Process Header");
+console.log("connected - add anticipatePin for Process Header");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -437,6 +437,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 start: "top 40%",
                 end: "bottom 65%",
                 scrub: true,
+                anticipatePin: true,
             }
         });
 
