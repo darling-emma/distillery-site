@@ -1,4 +1,4 @@
-console.log("connected - remove process header animation");
+console.log("connected - speed up mouse follow");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -43,8 +43,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Mouse Follow Animation
     gsap.set(".cursor", {xPercent: -50, yPercent: -50});
 
-    let xTo = gsap.quickTo(".cursor", "x", {duration: 0.4, ease: "power1"}),
-        yTo = gsap.quickTo(".cursor", "y", {duration: 0.4, ease: "power1"});
+    let xTo = gsap.quickTo(".cursor", "x", {duration: 0.1, ease: "none"}),
+        yTo = gsap.quickTo(".cursor", "y", {duration: 0.1, ease: "none"});
 
     window.addEventListener("mousemove", m => {
         xTo(m.clientX);
