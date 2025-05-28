@@ -1,16 +1,30 @@
-console.log("connected - remove resize handling 2");
+console.log("connected - reload on resize");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(DrawSVGPlugin, ScrambleTextPlugin, ScrollTrigger, ScrollSmoother, MotionPathPlugin, Draggable, InertiaPlugin, SplitText)
 
-    // Event listener for resizing
+    // Event listener for resizing / reload on resize
     let resizeTimeout;
+    let initialWidth = window.innerWidth;
+    
     window.addEventListener("resize", () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            ScrollTrigger.refresh();
-        }, 200);
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (Math.abs(window.innerWidth - initialWidth) > 50) {
+          const scrollY = window.scrollY;
+          sessionStorage.setItem("scrollY", scrollY);
+          location.reload();
+        }
+      }, 250);
+    });
+    
+    window.addEventListener("load", () => {
+      const savedScrollY = sessionStorage.getItem("scrollY");
+      if (savedScrollY !== null) {
+        window.scrollTo(0, parseInt(savedScrollY));
+        sessionStorage.removeItem("scrollY");
+      }
     });
     
     // Initialize ScrollSmoother, Desktop only
