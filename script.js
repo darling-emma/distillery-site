@@ -1,4 +1,4 @@
-console.log("connected - take out fix");
+console.log("connected - document fonts ready for Process Header");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -430,23 +430,25 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     // PROCESS SECTION
     // Header Animation
-    let processHead = gsap.timeline({
-        scrollTrigger: {
-            trigger: ".process-header",
-            start: "top 40%",
-            end: "bottom 65%",
-            scrub: true,
-        }
-    });
+    document.fonts.ready.then(() => {
+        let processHead = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".process-header",
+                start: "top 40%",
+                end: "bottom 65%",
+                scrub: true,
+            }
+        });
 
-    processHead
-    .from(".process-head", {
-        opacity: 0,
-        yPercent: 80,
-    })
-    .to(".process-head", {
-        opacity: 0,
-        yPercent: -80,
+        processHead
+        .from(".process-head", {
+            opacity: 0,
+            yPercent: 80,
+        })
+        .to(".process-head", {
+            opacity: 0,
+            yPercent: -80,
+        });
     });
 
     // Load Lottie
