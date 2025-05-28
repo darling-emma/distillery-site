@@ -1,4 +1,4 @@
-console.log("connected - scramble text on scroll?");
+console.log("connected - fix for header animation");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -17,14 +17,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
           location.reload();
         }
       }, 250);
-    });
-    
-    window.addEventListener("load", () => {
-      const savedScrollY = sessionStorage.getItem("scrollY");
-      if (savedScrollY !== null) {
-        window.scrollTo(0, parseInt(savedScrollY));
-        sessionStorage.removeItem("scrollY");
-      }
     });
     
     // Initialize ScrollSmoother, Desktop only
@@ -712,4 +704,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
     })
     .catch(err => console.error("SVG fetch failed", err));
 
+});
+
+// Event listener for loading
+window.addEventListener("load", () => {
+    const savedScrollY = sessionStorage.getItem("scrollY");
+    if (savedScrollY !== null) {
+        window.scrollTo(0, parseInt(savedScrollY));
+        sessionStorage.removeItem("scrollY");
+    }
+
+    ScrollTrigger.refresh();
 });
