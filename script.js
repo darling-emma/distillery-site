@@ -1,4 +1,4 @@
-console.log("connected - add anticipatePin for Process Header");
+console.log("connected - remove process header animation");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -429,29 +429,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     // PROCESS SECTION
-    // Header Animation
-    document.fonts.ready.then(() => {
-        let processHead = gsap.timeline({
-            scrollTrigger: {
-                trigger: ".process-header",
-                start: "top 40%",
-                end: "bottom 65%",
-                scrub: true,
-                anticipatePin: true,
-            }
-        });
-
-        processHead
-        .from(".process-head", {
-            opacity: 0,
-            yPercent: 80,
-        })
-        .to(".process-head", {
-            opacity: 0,
-            yPercent: -80,
-        });
-    });
-
     // Load Lottie
     const ProgressLottie = lottie.loadAnimation({
         container: document.getElementById("lottie-container"),
