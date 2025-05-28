@@ -1,4 +1,4 @@
-console.log("connected - reload on resize");
+console.log("connected - scramble text on scroll?");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -255,6 +255,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
         ease: "none",
         onUpdate: renderCenterImage
     })
+    .to(".scramble", {
+        scrambleText: "DISTILLING BRANDS TO THEIR ESSENCE",
+    }, "<")
     .to(".scramble",{
         y: -40,
         opacity: 0
@@ -266,25 +269,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     .from(".scroll-indicator-lottie", {
         y: 40,
         opacity: 0
-    });
-
-    // Scramble Text Animation
-    ScrollTrigger.create({
-        trigger: ".scramble-trigger",
-        start: "top top",
-        onEnter: () => {
-            gsap.to (".scramble", {
-                scrambleText: "DISTILLING BRANDS TO THEIR ESSENCE",
-                duration: 1,
-            });  
-        },
-        onLeaveBack: () => {
-            gsap.to(".scramble", {
-                scrambleText: "THE BRAND STRATEGY COMPANY",
-                duration: 1,
-            });
-        },
-        markers: false
     });
 
     ScrollTrigger.refresh();
