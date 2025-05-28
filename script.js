@@ -1,4 +1,4 @@
-console.log("connected - pipe animation timing-2");
+console.log("connected - prevent fade out on mobile");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -580,7 +580,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     ScrollTrigger.create({
         trigger: ".end",
-        start: "top 98%",
+        start: "top 90%",
         onEnter: () => headerFade.play(),
         onLeaveBack: () => headerFade.reverse(),
     });
