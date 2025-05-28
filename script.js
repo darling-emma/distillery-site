@@ -1,4 +1,4 @@
-console.log("connected - pipe animation timing");
+console.log("connected - pipe animation timing-2");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -382,7 +382,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
     }, delayTwo);
 
-    let delayThree = Pipes.duration() * 0.8;
+    let delayThree = Pipes.duration() * 0.6;
     Pipes.add("delayThree", delayThree);
 
     Pipes
