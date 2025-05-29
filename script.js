@@ -1,9 +1,16 @@
-console.log("connected - more big moves");
+console.log("connected - whenexists");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(DrawSVGPlugin, ScrambleTextPlugin, ScrollTrigger, ScrollSmoother, MotionPathPlugin, Draggable, InertiaPlugin, SplitText)
 
+    // Helper function to check for existence of elements before running code
+        function whenExists(selector, callback) {
+            const elements = document.querySelectorAll(selector);
+            if (!elements.length) return;
+            callback (elements);
+        };
+    
     // Event listener for resizing / reload on resize
     let resizeTimeout;
     let initialWidth = window.innerWidth;
