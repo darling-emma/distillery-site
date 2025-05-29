@@ -1,4 +1,4 @@
-console.log("connected - move createScrollTrigger");
+console.log("connected - small tweaks");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -322,7 +322,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     const windowWidth = window.innerWidth;
     const svgHeight = 2.4375 * windowWidth;
-    const X_multiplier = 1.25;
+    const X_multiplier = 1.15;
     const dotDistance = X_multiplier * svgHeight;
 
     const Pipes = gsap.timeline({
@@ -518,7 +518,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
        .to(".process-heading", {
             opacity: 0,
             ease: "power2.out",
-        }, "+=0.0033")
+        }, "+=0.33")
         .to(".process-section", {
             backgroundColor: "var(--colors--white)"
         }, "<");
@@ -644,12 +644,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     // GRID CTA SECTION MOBILE
     whenExists("[grid-arrow]", (gridArrows) => {
-        document.querySelectorAll("[grid-arrow]").forEach(ga => {
+        gridArrows.forEach(ga => {
             let spin = gsap.timeline({ paused: true });
             spin.to(ga, {
-                rotation: 180,
-                duration: 1.5,
-                ease: "power2.out",
+            rotation: 180,
+            duration: 1.5,
+            ease: "power2.out",
             });
             createScrollTrigger(ga, spin);
         });
