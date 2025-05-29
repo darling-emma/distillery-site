@@ -1,4 +1,4 @@
-console.log("connected - big moves");
+console.log("connected - more big moves");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -315,7 +315,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     const windowWidth = window.innerWidth;
     const svgHeight = 2.4375 * windowWidth;
-    const X_multiplier = 1.4;
+    const X_multiplier = 1.25;
     const dotDistance = X_multiplier * svgHeight;
 
     const Pipes = gsap.timeline({
@@ -507,10 +507,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
             });
        });
 
-       ProcessAnimation.to(".process-heading", {
-        opacity: 0,
-        ease: "power2.out",
-    }, "+=0.033");
+       ProcessAnimation
+       .to(".process-heading", {
+            opacity: 0,
+            ease: "power2.out",
+        }, "+=0.033")
+        .to(".process-section", {
+            backgroundColor: "var(--colors--white)"
+        }, "<");
     
        ScrollTrigger.create({ // Separate scroll trigger to pin process section during animations
             trigger: ".process-section",
@@ -585,48 +589,64 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }, "<");
     }); 
 
-    // GRID CTA SECTION
+    // GRID CTA SECTION DESKTOP
     fetch("https://darling-emma.github.io/distillery-site/Distillery_CTAGrid_Named_052725.svg")
     .then(res => res.text())
     .then(svg => {
-        const wrapper = document.querySelector(".cta-section");
+        whenExists(".cta-section", ([wrapper]) => {
         wrapper.insertAdjacentHTML("beforeend", svg);
 
         const arrows = wrapper.querySelectorAll(".wiggle-arrow");
+        if (!arrows.length) return;
 
         function rotateArrows(event) {
-        arrows.forEach(arrow => {
+            arrows.forEach(arrow => {
             const rect = arrow.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
 
             const dx = event.clientX - centerX;
             const dy = event.clientY - centerY;
-            const angle = Math.atan2(dy, dx) * (180 / Math.PI) - 90; // initial pointing down
+            const angle = Math.atan2(dy, dx) * (180 / Math.PI) - 90;
 
             gsap.to(arrow, {
-            rotation: angle,
-            transformOrigin: "50% 50%",
-            duration: 0.8,
-            ease: "power1"
+                rotation: angle,
+                transformOrigin: "50% 50%",
+                duration: 0.8,
+                ease: "power1"
             });
-        });
+            });
         }
 
         function resetArrows() {
-        arrows.forEach(arrow => {
+            arrows.forEach(arrow => {
             gsap.to(arrow, {
-            rotation: 0,
-            duration: 0.8,
-            ease: "power1"
+                rotation: 0,
+                duration: 0.8,
+                ease: "power1"
             });
-        });
+            });
         }
 
         wrapper.addEventListener("mousemove", rotateArrows);
         wrapper.addEventListener("mouseleave", resetArrows);
+        });
     })
     .catch(err => console.error("SVG fetch failed", err));
+
+
+    // GRID CTA SECTION MOBILE
+    whenExists("[grid-arrow]", (gridArrows) => {
+        document.querySelectorAll("[grid-arrow]").forEach(ga => {
+            let spin = gsap.timeline({ paused: true });
+            spin.to(ga, {
+                rotation: 180,
+                duration: 1.5,
+                ease: "power2.out",
+            });
+            createScrollTrigger(ga, spin);
+        });
+    });
 
 });
 
