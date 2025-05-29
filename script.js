@@ -1,4 +1,4 @@
-console.log("connected - prevent fade out on mobile 2");
+console.log("connected - big moves");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -274,8 +274,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     ScrollTrigger.refresh();
 
     // PIPES SECTION ANIMATION
-
-    document.fonts.ready.then(() => {
+     document.fonts.ready.then(() => {
         // Attribute-based text splitting and animation
         document.querySelectorAll("[text-split]").forEach(el => {
             const split = new SplitText(el, {
@@ -314,11 +313,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
         paused: true
     });
 
+    const windowWidth = window.innerWidth;
+    const svgHeight = 2.4375 * windowWidth;
+    const X_multiplier = 1.4;
+    const dotDistance = X_multiplier * svgHeight;
+
     const Pipes = gsap.timeline({
         scrollTrigger: {
             trigger: ".pipes-wrapper",
             start: "top top",
-            end: "bottom top",
+            end: "+=" + dotDistance,
             scrub: true,
             anticipatePin: 1,
             onEnter: () => CircleShow.play(),
@@ -343,63 +347,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
             alignOrigin: [0.5, 0.5]
         }
     }, 0);
-
-    let delayOne = Pipes.duration() * 0.2;
-    Pipes.add("delayOne", delayOne);
-
-    Pipes
-    .to(".three", {
-        motionPath: {
-            path: ".path-1",
-            align: ".path-1",
-            alignOrigin: [0.5, 0.5]
-        }
-    }, delayOne)
-    .to(".four", {
-        motionPath: {
-            path: ".path-2",
-            align: ".path-2",
-            alignOrigin: [0.5, 0.5]
-        }
-    }, delayOne);
-
-    let delayTwo = Pipes.duration() * 0.4;
-    Pipes.add("delayTwo", delayTwo);
-
-    Pipes
-    .to(".five", {
-        motionPath: {
-            path: ".path-1",
-            align: ".path-1",
-            alignOrigin: [0.5, 0.5]
-        }
-     }, delayTwo)
-    .to(".six", {
-        motionPath: {
-            path: ".path-2",
-            align: ".path-2",
-            alignOrigin: [0.5, 0.5]
-        }
-    }, delayTwo);
-
-    let delayThree = Pipes.duration() * 0.6;
-    Pipes.add("delayThree", delayThree);
-
-    Pipes
-    .to(".seven", {
-        motionPath: {
-            path: ".path-1",
-            align: ".path-1",
-            alignOrigin: [0.5, 0.5]
-        }
-    }, delayThree)
-    .to(".eight", {
-        motionPath: {
-            path: ".path-2",
-            align: ".path-2",
-            alignOrigin: [0.5, 0.5]
-        }
-    }, delayThree);
 
     window.addEventListener("load", () => {
         ScrollTrigger.refresh();
@@ -430,7 +377,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     // PROCESS SECTION
     // Load Lottie
-    const ProgressLottie = lottie.loadAnimation({
+    const ProcessLottie = lottie.loadAnimation({
         container: document.getElementById("lottie-container"),
         path: "https://cdn.prod.website-files.com/682387662b01db59008838c3/6835dde18607841057a88992_1329a5d6d7407cf9e5d1ff92eea7b5d0_Distillery_Process_052725.json",
         renderer: "svg",
@@ -438,7 +385,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }); 
 
     // Get rid of clipping path was causing chaos
-    ProgressLottie.addEventListener("DOMLoaded", () => {
+    ProcessLottie.addEventListener("DOMLoaded", () => {
         const svg = document.querySelector("#lottie-container svg");
         if (svg) {
 
@@ -525,7 +472,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }, "<");
 
 
-        const ProgressAnimation = gsap.timeline({ // Scroll Trigger for Lottie progression, text animations, and progress bars
+        const ProcessAnimation = gsap.timeline({ // Scroll Trigger for Lottie progression, text animations, and progress bars
             scrollTrigger: {
                 trigger: ".process-section",
                 start: "top top",
@@ -533,7 +480,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 scrub: 0.5,
                 onUpdate: function (self) {
                     const progress = self.progress;
-                    ProgressLottie.goToAndStop(ProgressLottie.totalFrames * progress, true);
+                    ProcessLottie.goToAndStop(ProcessLottie.totalFrames * progress, true);
     
                     if (progress >= 1/3 && !tOneTrigger) {
                         tOneTrigger = true;
@@ -555,11 +502,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
         });
     
        progressBars.forEach((bar) => { // Timeline for progress bar animation
-            ProgressAnimation.from(bar, {
+            ProcessAnimation.from(bar, {
                 width: "0%",
             });
        });
-    
+
+       ProcessAnimation.to(".process-heading", {
+        opacity: 0,
+        ease: "power2.out",
+    }, "+=0.033");
     
        ScrollTrigger.create({ // Separate scroll trigger to pin process section during animations
             trigger: ".process-section",
@@ -569,11 +520,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
             pin: true,
        });
     });
-
-    ProgressAnimation.to(".process-heading", {
-        opacity: 0,
-        ease: "power2.out",
-    }, "+=0.033");
 
     ScrollTrigger.refresh();
 
