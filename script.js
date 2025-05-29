@@ -1,4 +1,4 @@
-console.log("connected - refresh");
+console.log("connected - remove helper function");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -642,19 +642,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
     .catch(err => console.error("SVG fetch failed", err));
 
 
-    // GRID CTA SECTION MOBILE
-    whenExists("[grid-arrow]", (gridArrows) => {
-        gridArrows.forEach(ga => {
-            let spin = gsap.timeline({ paused: true });
-            spin.to(ga, {
-            rotation: 180,
-            duration: 1.5,
-            ease: "power2.out",
-            });
-            createScrollTrigger(ga, spin);
+    const gridArrows = document.querySelectorAll("[grid-arrow]");
+    if (gridArrows.length) {
+      gridArrows.forEach(ga => {
+        let spin = gsap.timeline({ paused: true });
+        spin.to(ga, {
+          rotation: 180,
+          duration: 1.5,
+          ease: "power2.out",
         });
-        ScrollTrigger.refresh();
-    });
+        createScrollTrigger(ga, spin);
+      });
+    };
 
 });
 
