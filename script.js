@@ -1,4 +1,4 @@
-console.log("connected - new approach");
+console.log("connected - new approach 2");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -633,8 +633,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
     .catch(err => console.error("SVG fetch failed", err));
 
 
-    // GRID CTA SECTION MOBILE
+    / GRID CTA SECTION MOBILE
     const squiggleArrow = gsap.utils.toArray(".squiggle-arrow-embed-large");
+
+    let arrowRotate = gsap.to(".squiggle-arrow-embed-large", {
+        rotation: 180,
+        ease: "power2.out",
+        paused: true,
+    });
 
     squiggleArrow.forEach((item, i) => {
         ScrollTrigger.create({
@@ -642,6 +648,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             start: "top 75%",
             end: "+=100",
             scrub: true,
+            onEnter: () => arrowRotate.play(),
+            onLeaveBack: () => arrowRotate.reverse (),
         });
     });
 });
