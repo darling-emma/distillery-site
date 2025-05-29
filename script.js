@@ -1,26 +1,9 @@
-console.log("connected - remove helper function");
+console.log("connected - back to basics / helper functions");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(DrawSVGPlugin, ScrambleTextPlugin, ScrollTrigger, ScrollSmoother, MotionPathPlugin, Draggable, InertiaPlugin, SplitText)
 
-    // Helper function to check for existence of elements before running code
-        function whenExists(selector, callback) {
-            const elements = document.querySelectorAll(selector);
-            if (!elements.length) return;
-            callback (elements);
-        };
-
-    // Helper function for attribute-based text animation scroll control
-        function createScrollTrigger(triggerElement, timeline) {
-            ScrollTrigger.create({
-                trigger: triggerElement,
-                start: "top 75%",
-                onEnter: () => timeline.play(),
-                onLeaveBack: () => timeline.reverse(),
-            });
-        };
-    
     // Event listener for resizing / reload on resize
     let resizeTimeout;
     let initialWidth = window.innerWidth;
@@ -310,6 +293,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 createScrollTrigger(el, tl);
             }
         });
+
+        // Helper function for animation scroll control
+        function createScrollTrigger(triggerElement, timeline) {
+            ScrollTrigger.create({
+                trigger: triggerElement,
+                start: "top 75%",
+                onEnter: () => timeline.play(),
+                onLeaveBack: () => timeline.reverse(),
+            });
+        };
     });
     
     // Changing circles from hide to show tor animation
@@ -596,64 +589,69 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }, "<");
     }); 
 
-    // GRID CTA SECTION DESKTOP
+    // GRID CTA SECTION
     fetch("https://darling-emma.github.io/distillery-site/Distillery_CTAGrid_Named_052725.svg")
     .then(res => res.text())
     .then(svg => {
-        whenExists(".cta-section", ([wrapper]) => {
+        const wrapper = document.querySelector(".cta-section");
         wrapper.insertAdjacentHTML("beforeend", svg);
 
         const arrows = wrapper.querySelectorAll(".wiggle-arrow");
-        if (!arrows.length) return;
 
         function rotateArrows(event) {
-            arrows.forEach(arrow => {
+        arrows.forEach(arrow => {
             const rect = arrow.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
 
             const dx = event.clientX - centerX;
             const dy = event.clientY - centerY;
-            const angle = Math.atan2(dy, dx) * (180 / Math.PI) - 90;
+            const angle = Math.atan2(dy, dx) * (180 / Math.PI) - 90; // initial pointing down
 
             gsap.to(arrow, {
-                rotation: angle,
-                transformOrigin: "50% 50%",
-                duration: 0.8,
-                ease: "power1"
+            rotation: angle,
+            transformOrigin: "50% 50%",
+            duration: 0.8,
+            ease: "power1"
             });
-            });
+        });
         }
 
         function resetArrows() {
-            arrows.forEach(arrow => {
+        arrows.forEach(arrow => {
             gsap.to(arrow, {
-                rotation: 0,
-                duration: 0.8,
-                ease: "power1"
+            rotation: 0,
+            duration: 0.8,
+            ease: "power1"
             });
-            });
+        });
         }
 
         wrapper.addEventListener("mousemove", rotateArrows);
         wrapper.addEventListener("mouseleave", resetArrows);
-        });
     })
     .catch(err => console.error("SVG fetch failed", err));
 
 
-    const gridArrows = document.querySelectorAll("[grid-arrow]");
-    if (gridArrows.length) {
-      gridArrows.forEach(ga => {
+    // GRID CTA SECTION MOBILE
+    document.querySelectorAll("[grid-arrow]").forEach(ga => {
         let spin = gsap.timeline({ paused: true });
         spin.to(ga, {
-          rotation: 180,
-          duration: 1.5,
-          ease: "power2.out",
+            rotation: 180,
+            duration: 1.5,
+            ease: "power2.out",
         });
         createScrollTrigger(ga, spin);
-      });
+        
+    });
+
+    // Helper function for scroll control
+    function createScrollTrigger(triggerElement, timeline) {
+        ScrollTrigger.create({
+            trigger: triggerElement,
+            start: "top 75%",
+            onEnter: () => timeline.play(),
+            onLeaveBack: () => timeline.reverse(),
+        });
     };
-
 });
-
