@@ -1,4 +1,4 @@
-console.log("connected - typo fix");
+console.log("connected - gpt fix");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -634,22 +634,20 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 
     // GRID CTA SECTION MOBILE
-    const squiggleArrow = gsap.utils.toArray(".squiggle-arrow-embed-large");
+    gsap.utils.toArray(".squiggle-arrow-embed-large").forEach((item) => {
+        let arrowRotate = gsap.to(item, {
+            rotation: 180,
+            ease: "power2.out",
+            paused: true,
+        });
 
-    let arrowRotate = gsap.to(".squiggle-arrow-embed-large", {
-        rotation: 180,
-        ease: "power2.out",
-        paused: true,
-    });
-
-    squiggleArrow.forEach((item, i) => {
         ScrollTrigger.create({
             trigger: item,
             start: "top 75%",
             end: "+=100",
             scrub: true,
             onEnter: () => arrowRotate.play(),
-            onLeaveBack: () => arrowRotate.reverse (),
+            onLeaveBack: () => arrowRotate.reverse(),
         });
     });
 });
