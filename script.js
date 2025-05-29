@@ -1,4 +1,4 @@
-console.log("connected - whenexists + delaying Process header fade / BG color change");
+console.log("connected - move createScrollTrigger");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -9,6 +9,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
             const elements = document.querySelectorAll(selector);
             if (!elements.length) return;
             callback (elements);
+        };
+
+    // Helper function for attribute-based text animation scroll control
+        function createScrollTrigger(triggerElement, timeline) {
+            ScrollTrigger.create({
+                trigger: triggerElement,
+                start: "top 75%",
+                onEnter: () => timeline.play(),
+                onLeaveBack: () => timeline.reverse(),
+            });
         };
     
     // Event listener for resizing / reload on resize
@@ -300,16 +310,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 createScrollTrigger(el, tl);
             }
         });
-
-        // Helper function for attribute-based text animation scroll control
-        function createScrollTrigger(triggerElement, timeline) {
-            ScrollTrigger.create({
-                trigger: triggerElement,
-                start: "top 75%",
-                onEnter: () => timeline.play(),
-                onLeaveBack: () => timeline.reverse(),
-            });
-        };
     });
     
     // Changing circles from hide to show tor animation
