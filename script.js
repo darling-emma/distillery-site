@@ -1,4 +1,4 @@
-console.log("connected - whenexists");
+console.log("connected - whenexists + delaying Process header fade / BG color change");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -518,7 +518,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
        .to(".process-heading", {
             opacity: 0,
             ease: "power2.out",
-        }, "+=0.033")
+        }, "+=0.0033")
         .to(".process-section", {
             backgroundColor: "var(--colors--white)"
         }, "<");
