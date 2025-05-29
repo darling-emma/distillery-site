@@ -1,4 +1,4 @@
-console.log("connected - new approach 2");
+console.log("connected - typo fix");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -633,7 +633,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     .catch(err => console.error("SVG fetch failed", err));
 
 
-    / GRID CTA SECTION MOBILE
+    // GRID CTA SECTION MOBILE
     const squiggleArrow = gsap.utils.toArray(".squiggle-arrow-embed-large");
 
     let arrowRotate = gsap.to(".squiggle-arrow-embed-large", {
