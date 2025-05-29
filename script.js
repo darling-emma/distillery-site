@@ -1,4 +1,4 @@
-console.log("connected - small tweaks");
+console.log("connected - refresh");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -653,6 +653,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             });
             createScrollTrigger(ga, spin);
         });
+        ScrollTrigger.refresh();
     });
 
 });
