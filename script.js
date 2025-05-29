@@ -1,4 +1,4 @@
-console.log("connected - back to basics / helper functions");
+console.log("connected - new approach");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -634,24 +634,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 
     // GRID CTA SECTION MOBILE
-    document.querySelectorAll("[grid-arrow]").forEach(ga => {
-        let spin = gsap.timeline({ paused: true });
-        spin.to(ga, {
-            rotation: 180,
-            duration: 1.5,
-            ease: "power2.out",
-        });
-        createScrollTrigger(ga, spin);
-        
-    });
+    const squiggleArrow = gsap.utils.toArray(".squiggle-arrow-embed-large");
 
-    // Helper function for scroll control
-    function createScrollTrigger(triggerElement, timeline) {
+    squiggleArrow.forEach((item, i) => {
         ScrollTrigger.create({
-            trigger: triggerElement,
+            trigger: item,
             start: "top 75%",
-            onEnter: () => timeline.play(),
-            onLeaveBack: () => timeline.reverse(),
+            end: "+=100",
+            scrub: true,
         });
-    };
+    });
 });
