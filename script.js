@@ -1,4 +1,4 @@
-console.log("connected - more big moves");
+console.log("connected - draggable fix / one more text attempt");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -281,6 +281,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     // Revert any previous split
                     if (el._split) el._split.revert();
 
+                    // Force reflow
+                    el.offsetHeight;
+
                     // Create fresh split and store reference for future clean-up
                     const split = new SplitText(el, {
                         type: "lines, words",
@@ -369,11 +372,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
     function initDraggable() {
         if (draggableInstance) draggableInstance[0].kill(); // Remove existing instance if any
 
+        const container = document.getElementById("container");
+        const dragMe = document.getElementById("drag-me");
         const isTabletOrSmaller = window.matchMedia("(max-width: 991px)").matches;
 
-        draggableInstance = Draggable.create("#drag-me", {
+        draggableInstance = Draggable.create(dragMe, {
             type: "x",
-            bounds: document.getElementById("container"),
+            bounds: container,
             ease: "power2.in",
             inertia: true,
             dragResistance: 0.3,
@@ -386,8 +391,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     ease: "power1.in"
                 });
 
-                const dragWidth = this.maxX || (this.bounds.width - this.target.offsetWidth);
-                const progress = this.x / dragWidth;
+                const maxDrag = container.scrollWidth - dragMe.offsetWidth;
+                const progress = this.x / maxDrag;
                 gsap.to(".bar", {
                     width: `${Math.max(0, Math.min(progress, 1)) * 100}%`,
                     ease: "none"
@@ -399,7 +404,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 });
             },
         });
-    }
+    };
 
     // Initialize on load
     initDraggable();
@@ -410,7 +415,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(initDraggable, 200);
     });
-
 
     // PROCESS SECTION
     // Load Lottie
