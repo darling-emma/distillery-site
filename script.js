@@ -1,4 +1,4 @@
-console.log("connected - remove markers");
+console.log("connected - headerFade");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -471,6 +471,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 stagger: 0.02,
         }, "<");
 
+        const headerFade = gsap.timeline({ paused: true }); // Timeline for header fade animation
+        headerFade
+        .to(".process-heading", {
+        opacity: 0,
+        })
+        .to(".process-section", {
+        backgroundColor: "var(--colors--white)"
+        }, "<");
+        
+
 
         const ProcessAnimation = gsap.timeline({ // Scroll Trigger for Lottie progression, text animations, and progress bars
             scrollTrigger: {
@@ -497,6 +507,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
                         tTwoTrigger = false;
                         transitionTwo.reverse();
                     }
+
+                    if (progress >= 0.97 && !headerTriggered) {
+                        headerTriggered = true;
+                        headerFade.play();
+                    } else if (progress < 0.97 && headerTriggered) {
+                        headerTriggered = false;
+                        headerFade.reverse();
+                    }
                 },
             }
         });
@@ -506,23 +524,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 width: "0%",
             });
        });
-
-       const headerFade = gsap.timeline({
-        scrollTrigger:{
-            trigger: ".process-section",
-            start: "bottom 90%",
-            end: "+=100",
-            scrub: 0.5,
-        }
-       });
-
-       headerFade
-       .to(".process-heading", {
-        opacity: 0,
-       })
-       .to(".process-section", {
-        backgroundColor: "var(--colors--white)"
-       }, "<");
     
        ScrollTrigger.create({ // Separate scroll trigger to pin process section during animations
             trigger: ".process-section",
