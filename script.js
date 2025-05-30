@@ -1,4 +1,4 @@
-console.log("connected - timing");
+console.log("connected - remove markers");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -507,14 +507,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
             });
        });
 
-       ProcessAnimation
+       const headerFade = gsap.timeline({
+        scrollTrigger:{
+            trigger: ".process-section",
+            start: "bottom 90%",
+            end: "+=100",
+            scrub: 0.5,
+        }
+       });
+
+       headerFade
        .to(".process-heading", {
-            opacity: 0,
-            ease: "power2.out",
-        }, "<98%")
-        .to(".process-section", {
-            backgroundColor: "var(--colors--white)"
-        }, "<");
+        opacity: 0,
+       })
+       .to(".process-section", {
+        backgroundColor: "var(--colors--white)"
+       }, "<");
     
        ScrollTrigger.create({ // Separate scroll trigger to pin process section during animations
             trigger: ".process-section",
@@ -638,21 +646,20 @@ document.addEventListener("DOMContentLoaded", (event) => {
         gsap.utils.toArray(".squiggle-arrow-embed-large").forEach((item) => {
             let arrowRotate = gsap.to(item, {
                 rotation: 180,
-                ease: "power2.out",
+                ease: "none",
                 paused: true,
             });
 
             ScrollTrigger.create({
                 trigger: item,
                 start: "top 75%",
-                end: "+=100",
+                end: "+=200",
                 scrub: true,
-                markers: true,
                 onEnter: () => arrowRotate.play(),
                 onLeaveBack: () => arrowRotate.reverse(),
             });
         });
-        
+
         ScrollTrigger.refresh();
 
     }, 300);
