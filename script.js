@@ -1,4 +1,4 @@
-console.log("connected - draggable tweak");
+console.log("connected - remove draggable bar");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -372,13 +372,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
     function initDraggable() {
         if (draggableInstance) draggableInstance[0].kill(); // Remove existing instance if any
 
-        const container = document.getElementById("container");
-        const dragMe = document.getElementById("drag-me");
         const isTabletOrSmaller = window.matchMedia("(max-width: 991px)").matches;
 
-        draggableInstance = Draggable.create(dragMe, {
+        draggableInstance = Draggable.create("#drag-me", {
             type: "x",
-            bounds: container,
+            bounds: document.getElementById("container"),
             ease: "power2.in",
             inertia: true,
             dragResistance: 0.3,
@@ -389,14 +387,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 gsap.to(".client-image-card", {
                     rotation: direction * 25,
                     ease: "power1.in"
-                });
-
-                const maxDrag = dragMe.scrollWidth - container.offsetWidth;
-                const progress = this.x / maxDrag;
-
-                gsap.to(".bar", {
-                    width: `${Math.max(0, Math.min(progress, 1)) * 100}%`,
-                    ease: "none"
                 });
             },
             onDragEnd: function () {
