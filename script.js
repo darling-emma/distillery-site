@@ -1,4 +1,4 @@
-console.log("connected - gpt fix");
+console.log("connected - timing");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -511,7 +511,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
        .to(".process-heading", {
             opacity: 0,
             ease: "power2.out",
-        }, "+=0.33")
+        }, "<98%")
         .to(".process-section", {
             backgroundColor: "var(--colors--white)"
         }, "<");
@@ -634,20 +634,29 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 
     // GRID CTA SECTION MOBILE
-    gsap.utils.toArray(".squiggle-arrow-embed-large").forEach((item) => {
-        let arrowRotate = gsap.to(item, {
-            rotation: 180,
-            ease: "power2.out",
-            paused: true,
-        });
+    setTimeout(() => {
+        gsap.utils.toArray(".squiggle-arrow-embed-large").forEach((item) => {
+            let arrowRotate = gsap.to(item, {
+                rotation: 180,
+                ease: "power2.out",
+                paused: true,
+            });
 
-        ScrollTrigger.create({
-            trigger: item,
-            start: "top 75%",
-            end: "+=100",
-            scrub: true,
-            onEnter: () => arrowRotate.play(),
-            onLeaveBack: () => arrowRotate.reverse(),
+            ScrollTrigger.create({
+                trigger: item,
+                start: "top 75%",
+                end: "+=100",
+                scrub: true,
+                markers: true,
+                onEnter: () => arrowRotate.play(),
+                onLeaveBack: () => arrowRotate.reverse(),
+            });
         });
-    });
+        
+        ScrollTrigger.refresh();
+
+    }, 300);
+    
+
 });
+
