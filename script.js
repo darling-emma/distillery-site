@@ -1,4 +1,4 @@
-console.log("connected - headerTriggered = false");
+console.log("connected - headerTriggered - scrub?");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -472,17 +472,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 stagger: 0.02,
         }, "<");
 
-        const headerFade = gsap.timeline({ paused: true }); // Timeline for header fade animation
-        headerFade
-        .to(".process-heading", {
-        opacity: 0,
-        })
-        .to(".process-section", {
-        backgroundColor: "var(--colors--white)"
-        }, "<");
-        
-
-
         const ProcessAnimation = gsap.timeline({ // Scroll Trigger for Lottie progression, text animations, and progress bars
             scrollTrigger: {
                 trigger: ".process-section",
@@ -511,10 +500,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
                     if (progress >= 0.97 && !headerTriggered) {
                         headerTriggered = true;
-                        headerFade.play();
+                        gsap.to(".process-heading", { opacity: 0, duration: 0.3 });
+                        gsap.to(".process-section", { backgroundColor: "var(--colors--white)", duration: 0.3 });
                     } else if (progress < 0.97 && headerTriggered) {
                         headerTriggered = false;
-                        headerFade.reverse();
+                        gsap.to(".process-heading", { opacity: 1, duration: 0.3 });
+                        gsap.to(".process-section", { backgroundColor: "var(--colors--black)", duration: 0.3 });
                     }
                 },
             }
