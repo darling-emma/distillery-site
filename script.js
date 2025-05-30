@@ -1,4 +1,4 @@
-console.log("connected - headerFade");
+console.log("connected - headerTriggered = false");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -405,6 +405,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         let tOneTrigger = false;
         let tTwoTrigger = false;
+        let headerTriggered = false;
 
         // Prepare paragraphs for text animation
         const paragraphs = document.querySelectorAll(".process-paragraph");
