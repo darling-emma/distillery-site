@@ -1,4 +1,4 @@
-console.log("connected - headerTriggered - scrub?");
+console.log("connected - draggable cursor");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -353,26 +353,44 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     // DRAGGABLE CLIENT SECTION
-    Draggable.create("#drag-me", {
-        type: "x",
-        bounds: document.getElementById("container"), // removed '#' from id
-        ease: "power2.in",
-        inertia: true,
-        dragResistance: 0.3,
-        cursor: "none",
-        activeCursor: "none",
-        onDrag: function () {
-            const direction = this.getDirection("start") === "left" ? 1 : -1;
-            gsap.to(".client-image-card", {
-                rotation: direction * 25,
-                ease: "power1.in"
-            });
-        },
-        onDragEnd: function () {
-            gsap.to(".client-image-card", {
-                rotation: 0,
-            });
-        },
+    let draggableInstance;
+
+    function initDraggable() {
+        if (draggableInstance) draggableInstance[0].kill(); // Remove existing instance if any
+
+        const isTabletOrSmaller = window.matchMedia("(max-width: 991px)").matches;
+
+        draggableInstance = Draggable.create("#drag-me", {
+            type: "x",
+            bounds: document.getElementById("container"),
+            ease: "power2.in",
+            inertia: true,
+            dragResistance: 0.3,
+            cursor: isTabletOrSmaller ? "grab" : "none",
+            activeCursor: isTabletOrSmaller ? "grabbing" : "none",
+            onDrag: function () {
+                const direction = this.getDirection("start") === "left" ? 1 : -1;
+                gsap.to(".client-image-card", {
+                    rotation: direction * 25,
+                    ease: "power1.in"
+                });
+            },
+            onDragEnd: function () {
+                gsap.to(".client-image-card", {
+                    rotation: 0,
+                });
+            },
+        });
+    }
+
+    // Initialize on load
+    initDraggable();
+
+    // Re-initialize on resize with debounce
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(initDraggable, 200);
     });
 
     // PROCESS SECTION
