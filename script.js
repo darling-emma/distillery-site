@@ -1,4 +1,4 @@
-console.log("connected - draggable fix / one more text attempt");
+console.log("connected - draggable tweak");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -391,8 +391,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     ease: "power1.in"
                 });
 
-                const maxDrag = container.scrollWidth - dragMe.offsetWidth;
+                const maxDrag = dragMe.scrollWidth - container.offsetWidth;
                 const progress = this.x / maxDrag;
+
                 gsap.to(".bar", {
                     width: `${Math.max(0, Math.min(progress, 1)) * 100}%`,
                     ease: "none"
@@ -404,7 +405,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 });
             },
         });
-    };
+    }
 
     // Initialize on load
     initDraggable();
