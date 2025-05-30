@@ -1,4 +1,4 @@
-console.log("connected - remove draggable bar");
+console.log("connected - arrow duration");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -699,8 +699,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 toggleActions: "play none none reverse",
             },
             defaults: {
-                duration: 0.3,
-                ease: "power2.out"
+                duration: 1.5,
+                ease: "power2.in"
             }
         });
 
