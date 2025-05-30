@@ -1,4 +1,4 @@
-console.log("connected - arrow timing-2");
+console.log("connected - arrow timing-3");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -695,11 +695,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const arrowTimeline = gsap.timeline({
             scrollTrigger: {
                 trigger: arrows[0],
-                start: "top 90%",
+                start: "top 75%",
                 toggleActions: "play none none reverse",
             },
             defaults: {
-                duration: 0.75,
+                duration: 1.25,
                 ease: "power2.in"
             }
         });
