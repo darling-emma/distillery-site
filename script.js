@@ -1,4 +1,4 @@
-console.log("connected - draggable cursor");
+console.log("connected - more big moves");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -274,36 +274,47 @@ document.addEventListener("DOMContentLoaded", (event) => {
     ScrollTrigger.refresh();
 
     // PIPES SECTION ANIMATION
-     document.fonts.ready.then(() => {
-        // Attribute-based text splitting and animation
-        document.querySelectorAll("[text-split]").forEach(el => {
-            const split = new SplitText(el, {
-                type: "lines, words",
-                mask: "lines",
-                autoSplit: true,
-            });
+     window.addEventListener("load", () => {
+        document.fonts.ready.then(() => {
+            setTimeout(() => {
+                document.querySelectorAll("[text-split]").forEach(el => {
+                    // Revert any previous split
+                    if (el._split) el._split.revert();
 
-            if (el.hasAttribute("trickle-in")) {
-                let tl = gsap.timeline({ paused: true });
-                tl.from(split.words, {
-                    yPercent: -100,
-                    duration: 0.7,
-                    stagger: 0.02,
+                    // Create fresh split and store reference for future clean-up
+                    const split = new SplitText(el, {
+                        type: "lines, words",
+                        mask: "lines",
+                        autoSplit: true,
+                    });
+                    el._split = split;
+
+                    // Setup trickle-in animation
+                    if (el.hasAttribute("trickle-in")) {
+                        const tl = gsap.timeline({ paused: true });
+                        tl.from(split.words, {
+                            yPercent: -100,
+                            duration: 0.7,
+                            stagger: 0.02,
+                        });
+                        createScrollTrigger(el, tl);
+                    }
                 });
-                createScrollTrigger(el, tl);
-            }
-        });
 
-        // Helper function for animation scroll control
-        function createScrollTrigger(triggerElement, timeline) {
-            ScrollTrigger.create({
-                trigger: triggerElement,
-                start: "top 75%",
-                onEnter: () => timeline.play(),
-                onLeaveBack: () => timeline.reverse(),
-            });
-        };
+                ScrollTrigger.refresh();
+            }, 100); // Delay to allow layout to stabilize (especially mobile)
+        });
     });
+
+    function createScrollTrigger(triggerElement, timeline) {
+        ScrollTrigger.create({
+            trigger: triggerElement,
+            start: "top 75%",
+            onEnter: () => timeline.play(),
+            onLeaveBack: () => timeline.reverse(),
+        });
+    };
+
     
     // Changing circles from hide to show tor animation
     let CircleShow = gsap.to(".dot", {
@@ -374,6 +385,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     rotation: direction * 25,
                     ease: "power1.in"
                 });
+
+                const dragWidth = this.maxX || (this.bounds.width - this.target.offsetWidth);
+                const progress = this.x / dragWidth;
+                gsap.to(".bar", {
+                    width: `${Math.max(0, Math.min(progress, 1)) * 100}%`,
+                    ease: "none"
+                });
             },
             onDragEnd: function () {
                 gsap.to(".client-image-card", {
@@ -392,6 +410,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(initDraggable, 200);
     });
+
 
     // PROCESS SECTION
     // Load Lottie
@@ -419,194 +438,216 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
     });
 
-    document.fonts.ready.then(() => {
+    window.addEventListener("load", () => {
+        document.fonts.ready.then(() => {
+            setTimeout(() => {
+                let tOneTrigger = false;
+                let tTwoTrigger = false;
+                let headerTriggered = false;
 
-        let tOneTrigger = false;
-        let tTwoTrigger = false;
-        let headerTriggered = false;
+                // Prepare paragraphs for text animation
+                const paragraphs = document.querySelectorAll(".process-paragraph");
+                const paraSplit = Array.from(paragraphs).map(p => {
+                    if (p._split) p._split.revert();
+                    const split = SplitText.create(p, {
+                        type: "words, lines",
+                        mask: "lines",
+                        autoSplit: true,
+                    });
+                    p._split = split;
+                    return split;
+                });
 
-        // Prepare paragraphs for text animation
-        const paragraphs = document.querySelectorAll(".process-paragraph");
-        const paraSplit = Array.from(paragraphs).map(p => SplitText.create(p, {
-            type: "words, lines",
-            mask: "lines",
-            autoSplit: true,
-        }));
+                // Prepare section tags for text animation
+                const tags = document.querySelectorAll(".section-label");
+                const tagSplit = Array.from(tags).map(t => {
+                    if (t._split) t._split.revert();
+                    const split = SplitText.create(t, {
+                        type: "lines",
+                        mask: "lines",
+                        autoSplit: true,
+                    });
+                    t._split = split;
+                    return split;
+                });
 
-        // Prepare section tags for text animation
-        const tags = document.querySelectorAll(".section-label");
-        const tagSplit = Array.from(tags).map(t => SplitText.create(t, {
-            type: "lines",
-            mask: "lines",
-            autoSplit: true,
-        }));
+                // Prepare progress bars for animation
+                const progressBars = document.querySelectorAll(".process-progressbar-fill");
 
-        // Prepare progress bars for animation
-        const progressBars = document.querySelectorAll(".process-progressbar-fill");
+                const transitionOne = gsap.timeline({ paused: true });
+                transitionOne
+                    .to(paraSplit[0].words, {
+                        yPercent: 100,
+                        duration: 0.5,
+                        stagger: 0.02,
+                    })
+                    .to(tagSplit[0].lines, {
+                        yPercent: 100,
+                        duration: 0.5,
+                        stagger: 0.02,
+                    }, "<")
+                    .from(paraSplit[1].words, {
+                        yPercent: -100,
+                        duration: 0.5,
+                        stagger: 0.02,
+                    }, "<+0.05")
+                    .from(tagSplit[1].lines, {
+                        yPercent: -100,
+                        duration: 0.5,
+                        stagger: 0.02,
+                    }, "<");
 
-        const transitionOne = gsap.timeline({ paused: true }); // Timeline for text animation 1/3 of the way through scroll
-        transitionOne
-        .to(paraSplit[0].words, {
-                yPercent: 100,
-                duration: 0.5,
-                stagger: 0.02,
-        })
-        .to(tagSplit[0].lines, {
-                yPercent: 100,
-                duration: 0.5,
-                stagger: 0.02,
-        }, "<")
-        .from(paraSplit[1].words, {
-                yPercent: -100,
-                duration: 0.5,
-                stagger: 0.02,
-        }, "<+0.05")
-        .from(tagSplit[1].lines, {
-                yPercent: -100,
-                duration: 0.5,
-                stagger: 0.02,
-        }, "<");
-        
-        const transitionTwo = gsap.timeline({ paused: true }); // Timeline for text animation 2/3 of the way through scroll
-        transitionTwo
-        .to(paraSplit[1].words, {
-                yPercent: 100,
-                duration: 0.5,
-                stagger: 0.02,
-        })
-        .to(tagSplit[1].lines, {
-                yPercent: 100,
-                duration: 0.5,
-                stagger: 0.02,
-        }, "<")
-        .from(paraSplit[2].words, {
-                yPercent: -100,
-                duration: 0.5,
-                stagger: 0.02,
-        }, "<+0.05")
-       .from(tagSplit[2].lines, {
-                yPercent: -100,
-                duration: 0.5,
-                stagger: 0.02,
-        }, "<");
+                const transitionTwo = gsap.timeline({ paused: true });
+                transitionTwo
+                    .to(paraSplit[1].words, {
+                        yPercent: 100,
+                        duration: 0.5,
+                        stagger: 0.02,
+                    })
+                    .to(tagSplit[1].lines, {
+                        yPercent: 100,
+                        duration: 0.5,
+                        stagger: 0.02,
+                    }, "<")
+                    .from(paraSplit[2].words, {
+                        yPercent: -100,
+                        duration: 0.5,
+                        stagger: 0.02,
+                    }, "<+0.05")
+                    .from(tagSplit[2].lines, {
+                        yPercent: -100,
+                        duration: 0.5,
+                        stagger: 0.02,
+                    }, "<");
 
-        const ProcessAnimation = gsap.timeline({ // Scroll Trigger for Lottie progression, text animations, and progress bars
-            scrollTrigger: {
-                trigger: ".process-section",
-                start: "top top",
-                end: "+=3000",
-                scrub: 0.5,
-                onUpdate: function (self) {
-                    const progress = self.progress;
-                    ProcessLottie.goToAndStop(ProcessLottie.totalFrames * progress, true);
-    
-                    if (progress >= 1/3 && !tOneTrigger) {
-                        tOneTrigger = true;
-                        transitionOne.play();
-                    } else if (progress < 1/3 && tOneTrigger) {
-                        tOneTrigger = false ;
-                        transitionOne.reverse();
+                const ProcessAnimation = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: ".process-section",
+                        start: "top top",
+                        end: "+=3000",
+                        scrub: 0.5,
+                        onUpdate: function (self) {
+                            const progress = self.progress;
+                            ProcessLottie.goToAndStop(ProcessLottie.totalFrames * progress, true);
+
+                            if (progress >= 1/3 && !tOneTrigger) {
+                                tOneTrigger = true;
+                                transitionOne.play();
+                            } else if (progress < 1/3 && tOneTrigger) {
+                                tOneTrigger = false;
+                                transitionOne.reverse();
+                            }
+
+                            if (progress >= 2/3 && !tTwoTrigger) {
+                                tTwoTrigger = true;
+                                transitionTwo.play();
+                            } else if (progress < 2/3 && tTwoTrigger) {
+                                tTwoTrigger = false;
+                                transitionTwo.reverse();
+                            }
+
+                            if (progress >= 0.97 && !headerTriggered) {
+                                headerTriggered = true;
+                                gsap.to(".process-heading", { opacity: 0, duration: 0.3 });
+                                gsap.to(".process-section", { backgroundColor: "var(--colors--white)", duration: 0.3 });
+                            } else if (progress < 0.97 && headerTriggered) {
+                                headerTriggered = false;
+                                gsap.to(".process-heading", { opacity: 1, duration: 0.3 });
+                                gsap.to(".process-section", { backgroundColor: "var(--colors--black)", duration: 0.3 });
+                            }
+                        }
                     }
-    
-                    if (progress >= 2/3 && !tTwoTrigger) {
-                        tTwoTrigger = true;
-                        transitionTwo.play();
-                    } else if (progress < 2/3 && tTwoTrigger) {
-                        tTwoTrigger = false;
-                        transitionTwo.reverse();
-                    }
+                });
 
-                    if (progress >= 0.97 && !headerTriggered) {
-                        headerTriggered = true;
-                        gsap.to(".process-heading", { opacity: 0, duration: 0.3 });
-                        gsap.to(".process-section", { backgroundColor: "var(--colors--white)", duration: 0.3 });
-                    } else if (progress < 0.97 && headerTriggered) {
-                        headerTriggered = false;
-                        gsap.to(".process-heading", { opacity: 1, duration: 0.3 });
-                        gsap.to(".process-section", { backgroundColor: "var(--colors--black)", duration: 0.3 });
-                    }
-                },
-            }
+                progressBars.forEach((bar) => {
+                    ProcessAnimation.from(bar, {
+                        width: "0%",
+                    });
+                });
+
+                ScrollTrigger.create({
+                    trigger: ".process-section",
+                    start: "top top",
+                    end: "+=3000",
+                    scrub: 0.5,
+                    pin: true,
+                });
+
+                ScrollTrigger.refresh();
+            }, 100);
         });
-    
-       progressBars.forEach((bar) => { // Timeline for progress bar animation
-            ProcessAnimation.from(bar, {
-                width: "0%",
-            });
-       });
-    
-       ScrollTrigger.create({ // Separate scroll trigger to pin process section during animations
-            trigger: ".process-section",
-            start: "top top",
-            end: "+=3000",
-            scrub: 0.5,
-            pin: true,
-       });
     });
 
-    ScrollTrigger.refresh();
 
     // DELIVERABLES SECTION
-    document.fonts.ready.then(() => {
-        
-        // Prepare deliverables for text animation
-        const deliverables = document.querySelectorAll(".deliverable-text");
-        const deliSplit = Array.from(deliverables).map(d => SplitText.create(d, {
-            type: "words, lines",
-            mask: "lines",
-            autoSplit: true,
-        }));
+    window.addEventListener("load", () => {
+        document.fonts.ready.then(() => {
+            setTimeout(() => {
+                // Prepare deliverables for text animation
+                const deliverables = document.querySelectorAll(".deliverable-text");
+                const deliSplit = Array.from(deliverables).map(d => {
+                    if (d._split) d._split.revert();
+                    const split = SplitText.create(d, {
+                        type: "words, lines",
+                        mask: "lines",
+                        autoSplit: true,
+                    });
+                    d._split = split;
+                    return split;
+                });
 
-        // Load Lottie
-        const DeliverablesLottie = lottie.loadAnimation({
-            container: document.getElementById("deliverables-lottie"),
-            path: "https://cdn.prod.website-files.com/682387662b01db59008838c3/682f7af9065ea5d6e1b36e2c_Distillery_Deliverables_052225.json",
-            renderer: "svg",
-            autoplay: false,
+                // Load Lottie
+                const DeliverablesLottie = lottie.loadAnimation({
+                    container: document.getElementById("deliverables-lottie"),
+                    path: "https://cdn.prod.website-files.com/682387662b01db59008838c3/682f7af9065ea5d6e1b36e2c_Distillery_Deliverables_052225.json",
+                    renderer: "svg",
+                    autoplay: false,
+                });
+
+                // Deliverables timeline
+                const deliAnimation = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: ".deliverables-section",
+                        start: "top top",
+                        end: "+=1500px",
+                        scrub: true,
+                        pin: ".deliverables-section",
+                        onUpdate: function (self) {
+                            const progress = self.progress;
+                            DeliverablesLottie.goToAndStop(DeliverablesLottie.totalFrames * progress, true);
+                        },
+                    }
+                });
+
+                deliAnimation
+                .from(deliSplit[0].words, {
+                    yPercent: -100,
+                    stagger: 0.02,
+                    duration: 0.5,
+                })
+                .to(deliSplit[0].words, {
+                    yPercent: 100,
+                    stagger: 0.02,
+                    duration: 0.5,
+                })
+                .from(deliSplit[1].words, {
+                    yPercent: -100,
+                    stagger: 0.02,
+                    duration: 0.5,
+                }, "<")
+                .to(deliSplit[1].words, {
+                    yPercent: 100,
+                    stagger: 0.02,
+                    duration: 0.5,
+                })
+                .from(deliSplit[2].words, {
+                    yPercent: -100,
+                    stagger: 0.02,
+                    duration: 0.5,
+                }, "<");
+            }, 100);
         });
-
-        // Deliverables timeline
-        const deliAnimation = gsap.timeline({
-            scrollTrigger: {
-                trigger: ".deliverables-section",
-                start: "top top",
-                end: "+=1500px",
-                scrub: true,
-                pin: ".deliverables-section",
-                onUpdate: function (self) {
-                    const progress = self.progress;
-                    DeliverablesLottie.goToAndStop(DeliverablesLottie.totalFrames * progress, true);
-                },
-            }
-        });
-
-        deliAnimation
-        .from(deliSplit[0].words, {
-            yPercent: -100,
-            stagger: 0.02,
-            duration: 0.5,
-        })
-        .to(deliSplit[0].words, {
-            yPercent: 100,
-            stagger: 0.02,
-            duration: 0.5,
-        })
-        .from(deliSplit[1].words, {
-            yPercent: -100,
-            stagger: 0.02,
-            duration: 0.5,
-        }, "<")
-        .to(deliSplit[1].words, {
-            yPercent: 100,
-            stagger: 0.02,
-            duration: 0.5,
-        })
-        .from(deliSplit[2].words, {
-            yPercent: -100,
-            stagger: 0.02,
-            duration: 0.5,
-        }, "<");
-    }); 
+    });
 
     // GRID CTA SECTION
     fetch("https://darling-emma.github.io/distillery-site/Distillery_CTAGrid_Named_052725.svg")
@@ -654,27 +695,29 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     // GRID CTA SECTION MOBILE
     setTimeout(() => {
-        gsap.utils.toArray(".squiggle-arrow-embed-large").forEach((item) => {
-            let arrowRotate = gsap.to(item, {
-                rotation: 180,
-                ease: "none",
-                paused: true,
-            });
+        const arrows = gsap.utils.toArray(".squiggle-arrow-embed-large");
 
-            ScrollTrigger.create({
-                trigger: item,
-                start: "top 75%",
-                end: "+=200",
-                scrub: true,
-                onEnter: () => arrowRotate.play(),
-                onLeaveBack: () => arrowRotate.reverse(),
-            });
+        const arrowTimeline = gsap.timeline({
+            scrollTrigger: {
+                trigger: arrows[0],
+                start: "top 50%",
+                toggleActions: "play none none reverse",
+            },
+            defaults: {
+                duration: 0.3,
+                ease: "power2.out"
+            }
+        });
+
+        arrows.forEach((arrow, i) => {
+            // Ensures timeline can reverse cleanly
+            arrowTimeline.fromTo(arrow, 
+                { rotation: 0 }, 
+                { rotation: 180 }, 
+                i * 0.1
+            );
         });
 
         ScrollTrigger.refresh();
-
     }, 300);
-    
-
 });
-
