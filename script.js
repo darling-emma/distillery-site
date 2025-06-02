@@ -1,55 +1,8 @@
-console.log("connected - arrow timing-3");
+console.log("connected - remove global java");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(DrawSVGPlugin, ScrambleTextPlugin, ScrollTrigger, ScrollSmoother, MotionPathPlugin, Draggable, InertiaPlugin, SplitText)
-
-    // Event listener for resizing / reload on resize
-    let resizeTimeout;
-    let initialWidth = window.innerWidth;
-    
-    window.addEventListener("resize", () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        if (Math.abs(window.innerWidth - initialWidth) > 50) {
-          const scrollY = window.scrollY;
-          sessionStorage.setItem("scrollY", scrollY);
-          location.reload();
-        }
-      }, 250);
-    });
-    
-    window.addEventListener("load", () => {
-      const savedScrollY = sessionStorage.getItem("scrollY");
-      if (savedScrollY !== null) {
-        window.scrollTo(0, parseInt(savedScrollY));
-        sessionStorage.removeItem("scrollY");
-      }
-    });
-    
-    // Initialize ScrollSmoother, Desktop only
-    let mm = gsap.matchMedia();
-    mm.add("(min-width: 768px)", () => {
-        ScrollSmoother.create({
-            wrapper: "#smooth-wrapper",
-            content: "#smooth-content",
-            smooth: 1,
-            effects: true,
-            ignoreMobileResize: true,
-            normalizeScroll: true
-        });
-    });
-
-    // Mouse Follow Animation
-    gsap.set(".cursor", {xPercent: -50, yPercent: -50});
-
-    let xTo = gsap.quickTo(".cursor", "x", {duration: 0.01, ease: "none"}),
-        yTo = gsap.quickTo(".cursor", "y", {duration: 0.01, ease: "none"});
-
-    window.addEventListener("mousemove", m => {
-        xTo(m.clientX);
-        yTo(m.clientY);
-    });
 
     // HERO ANIMATION
     // Get Rid of Flash on Load
