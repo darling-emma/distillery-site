@@ -1,4 +1,4 @@
-console.log("team connected - delay");
+console.log("team connected - remove mobile animation");
 
 $(document).ready(function() {
     const matchM = gsap.matchMedia();
@@ -162,60 +162,4 @@ $(document).ready(function() {
             });
         });
     });
-
-    // Mobile Accordion Logic (Tablet and Below Only)
-    matchM.add("(max-width: 991px)", () => {
-    let openAccordion = null;
-
-    $(".team-names-item .name").on("click", function () {
-        const $name = $(this);
-        const $wrapper = $name.siblings(".mobile-info-wrapper");
-        const $plus = $name.find(".svg-plus");
-
-        if (openAccordion && openAccordion.get(0) === $wrapper.get(0)) {
-        gsap.to($wrapper.get(0), {
-            height: 0,
-            duration: 0.3,
-            onComplete: () => {
-            $wrapper.css("display", "none");
-            openAccordion = null;
-            }
-        });
-        gsap.to($plus.get(0), { rotate: 0, duration: 0.3 });
-        return;
-        }
-
-        if (openAccordion) {
-        const $prevName = openAccordion.siblings(".name");
-        const $prevPlus = $prevName.find(".svg-plus");
-        gsap.to(openAccordion.get(0), {
-            height: 0,
-            duration: 0.3,
-            onComplete: () => {
-            openAccordion.css("display", "none");
-            }
-        });
-        gsap.to($prevPlus.get(0), { rotate: 0, duration: 0.3 });
-        }
-
-        $wrapper.css("display", "flex");
-        const fullHeight = $wrapper.get(0).scrollHeight;
-
-        gsap.fromTo(
-        $wrapper.get(0),
-        { height: 0 },
-        {
-            height: fullHeight,
-            duration: 0.3,
-            onComplete: () => {
-            $wrapper.css("height", "auto");
-            }
-        }
-        );
-        gsap.to($plus.get(0), { rotate: 45, duration: 0.3 });
-
-        openAccordion = $wrapper;
-    });
-    });
-
 });
