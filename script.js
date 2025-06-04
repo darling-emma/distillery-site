@@ -1,4 +1,4 @@
-console.log("connected - remove global java");
+console.log("connected - matchmedia");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -597,75 +597,80 @@ document.addEventListener("DOMContentLoaded", (event) => {
         });
     });
 
+    const matchMediaHome = gsap.matchMedia();
+
     // GRID CTA SECTION
-    fetch("https://darling-emma.github.io/distillery-site/Distillery_CTAGrid_Named_052725.svg")
-    .then(res => res.text())
-    .then(svg => {
-        const wrapper = document.querySelector(".cta-section");
-        wrapper.insertAdjacentHTML("beforeend", svg);
+    matchMediaHome.add("(min-width: 992px)", () => {
+        fetch("https://darling-emma.github.io/distillery-site/Distillery_CTAGrid_Named_052725.svg")
+        .then(res => res.text())
+        .then(svg => {
+            const wrapper = document.querySelector(".cta-section");
+            wrapper.insertAdjacentHTML("beforeend", svg);
 
-        const arrows = wrapper.querySelectorAll(".wiggle-arrow");
+            const arrows = wrapper.querySelectorAll(".wiggle-arrow");
 
-        function rotateArrows(event) {
-        arrows.forEach(arrow => {
-            const rect = arrow.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
+            function rotateArrows(event) {
+            arrows.forEach(arrow => {
+                const rect = arrow.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
 
-            const dx = event.clientX - centerX;
-            const dy = event.clientY - centerY;
-            const angle = Math.atan2(dy, dx) * (180 / Math.PI) - 90; // initial pointing down
+                const dx = event.clientX - centerX;
+                const dy = event.clientY - centerY;
+                const angle = Math.atan2(dy, dx) * (180 / Math.PI) - 90; // initial pointing down
 
-            gsap.to(arrow, {
-            rotation: angle,
-            transformOrigin: "50% 50%",
-            duration: 0.8,
-            ease: "power1"
+                gsap.to(arrow, {
+                rotation: angle,
+                transformOrigin: "50% 50%",
+                duration: 0.8,
+                ease: "power1"
+                });
             });
-        });
-        }
-
-        function resetArrows() {
-        arrows.forEach(arrow => {
-            gsap.to(arrow, {
-            rotation: 0,
-            duration: 0.8,
-            ease: "power1"
-            });
-        });
-        }
-
-        wrapper.addEventListener("mousemove", rotateArrows);
-        wrapper.addEventListener("mouseleave", resetArrows);
-    })
-    .catch(err => console.error("SVG fetch failed", err));
-
-
-    // GRID CTA SECTION MOBILE
-    setTimeout(() => {
-        const arrows = gsap.utils.toArray(".squiggle-arrow-embed-large");
-
-        const arrowTimeline = gsap.timeline({
-            scrollTrigger: {
-                trigger: arrows[0],
-                start: "top 75%",
-                toggleActions: "play none none reverse",
-            },
-            defaults: {
-                duration: 1.25,
-                ease: "power2.in"
             }
-        });
 
-        arrows.forEach((arrow, i) => {
-            // Ensures timeline can reverse cleanly
-            arrowTimeline.fromTo(arrow, 
-                { rotation: 0 }, 
-                { rotation: 180 }, 
-                i * 0.1
-            );
-        });
+            function resetArrows() {
+            arrows.forEach(arrow => {
+                gsap.to(arrow, {
+                rotation: 0,
+                duration: 0.8,
+                ease: "power1"
+                });
+            });
+            }
 
-        ScrollTrigger.refresh();
-    }, 300);
+            wrapper.addEventListener("mousemove", rotateArrows);
+            wrapper.addEventListener("mouseleave", resetArrows);
+        })
+        .catch(err => console.error("SVG fetch failed", err));
+    });
+    
+    // GRID CTA SECTION MOBILE
+    matchMediaHome.add("(max-width: 991px)", () => {
+        setTimeout(() => {
+            const arrows = gsap.utils.toArray(".squiggle-arrow-embed-large");
+
+            const arrowTimeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: arrows[0],
+                    start: "top 75%",
+                    toggleActions: "play none none reverse",
+                },
+                defaults: {
+                    duration: 1.25,
+                    ease: "power2.in"
+                }
+            });
+
+            arrows.forEach((arrow, i) => {
+                // Ensures timeline can reverse cleanly
+                arrowTimeline.fromTo(arrow, 
+                    { rotation: 0 }, 
+                    { rotation: 180 }, 
+                    i * 0.1
+                );
+            });
+
+            ScrollTrigger.refresh();
+        }, 300);
+    });
 });
