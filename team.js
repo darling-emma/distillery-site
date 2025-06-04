@@ -1,4 +1,4 @@
-console.log("team connected");
+console.log("team connected - add mobile 1");
 
 $(document).ready(function() {
     // Assign ID + DATA-ID
@@ -12,7 +12,7 @@ $(document).ready(function() {
         $(this).attr('data-id', 'item-' + dataIdText);
     });
 
-    // Team Animation
+    // Team Animation Desktop
     const drinksItems = document.querySelectorAll(".team-drinks-item");
     const namesItems = document.querySelectorAll(".team-names-item");
     const instruction = document.querySelector(".instruction-wrapper");
@@ -158,4 +158,67 @@ $(document).ready(function() {
             }, 300);
         });
     });
+
+    // Mobile Accordion Logic (Tablet and Below Only)
+const isMobile = window.matchMedia("(max-width: 991px)"); // adjust based on Webflow's breakpoints
+
+if (isMobile.matches) {
+    let openAccordion = null;
+
+    $(".team-names-item .name").on("click", function () {
+        const $name = $(this);
+        const $wrapper = $name.siblings(".mobile-info-wrapper");
+        const $plus = $name.find(".svg-plus");
+
+        // If this is already open, close it
+        if (openAccordion && openAccordion.get(0) === $wrapper.get(0)) {
+            gsap.to($wrapper.get(0), {
+                height: 0,
+                duration: 0.3,
+                onComplete: () => {
+                    $wrapper.css("display", "none");
+                    openAccordion = null;
+                }
+            });
+            gsap.to($plus.get(0), { rotate: 0, duration: 0.3 });
+            return;
+        }
+
+        // Close the currently open one if it exists
+        if (openAccordion) {
+            const $prevName = openAccordion.siblings(".name");
+            const $prevPlus = $prevName.find(".svg-plus");
+            gsap.to(openAccordion.get(0), {
+                height: 0,
+                duration: 0.3,
+                onComplete: () => {
+                    openAccordion.css("display", "none");
+                }
+            });
+            gsap.to($prevPlus.get(0), { rotate: 0, duration: 0.3 });
+        }
+
+        // Open the new one
+        $wrapper.css("display", "flex");
+
+        // First set height to auto to measure it, then animate from 0 to that height
+        const fullHeight = $wrapper.get(0).scrollHeight;
+
+        gsap.fromTo(
+            $wrapper.get(0),
+            { height: 0 },
+            {
+                height: fullHeight,
+                duration: 0.3,
+                onComplete: () => {
+                    $wrapper.css("height", "auto");
+                }
+            }
+        );
+        gsap.to($plus.get(0), { rotate: 45, duration: 0.3 });
+
+        openAccordion = $wrapper;
+    });
+}
+
 });
