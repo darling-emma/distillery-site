@@ -1,4 +1,4 @@
-console.log("team connected - remove mobile animation");
+console.log("team connected - add small drink wrapper");
 
 $(document).ready(function() {
     const matchM = gsap.matchMedia();
@@ -52,9 +52,10 @@ $(document).ready(function() {
             function closeDrinkItem() {
                 const closeWrapper = relatedDrink.querySelector(".close-wrapper");
                 const itemText = relatedDrink.querySelector(".item-text");
+                const smallDrink = relatedDrink.querySelector(".small-drink-wrapper");
                 const itemDrinkWrap = relatedDrink.querySelector(".item-drink-wrapper");
 
-                gsap.to([closeWrapper, itemText], { opacity: 0, duration: 0.1 });
+                gsap.to([closeWrapper, itemText, smallDrink], { opacity: 0, duration: 0.1 });
                 gsap.to(relatedDrink, { opacity: 0, duration: 0.1 });
 
                 setTimeout(() => {
@@ -149,6 +150,7 @@ $(document).ready(function() {
                 gsap.set(instruction, { opacity: 0 });
                 
                 const itemText = relatedDrink.querySelector(".item-text");
+                const smallDrink = relatedDrink.querySelector(".small-drink-wrapper");
                 const itemDrinkWrap = relatedDrink.querySelector(".item-drink-wrapper");
 
                 gsap.to(itemDrinkWrap, { opacity: 0, duration: 0.1 });
@@ -156,7 +158,7 @@ $(document).ready(function() {
                 setTimeout(() => {
                     gsap.set(itemDrinkWrap, { display: "none" });
                     gsap.set(relatedDrink, { zIndex: "900" });
-                    gsap.to([closeWrapper, itemText], { opacity: 1, duration: 0.1 });
+                    gsap.to([closeWrapper, itemText, smallDrink], { opacity: 1, duration: 0.1 });
                     gsap.set(closeWrapper, { pointerEvents: "auto" });
                 }, 300);
             });
