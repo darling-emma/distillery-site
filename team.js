@@ -1,4 +1,4 @@
-console.log("team connected - add small drink wrapper");
+console.log("team connected - set small drink wrapper");
 
 $(document).ready(function() {
     const matchM = gsap.matchMedia();
@@ -23,6 +23,7 @@ $(document).ready(function() {
         gsap.set(drinksItems, { display: "none", opacity: 0 });
         gsap.set(".close-wrapper", { opacity: 0 });
         gsap.set(".item-text", { opacity: 0 });
+        gsap.set(".small-drink-wrapper", { opacity: 0 });
         gsap.set(".ticker-wrap", { opacity: 0 });
         gsap.set(instruction, { opacity: 1 });
 
