@@ -1,4 +1,4 @@
-console.log("team connected - extend duration");
+console.log("team connected - remove fade timeline kill");
 
 $(document).ready(function() {
     const matchM = gsap.matchMedia();
@@ -89,10 +89,6 @@ $(document).ready(function() {
             // Hover animation
             trigger.addEventListener("mouseenter", () => {
                 if (activeId) return;
-
-                if (fadeTimelines[id]) {
-                    fadeTimelines[id].kill();
-                };
 
                 gsap.set(relatedDrink, { clearProps: "all", display: "flex" });
 
