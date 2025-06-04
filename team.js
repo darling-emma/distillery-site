@@ -1,4 +1,4 @@
-console.log("team connected - add mobile 2");
+console.log("team connected - extend duration");
 
 $(document).ready(function() {
     const matchM = gsap.matchMedia();
@@ -54,8 +54,8 @@ $(document).ready(function() {
                 const itemText = relatedDrink.querySelector(".item-text");
                 const itemDrinkWrap = relatedDrink.querySelector(".item-drink-wrapper");
 
-                gsap.to([closeWrapper, itemText], { opacity: 0, duration: 0.01 });
-                gsap.to(relatedDrink, { opacity: 0, duration: 0.01 });
+                gsap.to([closeWrapper, itemText], { opacity: 0, duration: 0.3 });
+                gsap.to(relatedDrink, { opacity: 0, duration: 0.3 });
 
                 setTimeout(() => {
                     gsap.set(instruction, { opacity: 1 });
@@ -64,9 +64,9 @@ $(document).ready(function() {
                     activeId = null;
 
                     namesItems.forEach(name => {
-                        gsap.to(name, { opacity: 1, duration: 0.01 });
+                        gsap.to(name, { opacity: 1, duration: 0.3 });
                         const ticker = name.querySelector(".ticker-wrap");
-                        if (ticker) gsap.to(ticker, { opacity: 0, duration: 0.01 });
+                        if (ticker) gsap.to(ticker, { opacity: 0, duration: 0.3 });
                     });
                 }, 300);
             }
@@ -96,19 +96,19 @@ $(document).ready(function() {
 
                 gsap.set(relatedDrink, { clearProps: "all", display: "flex" });
 
-                gsap.to(tickerWrap, { opacity: 1, duration: 0.01 });
+                gsap.to(tickerWrap, { opacity: 1, duration: 0.3 });
                 tickerTimelines[id].play();
 
-                gsap.to(relatedDrink, { opacity: 1, duration: 0.01 });
+                gsap.to(relatedDrink, { opacity: 1, duration: 0.3 });
                 gsap.to(instruction, { opacity: 0, duration:0.01 });
 
                 namesItems.forEach(other => {
                     if (other !== item) {
-                        gsap.to(other, { opacity: 0.3, duration: 0.01 });
+                        gsap.to(other, { opacity: 0.3, duration: 0.3 });
                         const otherTicker = other.querySelector(".ticker-wrap");
                         if (otherTicker) gsap.to(otherTicker, { opacity: 0, duration: 0.3 });
                     } else {
-                        gsap.to(other, { opacity: 1, duration: 0.01 });
+                        gsap.to(other, { opacity: 1, duration: 0.3 });
                     }
                 });
             });
@@ -119,15 +119,15 @@ $(document).ready(function() {
                 
                 fadeTimelines[id] = gsap.timeline();
                 fadeTimelines[id]
-                .to(relatedDrink, { opacity: 0, duration: 0.01 })
+                .to(relatedDrink, { opacity: 0, duration: 0.3 })
                 .set(relatedDrink, { display: "none" })
-                .to(instruction, { opacity: 1, duration: 0.01 }, "<");
+                .to(instruction, { opacity: 1, duration: 0.3 }, "<");
 
                 namesItems.forEach(name => {
-                    gsap.to(name, { opacity: 1, duration: 0.01 });
+                    gsap.to(name, { opacity: 1, duration: 0.3 });
 
                     const ticker = name.querySelector(".ticker-wrap");
-                    if (ticker) gsap.to(ticker, { opacity: 0, duration: 0.01 });
+                    if (ticker) gsap.to(ticker, { opacity: 0, duration: 0.3 });
                 });
 
                 tickerTimelines[id].pause(0);
@@ -143,7 +143,7 @@ $(document).ready(function() {
                 if (activeId) return;
                 activeId = id;
 
-                gsap.to(tickerWrap, { opacity: 0, duration: 0.01 });
+                gsap.to(tickerWrap, { opacity: 0, duration: 0.3 });
                 tickerTimelines[id].pause();
 
                 gsap.set(instruction, { opacity: 0 });
@@ -151,12 +151,12 @@ $(document).ready(function() {
                 const itemText = relatedDrink.querySelector(".item-text");
                 const itemDrinkWrap = relatedDrink.querySelector(".item-drink-wrapper");
 
-                gsap.to(itemDrinkWrap, { opacity: 0, duration: 0.01 });
+                gsap.to(itemDrinkWrap, { opacity: 0, duration: 0.3 });
 
                 setTimeout(() => {
                     gsap.set(itemDrinkWrap, { display: "none" });
                     gsap.set(relatedDrink, { zIndex: "900" });
-                    gsap.to([closeWrapper, itemText], { opacity: 1, duration: 0.01 });
+                    gsap.to([closeWrapper, itemText], { opacity: 1, duration: 0.3 });
                     gsap.set(closeWrapper, { pointerEvents: "auto" });
                 }, 300);
             });
