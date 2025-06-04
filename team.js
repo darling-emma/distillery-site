@@ -1,4 +1,4 @@
-console.log("team connected - remove fade timeline kill");
+console.log("team connected - delay");
 
 $(document).ready(function() {
     const matchM = gsap.matchMedia();
@@ -54,8 +54,8 @@ $(document).ready(function() {
                 const itemText = relatedDrink.querySelector(".item-text");
                 const itemDrinkWrap = relatedDrink.querySelector(".item-drink-wrapper");
 
-                gsap.to([closeWrapper, itemText], { opacity: 0, duration: 0.3 });
-                gsap.to(relatedDrink, { opacity: 0, duration: 0.3 });
+                gsap.to([closeWrapper, itemText], { opacity: 0, duration: 0.1 });
+                gsap.to(relatedDrink, { opacity: 0, duration: 0.1 });
 
                 setTimeout(() => {
                     gsap.set(instruction, { opacity: 1 });
@@ -64,9 +64,9 @@ $(document).ready(function() {
                     activeId = null;
 
                     namesItems.forEach(name => {
-                        gsap.to(name, { opacity: 1, duration: 0.3 });
+                        gsap.to(name, { opacity: 1, duration: 0.1 });
                         const ticker = name.querySelector(".ticker-wrap");
-                        if (ticker) gsap.to(ticker, { opacity: 0, duration: 0.3 });
+                        if (ticker) gsap.to(ticker, { opacity: 0, duration: 0.1 });
                     });
                 }, 300);
             }
@@ -90,21 +90,25 @@ $(document).ready(function() {
             trigger.addEventListener("mouseenter", () => {
                 if (activeId) return;
 
+                if (fadeTimelines[id]) {
+                    fadeTimelines[id].kill();
+                };
+
                 gsap.set(relatedDrink, { clearProps: "all", display: "flex" });
 
-                gsap.to(tickerWrap, { opacity: 1, duration: 0.3 });
+                gsap.to(tickerWrap, { opacity: 1, duration: 0.1 });
                 tickerTimelines[id].play();
 
-                gsap.to(relatedDrink, { opacity: 1, duration: 0.3 });
-                gsap.to(instruction, { opacity: 0, duration:0.01 });
+                gsap.to(relatedDrink, { opacity: 1, duration: 0.1, delay: 0.1 });
+                gsap.to(instruction, { opacity: 0, duration: 0.1, delay: 0.1 });
 
                 namesItems.forEach(other => {
                     if (other !== item) {
-                        gsap.to(other, { opacity: 0.3, duration: 0.3 });
+                        gsap.to(other, { opacity: 0.3, duration: 0.1 });
                         const otherTicker = other.querySelector(".ticker-wrap");
                         if (otherTicker) gsap.to(otherTicker, { opacity: 0, duration: 0.3 });
                     } else {
-                        gsap.to(other, { opacity: 1, duration: 0.3 });
+                        gsap.to(other, { opacity: 1, duration: 0.1 });
                     }
                 });
             });
@@ -115,15 +119,15 @@ $(document).ready(function() {
                 
                 fadeTimelines[id] = gsap.timeline();
                 fadeTimelines[id]
-                .to(relatedDrink, { opacity: 0, duration: 0.3 })
+                .to(relatedDrink, { opacity: 0, duration: 0.1 })
                 .set(relatedDrink, { display: "none" })
-                .to(instruction, { opacity: 1, duration: 0.3 }, "<");
+                .to(instruction, { opacity: 1, duration: 0.1 }, "<");
 
                 namesItems.forEach(name => {
-                    gsap.to(name, { opacity: 1, duration: 0.3 });
+                    gsap.to(name, { opacity: 1, duration: 0.1 });
 
                     const ticker = name.querySelector(".ticker-wrap");
-                    if (ticker) gsap.to(ticker, { opacity: 0, duration: 0.3 });
+                    if (ticker) gsap.to(ticker, { opacity: 0, duration: 0.1 });
                 });
 
                 tickerTimelines[id].pause(0);
@@ -139,7 +143,7 @@ $(document).ready(function() {
                 if (activeId) return;
                 activeId = id;
 
-                gsap.to(tickerWrap, { opacity: 0, duration: 0.3 });
+                gsap.to(tickerWrap, { opacity: 0, duration: 0.1 });
                 tickerTimelines[id].pause();
 
                 gsap.set(instruction, { opacity: 0 });
@@ -147,12 +151,12 @@ $(document).ready(function() {
                 const itemText = relatedDrink.querySelector(".item-text");
                 const itemDrinkWrap = relatedDrink.querySelector(".item-drink-wrapper");
 
-                gsap.to(itemDrinkWrap, { opacity: 0, duration: 0.3 });
+                gsap.to(itemDrinkWrap, { opacity: 0, duration: 0.1 });
 
                 setTimeout(() => {
                     gsap.set(itemDrinkWrap, { display: "none" });
                     gsap.set(relatedDrink, { zIndex: "900" });
-                    gsap.to([closeWrapper, itemText], { opacity: 1, duration: 0.3 });
+                    gsap.to([closeWrapper, itemText], { opacity: 1, duration: 0.1 });
                     gsap.set(closeWrapper, { pointerEvents: "auto" });
                 }, 300);
             });
