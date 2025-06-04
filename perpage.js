@@ -1,4 +1,4 @@
-console.log("per-page connected - v2");
+console.log("per-page connected - v3");
 
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollSmoother, SplitText)
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Hover Animation for Nav
     matchMedia.add("(min-width: 992px)", () => {
         document.fonts.ready.then(() => {
-            document.querySelectorAll(".menu-link-text-wrapper").forEach(wrapper => {
+            document.querySelectorAll(".menu-link-text-wrapper, .button-text-wrapper").forEach(wrapper => {
                 const visible = wrapper.querySelector(".nav-visible[nav-split]");
                 const hidden = wrapper.querySelector(".nav-hidden[nav-split]");
 
