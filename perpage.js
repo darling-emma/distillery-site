@@ -1,52 +1,56 @@
-console.log("per-page connected");
+console.log("per-page connected - v2");
 
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollSmoother, SplitText)
 
+    const matchMedia = gsap.matchMedia();
+
     // Hover Animation for Nav
-    document.fonts.ready.then(() => {
-        document.querySelectorAll(".menu-link-text-wrapper").forEach(wrapper => {
-            const visible = wrapper.querySelector(".nav-visible[nav-split]");
-            const hidden = wrapper.querySelector(".nav-hidden[nav-split]");
+    matchMedia.add("(min-width: 992px)", () => {
+        document.fonts.ready.then(() => {
+            document.querySelectorAll(".menu-link-text-wrapper").forEach(wrapper => {
+                const visible = wrapper.querySelector(".nav-visible[nav-split]");
+                const hidden = wrapper.querySelector(".nav-hidden[nav-split]");
 
-            if (!visible || !hidden) return;
+                if (!visible || !hidden) return;
 
-            const visibleSplit = new SplitText(visible, {
-                type: "lines, chars",
-                mask: "lines",
-                autoSplit: true,
+                const visibleSplit = new SplitText(visible, {
+                    type: "lines, chars",
+                    mask: "lines",
+                    autoSplit: true,
+                });
+
+                const hiddenSplit = new SplitText(hidden, {
+                    type: "lines, chars",
+                    mask: "lines",
+                    autoSplit: true,
+                });
+
+                gsap.set(hiddenSplit.chars, { yPercent: -100 });
+
+                const navHover = gsap.timeline({ paused: true, reversed: true});
+                
+                navHover
+                .to(visibleSplit.chars, {
+                    yPercent: 100,
+                    duration: 0.4,
+                    stagger: 0.01,
+                }, 0)
+                .to(hiddenSplit.chars, {
+                    yPercent: 0,
+                    duration: 0.4,
+                    stagger: 0.01,
+                }, 0);
+
+                wrapper.addEventListener("mouseenter", () => navHover.play());
+                wrapper.addEventListener("mouseleave", () => navHover.reverse());
             });
-
-            const hiddenSplit = new SplitText(hidden, {
-                type: "lines, chars",
-                mask: "lines",
-                autoSplit: true,
-            });
-
-            gsap.set(hiddenSplit.chars, { yPercent: -100 });
-
-            const navHover = gsap.timeline({ paused: true, reversed: true});
-            
-            navHover
-            .to(visibleSplit.chars, {
-                yPercent: 100,
-                duration: 0.4,
-                stagger: 0.01,
-            }, 0)
-            .to(hiddenSplit.chars, {
-                yPercent: 0,
-                duration: 0.4,
-                stagger: 0.01,
-            }, 0);
-
-            wrapper.addEventListener("mouseenter", () => navHover.play());
-            wrapper.addEventListener("mouseleave", () => navHover.reverse());
         });
     });
+    
 
     // Initialize ScrollSmoother, Desktop only
-    let mm = gsap.matchMedia();
-    mm.add("(min-width: 768px)", () => {
+    matchMedia.add("(min-width: 768px)", () => {
         ScrollSmoother.create({
             wrapper: "#smooth-wrapper",
             content: "#smooth-content",
@@ -67,4 +71,27 @@ document.addEventListener("DOMContentLoaded", () => {
         xTo(m.clientX);
         yTo(m.clientY);
     });
-});
+
+    // Event listener for resizing / reload on resize
+    let resizeTimeout;
+    let initialWidth = window.innerWidth;
+    
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (Math.abs(window.innerWidth - initialWidth) > 50) {
+          const scrollY = window.scrollY;
+          sessionStorage.setItem("scrollY", scrollY);
+          location.reload();
+        }
+      }, 250);
+    });
+    
+    window.addEventListener("load", () => {
+      const savedScrollY = sessionStorage.getItem("scrollY");
+      if (savedScrollY !== null) {
+        window.scrollTo(0, parseInt(savedScrollY));
+        sessionStorage.removeItem("scrollY");
+      }
+    });
+})
