@@ -1,4 +1,4 @@
-console.log("connected - matchmedia");
+console.log("page script connected - subhero button");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         y: 40,
         opacity: 0
     })
-    .from(".scroll-indicator-lottie", {
+    .from(".subhero-button", {
         y: 40,
         opacity: 0
     });
