@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     .from(".subhero-button", {
         y: 40,
         opacity: 0
-    });
+    }, "<");
 
     ScrollTrigger.refresh();
 
