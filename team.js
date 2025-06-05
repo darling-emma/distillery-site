@@ -1,4 +1,4 @@
-console.log("team connected - set small drink wrapper");
+console.log("team connected - add trickle in text");
 
 $(document).ready(function() {
     const matchM = gsap.matchMedia();
@@ -13,6 +13,46 @@ $(document).ready(function() {
         const dataIdText = $(this).children('.idtext').text().trim();
         $(this).attr('data-id', 'item-' + dataIdText);
     });
+
+    // Trickle in Text
+    window.addEventListener("load", () => {
+        document.fonts.ready.then(() => {
+            setTimeout(() => {
+                document.querySelectorAll("[text-split]").forEach(el => {
+                    if (el._split) el._split.revert();
+
+                    el.offHeight;
+
+                    const split = new SplitText(el, {
+                        type: "lines, words",
+                        mask: "lines",
+                        autoSplit: true,
+                    });
+                    el._split = split;
+
+                    if (el.hasAttribute("trickle-in")) {
+                        const tl = gsap.timeline({ paused: true });
+                        tl.from(split.words, {
+                            yPercent: -100,
+                            duration: 0.7,
+                            stagger: 0.02,
+                        });
+                        createScrollTrigger(el, tl)
+                    }
+                });
+                ScrollTrigger.refresh();
+            }, 100);
+        });
+    });
+
+    function createScrollTrigger(triggerElement, timeline) {
+        ScrollTrigger.create({
+            trigger: triggerElement,
+            start: "top 75%",
+            onEnter: () => timeline.play(),
+            onLeaveBack: () => timeline.reverse(),
+        });
+    };
 
     // Team Animation Desktop
     matchM.add("(min-width: 992px)", () => {
