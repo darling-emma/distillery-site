@@ -1,4 +1,4 @@
-console.log("page script connected - v1")
+console.log("page script connected - color change cursor")
 
 document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(SplitText, ScrollTrigger)
@@ -178,6 +178,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             const color = circleColors [Math.floor(Math.random() * circleColors.length)];
             circle.style.background = `${color}`;
+
+            const cursor = document.querySelector('.cursor');
+            if (cursor) {
+                cursor.style.background = color;
+            }
 
             circles.appendChild(circle)
 
