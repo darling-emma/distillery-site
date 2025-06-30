@@ -1,4 +1,4 @@
-console.log("page script connected - subhero button");
+console.log("page script connected - text scramble fix");
 
 // Register Plugins
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -209,7 +209,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
         onUpdate: renderCenterImage
     })
     .to(".scramble", {
-        scrambleText: "DISTILLING BRANDS TO THEIR ESSENCE",
+        scrambleText: {
+            text: "DISTILLING BRANDS TO THEIR ESSENCE",
+            chars: "!@#$%^&*()1234567890",
+        },
     }, "<")
     .to(".scramble",{
         y: -40,
