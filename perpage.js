@@ -158,7 +158,6 @@ document.addEventListener("DOMContentLoaded", () => {
             trigger: ".footer",
             start: "bottom bottom",
             end: "+=250",
-            markers: true,
             pin: ".footer",
             scrub: true,
             onUpdate: function (self) {
