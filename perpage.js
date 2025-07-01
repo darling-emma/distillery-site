@@ -1,4 +1,4 @@
-console.log("per-page connected - v3");
+console.log("per-page connected - v4");
 
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollSmoother, SplitText)
@@ -94,4 +94,80 @@ document.addEventListener("DOMContentLoaded", () => {
         sessionStorage.removeItem("scrollY");
       }
     });
-})
+
+    // Menu animation
+    const mobileTrigger = document.querySelector(".nav-links-mobile");
+    const mobileLinksWrapper = document.querySelector(".dropdown-mobile");
+
+    if (mobileTrigger && mobileLinksWrapper) {
+        const mobileLinks = mobileLinksWrapper.querySelectorAll(".row-reverse");
+
+        gsap.set(".dropdown-mobile", { display: "none", xPercent: 100 });
+        gsap.set(".menu-icon-embed", { rotation: 0 });
+        gsap.set(".nav", { mixBlendMode: "difference" });
+
+        mobileTrigger.dataset.open = "false";
+        
+        function closeMenu() {
+            let menuClose = gsap.timeline();
+
+            menuClose
+            .to(".dropdown-mobile", { xPercent: 100, duration: 0.5 })
+            .to(".menu-icon-embed", { rotation: 0, duration: 0.5 }, "<")
+            .set(".nav", { mixBlendMode: "difference" })
+            .set(".dropdown-mobile", { display: "none" }, "<")
+
+            mobileTrigger.dataset.open = "false";
+        };
+
+        mobileTrigger.addEventListener("click", () => {
+            const isClosed = mobileTrigger.dataset.open === "false";
+
+            if (isClosed) {
+                let menuOpen = gsap.timeline();
+
+                menuOpen
+                .set(".dropdown-mobile", { display: "flex" })
+                .set(".nav", { mixBlendMode: "normal" })
+                .to(".dropdown-mobile", { xPercent: 0, duration: 0.8 }, "<")
+                .to(".menu-icon-embed", { rotation: 45, duration: 0.8 }, "<")
+
+                mobileTrigger.dataset.open = "true";
+            } else {
+                closeMenu();
+            }
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener("click", closeMenu)
+        });
+    }
+    
+    // Footer animation
+    // Load Lottie
+    const FooterLottie = lottie.loadAnimation({
+        container: document.getElementById("footer-lottie"),
+        path: "https://cdn.prod.website-files.com/682387662b01db59008838c3/683629ba33408738443b5730_Distillery_LogoLayers_052725.json",
+        renderer: "svg",
+        autoplay: false,
+    });
+
+    // Deliverables timeline
+    const FooterAnimation = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".footer",
+            start: "bottom bottom",
+            end: "+=250",
+            markers: true,
+            pin: ".footer",
+            scrub: true,
+            onUpdate: function (self) {
+                const progress = self.progress;
+                FooterLottie.goToAndStop((FooterLottie.totalFrames - 1) * progress, true);
+            },
+        }
+    });
+
+    FooterAnimation
+    .fromTo("html", { "--colors--black": "#000000" }, { "--colors--black": "#ffffff" }, "<");
+});
