@@ -1,4 +1,4 @@
-console.log("per-page connected - v4");
+console.log("per-page connected - v4.5");
 
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollSmoother, SplitText)
@@ -95,6 +95,28 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    // Defining freeze scroll function
+    function freezeScroll() {
+        if (ScrollSmoother.get() && !ScrollTrigger.isTouch) {
+            ScrollSmoother.get().paused(true);
+            document.querySelector(".smooth-wrapper").style.pointerEvents = "none";
+        } else {
+            document.body.style.overflow = "hidden";
+            document.body.style.touchAction = "none";
+        }
+    }
+
+    // Defining resume scroll function
+    function resumeScroll() {
+        if (ScrollSmoother.get() && !ScrollTrigger.isTouch) {
+            ScrollSmoother.get().paused(false);
+            document.querySelector(".smooth-wrapper").style.pointerEvents = "auto";
+        } else {
+            document.body.style.overflow = "";
+            document.body.style.touchAction = "";
+        }
+    }
+
     // Menu animation
     const mobileTrigger = document.querySelector(".nav-links-mobile");
     const mobileLinksWrapper = document.querySelector(".dropdown-mobile");
@@ -118,6 +140,8 @@ document.addEventListener("DOMContentLoaded", () => {
             .set(".dropdown-mobile", { display: "none" }, "<")
 
             mobileTrigger.dataset.open = "false";
+
+            resumeScroll();
         };
 
         mobileTrigger.addEventListener("click", () => {
@@ -133,6 +157,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 .to(".menu-icon-embed", { rotation: 45, duration: 0.8 }, "<")
 
                 mobileTrigger.dataset.open = "true";
+
+                freezeScroll();
             } else {
                 closeMenu();
             }
@@ -158,6 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
             trigger: ".footer",
             start: "bottom bottom",
             end: "+=250",
+            markers: true,
             pin: ".footer",
             scrub: true,
             onUpdate: function (self) {
