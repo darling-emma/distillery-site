@@ -1,11 +1,10 @@
-console.log("connected - solutions");
+console.log("connected - solutions - v2");
 
 document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(ScrollTrigger,ScrollSmoother, ScrambleTextPlugin)
 
-    // HERO ANIMATION
-    var VW = window.innerWidth;
-    var VH = window.innerHeight;
+    let VW = window.innerWidth;
+    let VH = window.innerHeight;
     
     let solutionsHero = gsap.timeline({
         scrollTrigger: {
@@ -18,13 +17,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     solutionsHero
-    .from(".one", {
-        borderBottomLeftRadius: "0px",
-        borderTopLeftRadius: "0px",
-        borderBottomRightRadius: "0px",
-        borderTopRightRadius: "0px",
-        width: VW,
-        height: VH,
+    .to(".one", {
+        borderBottomLeftRadius: "999px",
+        borderTopLeftRadius: "999px",
+        borderBottomRightRadius: "999px",
+        borderTopRightRadius: "999px",
+        width: "250px",
+        height: "250px",
         ease: "none",
     })
     .to(".solutions-hero-content", {
@@ -45,7 +44,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if (!trigger) return;
 
         const dotHeight = dot.getBoundingClientRect().height;
-        const windowHeight = window.innerHeight;
+        const windowMeasure = document.querySelector(".solutions-fixed-wrapper");
+        const windowHeight = windowMeasure.getBoundingClientRect().height;
         var startVal = (windowHeight / 2) + (dotHeight / 2);
         var endVal = (windowHeight / 2) - (dotHeight / 2);
         var startLine = `top ${startVal}px`;
@@ -79,13 +79,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
         ease: "none",
         duration: 0.5,
     })
-    .to(".eight", {
-        borderBottomLeftRadius: "0px",
-        borderTopLeftRadius: "0px",
-        borderBottomRightRadius: "0px",
-        borderTopRightRadius: "0px",
-        width: VW,
-        height: VH,
+    .from(".eight", {
+        borderBottomLeftRadius: "999px",
+        borderTopLeftRadius: "999px",
+        borderBottomRightRadius: "999px",
+        borderTopRightRadius: "999px",
+        width: "250px",
+        height: "250px",
         ease: "none",
         duration: 0.5,
     })
