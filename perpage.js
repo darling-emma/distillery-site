@@ -1,4 +1,4 @@
-console.log("per-page connected - v5.5");
+console.log("per-page connected - v5.6");
 
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollSmoother, SplitText)
@@ -184,6 +184,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     // Footer animation
+    const footer = document.querySelector(".footer");
+    if (!footer) return;
+    
     // Hide nav
     gsap.to(".nav", {
         scrollTrigger: {
