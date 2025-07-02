@@ -1,4 +1,4 @@
-console.log("per-page connected - v5");
+console.log("per-page connected - v5.5");
 
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollSmoother, SplitText)
@@ -134,8 +134,22 @@ document.addEventListener("DOMContentLoaded", () => {
             let menuClose = gsap.timeline();
 
             menuClose
-            .to(".dropdown-mobile", { xPercent: 100, duration: 0.5 })
-            .to(".menu-icon-embed", { rotation: 0, duration: 0.5 }, "<")
+            .to(".dropdown-mobile", { xPercent: 100, duration: 0.3 })
+            .to(".menu-icon-embed", { rotation: 0, duration: 0.3 }, "<")
+            .set(".nav", { mixBlendMode: "difference" })
+            .set(".dropdown-mobile", { display: "none" }, "<")
+
+            mobileTrigger.dataset.open = "false";
+
+            resumeScroll();
+        };
+
+        function closeMenuQuick() {
+            let menuCloseQuick = gsap.timeline();
+
+            menuCloseQuick
+            .set(".dropdown-mobile", { xPercent: 100 })
+            .set(".menu-icon-embed", { rotation: 0 }, "<")
             .set(".nav", { mixBlendMode: "difference" })
             .set(".dropdown-mobile", { display: "none" }, "<")
 
@@ -153,8 +167,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 menuOpen
                 .set(".dropdown-mobile", { display: "flex" })
                 .set(".nav", { mixBlendMode: "normal" })
-                .to(".dropdown-mobile", { xPercent: 0, duration: 0.8 }, "<")
-                .to(".menu-icon-embed", { rotation: 45, duration: 0.8 }, "<")
+                .to(".dropdown-mobile", { xPercent: 0, duration: 0.4 }, "<")
+                .to(".menu-icon-embed", { rotation: 45, duration: 0.4 }, "<")
 
                 mobileTrigger.dataset.open = "true";
 
@@ -165,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         mobileLinks.forEach(link => {
-            link.addEventListener("click", closeMenu)
+            link.addEventListener("click", closeMenuQuick)
         });
     }
     
