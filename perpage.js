@@ -1,4 +1,4 @@
-console.log("per-page connected - v4.5");
+console.log("per-page connected - v5");
 
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollSmoother, SplitText)
@@ -170,6 +170,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     // Footer animation
+    // Hide nav
+    gsap.to(".nav", {
+        scrollTrigger: {
+            trigger: ".footer",
+            start: "90% bottom",
+            end: "bottom bottom",
+            scrub: "true",
+        },
+        yPercent: -100
+    });
+
     // Load Lottie
     const FooterLottie = lottie.loadAnimation({
         container: document.getElementById("footer-lottie"),
@@ -186,6 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
             end: "+=250",
             markers: true,
             pin: ".footer",
+            anticipatePin: true,
             scrub: true,
             onUpdate: function (self) {
                 const progress = self.progress;
