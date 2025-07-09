@@ -1,4 +1,4 @@
-console.log("page script connected - color change cursor")
+console.log("page script connected - FOUC fix")
 
 document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(SplitText, ScrollTrigger)
@@ -33,11 +33,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
                     if (el.hasAttribute("trickle-in-special")) {
                         const tl = gsap.timeline();
-                        tl.from(split.words, {
+                        tl
+                        .from(".vis-hidden", { autoAlpha: 0 })
+                        .from(split.words, {
                             yPercent: -100,
                             duration: 0.7,
                             stagger: 0.02,
-                        });
+                        }, "<");
                     }
 
                     if (el.hasAttribute("roll-out")) {
