@@ -1,4 +1,4 @@
-console.log("per-page connected - v5.6");
+console.log("per-page connected - v6");
 
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollSmoother, SplitText)
@@ -184,45 +184,56 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     // Footer animation
-    const footer = document.querySelector(".footer");
-    if (!footer) return;
-    
-    // Hide nav
-    gsap.to(".nav", {
-        scrollTrigger: {
-            trigger: ".footer",
-            start: "90% bottom",
-            end: "bottom bottom",
-            scrub: "true",
-        },
-        yPercent: -100
-    });
-
     // Load Lottie
-    const FooterLottie = lottie.loadAnimation({
+    FooterLottie = lottie.loadAnimation({
         container: document.getElementById("footer-lottie"),
         path: "https://cdn.prod.website-files.com/682387662b01db59008838c3/683629ba33408738443b5730_Distillery_LogoLayers_052725.json",
         renderer: "svg",
         autoplay: false,
     });
 
-    // Deliverables timeline
-    const FooterAnimation = gsap.timeline({
-        scrollTrigger: {
-            trigger: ".footer",
-            start: "bottom bottom",
-            end: "+=250",
-            markers: true,
-            pin: ".footer",
-            anticipatePin: true,
-            scrub: true,
-            onUpdate: function (self) {
-                const progress = self.progress;
-                FooterLottie.goToAndStop((FooterLottie.totalFrames - 1) * progress, true);
-            },
-        }
-    });
+    window.addEventListener("load", () => {
+        setTimeout(() => { 
+            const problemElement = document.querySelector(".cta-section-mobile");
 
-    FooterAnimation
-    .fromTo("html", { "--colors--black": "#000000" }, { "--colors--black": "#ffffff" }, "<");
+            // Only run if the element exists and screen is mobile
+            if (problemElement && window.matchMedia("(max-width: 991px)").matches) {
+                // Force layout reflow
+                problemElement.getBoundingClientRect(); // more reliable than .offsetHeight
+
+                // Refresh before creating the ScrollTriggers
+                ScrollTrigger.refresh(true);
+            }
+
+            // Now create the ScrollTrigger animations
+            const FooterAnimation = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".footer",
+                    start: "bottom bottom",
+                    end: "+=250",
+                    pin: ".footer",
+                    anticipatePin: true,
+                    scrub: true,
+                    onUpdate: function (self) {
+                        const progress = self.progress;
+                        FooterLottie.goToAndStop((FooterLottie.totalFrames - 1) * progress, true);
+                    },
+                }
+            });
+
+            FooterAnimation
+            .fromTo("html", { "--colors--black": "#000000" }, { "--colors--black": "#ffffff" }, "<");
+
+            gsap.to(".nav", {
+                scrollTrigger: {
+                    trigger: ".footer",
+                    start: "90% bottom",
+                    end: "bottom bottom",
+                    scrub: true,
+                },
+                yPercent: -100
+            });
+
+        }, 1000);
+    });
 });
