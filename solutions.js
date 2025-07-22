@@ -1,7 +1,11 @@
-console.log("connected - solutions - v3");
+console.log("connected - solutions - v3.5");
 
 document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(ScrollTrigger,ScrollSmoother, ScrambleTextPlugin)
+    
+    window.addEventListener("load", () => {
+        gsap.to(".smooth-wrapper", { autoAlpha: 1, duration: 1 })
+    });
 
     let VW = window.innerWidth;
     let VH = window.innerHeight;
