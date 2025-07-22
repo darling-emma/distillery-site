@@ -1,7 +1,11 @@
-console.log("team connected - add trickle in text");
+console.log("team connected - V2");
 
 $(document).ready(function() {
     const matchM = gsap.matchMedia();
+    
+    $(window).on("load", function() {
+        gsap.to(".smooth-wrapper", { autoAlpha: 1, duration: 1 });
+    });
 
     // Assign ID + DATA-ID
     $('.team-names-item').each(function() {
@@ -14,194 +18,175 @@ $(document).ready(function() {
         $(this).attr('data-id', 'item-' + dataIdText);
     });
 
-    // Trickle in Text
-    window.addEventListener("load", () => {
-        document.fonts.ready.then(() => {
-            setTimeout(() => {
-                document.querySelectorAll("[text-split]").forEach(el => {
-                    if (el._split) el._split.revert();
+    // Defining freeze scroll function
+    function freezeScroll() {
+        if (ScrollSmoother.get() && !ScrollTrigger.isTouch) {
+            ScrollSmoother.get().paused(true);
+            document.querySelector(".smooth-wrapper").style.pointerEvents = "none";
+        } else {
+            document.body.style.overflow = "hidden";
+            document.body.style.touchAction = "none";
+        }
+    }
 
-                    el.offHeight;
-
-                    const split = new SplitText(el, {
-                        type: "lines, words",
-                        mask: "lines",
-                        autoSplit: true,
-                    });
-                    el._split = split;
-
-                    if (el.hasAttribute("trickle-in")) {
-                        const tl = gsap.timeline({ paused: true });
-                        tl.from(split.words, {
-                            yPercent: -100,
-                            duration: 0.7,
-                            stagger: 0.02,
-                        });
-                        createScrollTrigger(el, tl)
-                    }
-                });
-                ScrollTrigger.refresh();
-            }, 100);
-        });
-    });
-
-    function createScrollTrigger(triggerElement, timeline) {
-        ScrollTrigger.create({
-            trigger: triggerElement,
-            start: "top 75%",
-            onEnter: () => timeline.play(),
-            onLeaveBack: () => timeline.reverse(),
-        });
-    };
+    // Defining resume scroll function
+    function resumeScroll() {
+        if (ScrollSmoother.get() && !ScrollTrigger.isTouch) {
+            ScrollSmoother.get().paused(false);
+            document.querySelector(".smooth-wrapper").style.pointerEvents = "auto";
+        } else {
+            document.body.style.overflow = "";
+            document.body.style.touchAction = "";
+        }
+    }
 
     // Team Animation Desktop
     matchM.add("(min-width: 992px)", () => {
-        const drinksItems = document.querySelectorAll(".team-drinks-item");
+
         const namesItems = document.querySelectorAll(".team-names-item");
-        const instruction = document.querySelector(".instruction-wrapper");
 
-        gsap.set(drinksItems, { display: "none", opacity: 0 });
-        gsap.set(".close-wrapper", { opacity: 0 });
-        gsap.set(".item-text", { opacity: 0 });
-        gsap.set(".small-drink-wrapper", { opacity: 0 });
-        gsap.set(".ticker-wrap", { opacity: 0 });
-        gsap.set(instruction, { opacity: 1 });
-
-        let tickerTimelines = {};
         let activeId = null;
-        let fadeTimelines = {};
 
-        // Main loop for each name
         namesItems.forEach(item => {
             const id = item.id;
             const tickerWrap = item.querySelector(".ticker-wrap");
-            const tickerMove = item.querySelector(".ticker-move");
-            const relatedDrink = document.querySelector(`.team-drinks-item[data-id="${id}"]`);
+            const tickerMove = tickerWrap.querySelector(".ticker-move");
             const trigger = item.querySelector(".name");
 
-            if (!tickerMove || !relatedDrink) {
-                console.warn(`Missing elements for ${id}`);
+            const relatedItem = document.querySelector(`.team-drinks-item[data-id="${id}"]`);
+            const largeDrink = relatedItem.querySelector(".item-drink-wrapper");
+            const bio = relatedItem.querySelector(".item-info-wrapper");
+
+            if (!tickerWrap || !tickerMove || !trigger || !relatedItem || !largeDrink) {
+                console.log("item not found");
                 return;
-            }
-
-            if (!trigger) {
-                console.warn(`⚠️ No .name trigger found in ${id}`);
-                return;
-            }
-
-            // Defining close animation
-            function closeDrinkItem() {
-                const closeWrapper = relatedDrink.querySelector(".close-wrapper");
-                const itemText = relatedDrink.querySelector(".item-text");
-                const smallDrink = relatedDrink.querySelector(".small-drink-wrapper");
-                const itemDrinkWrap = relatedDrink.querySelector(".item-drink-wrapper");
-
-                gsap.to([closeWrapper, itemText, smallDrink], { opacity: 0, duration: 0.1 });
-                gsap.to(relatedDrink, { opacity: 0, duration: 0.1 });
-
-                setTimeout(() => {
-                    gsap.set(instruction, { opacity: 1 });
-                    gsap.set(relatedDrink, { display: "none", zIndex: "auto" });
-                    gsap.set(itemDrinkWrap, { display: "block", opacity: 1 });
-                    activeId = null;
-
-                    namesItems.forEach(name => {
-                        gsap.to(name, { opacity: 1, duration: 0.1 });
-                        const ticker = name.querySelector(".ticker-wrap");
-                        if (ticker) gsap.to(ticker, { opacity: 0, duration: 0.1 });
-                    });
-                }, 300);
-            }
-
-            const closeWrapper = relatedDrink.querySelector(".close-wrapper");
-            if (closeWrapper) {
-                closeWrapper.addEventListener("click", closeDrinkItem);
-            }
-
-            console.log(`close button bound for ${id}`);
+            } else {
+                console.log("all clear")
+            };
 
             // Ticker timeline
-            tickerTimelines[id] = gsap.timeline({ paused: true, repeat: -1 });
-            tickerTimelines[id].to(tickerMove, {
-                xPercent: -100,
-                duration: 20,
-                ease: "none"
-            });
+            const tickerTimeline = gsap.timeline({ paused: true, repeat: -1 });
+            tickerTimeline.to(tickerMove, { x: "-100%", duration: 20, ease: "none" });
 
-            // Hover animation
+            // Close function
+            function closeAnimation() {
+                // Hide bio
+                const bioClickClose = gsap.timeline();
+                bioClickClose
+                .to(bio, { opacity: 0, duration: 0.3 })
+                .set(bio, { display: "none" })
+                .set(relatedItem, { zIndex: "auto" }, "<")
+                .set(".instruction-wrapper", { display: "flex" }, "<")
+                .set(".close-wrapper-big", { display: "none" })
+                .to(".instruction-wrapper", { opacity: 1, duration: 0.3 });
+
+                // Reset active id to none
+                activeId = null;
+
+                // Reset all names
+                namesItems.forEach(name => {
+                    gsap.to(name, { opacity: 1, duration: 0.3 });
+                });
+
+                resumeScroll();
+            }
+
+            const closeWrapper = document.querySelector(".close-wrapper-big");
+            if (closeWrapper) {
+                closeWrapper.addEventListener("click", closeAnimation);
+            }
+
+            // Hover in animation
             trigger.addEventListener("mouseenter", () => {
                 if (activeId) return;
 
-                if (fadeTimelines[id]) {
-                    fadeTimelines[id].kill();
-                };
+                setTimeout(() => {
+                    // Start ticker + reveal opacity
+                    tickerTimeline.play();
+                    gsap.to(tickerWrap, { opacity: 1, duration: 0.3 });
 
-                gsap.set(relatedDrink, { clearProps: "all", display: "flex" });
+                    // Hide instructions
+                    gsap.to(".instruction-wrapper", { opacity: 0, duration: 0.3 });
 
-                gsap.to(tickerWrap, { opacity: 1, duration: 0.1 });
-                tickerTimelines[id].play();
+                    // Keep hovered name 100% opacity, decrease others to 30%
+                    namesItems.forEach(other => {
+                        if (other !== item) {
+                            gsap.to(other, { opacity: 0.3, duration: 0.3 });
+                        } else {
+                            gsap.to(other, { opacity: 1, duration: 0.3 });
+                        }
+                    });
 
-                gsap.to(relatedDrink, { opacity: 1, duration: 0.1, delay: 0.1 });
-                gsap.to(instruction, { opacity: 0, duration: 0.1, delay: 0.1 });
-
-                namesItems.forEach(other => {
-                    if (other !== item) {
-                        gsap.to(other, { opacity: 0.3, duration: 0.1 });
-                        const otherTicker = other.querySelector(".ticker-wrap");
-                        if (otherTicker) gsap.to(otherTicker, { opacity: 0, duration: 0.3 });
-                    } else {
-                        gsap.to(other, { opacity: 1, duration: 0.1 });
-                    }
-                });
+                    // Reveal related large drink
+                    const drinkHover = gsap.timeline();
+                    drinkHover
+                    .set(largeDrink, { display: "flex" })
+                    .to(largeDrink, { opacity: 1, duration: 0.3 });
+                }, 100);
             });
 
             // Hover out animation
             trigger.addEventListener("mouseleave", () => {
                 if (activeId) return;
-                
-                fadeTimelines[id] = gsap.timeline();
-                fadeTimelines[id]
-                .to(relatedDrink, { opacity: 0, duration: 0.1 })
-                .set(relatedDrink, { display: "none" })
-                .to(instruction, { opacity: 1, duration: 0.1 }, "<");
 
-                namesItems.forEach(name => {
-                    gsap.to(name, { opacity: 1, duration: 0.1 });
+                setTimeout(() => {
+                    // Pause ticker + hide opacity
+                    tickerTimeline.pause(0);
+                    gsap.to(tickerWrap, { opacity: 0, duration: 0.3 });
 
-                    const ticker = name.querySelector(".ticker-wrap");
-                    if (ticker) gsap.to(ticker, { opacity: 0, duration: 0.1 });
-                });
+                    // Show instructions
+                    gsap.to(".instruction-wrapper", { opacity: 1, duration: 0.3 });
 
-                tickerTimelines[id].pause(0);
+                    // All names to 100% opacity
+                    namesItems.forEach(name => {
+                        gsap.to(name, { opacity: 1, duration: 0.3 });
+                    });
+
+                    // Hide related large drink
+                    const drinkHover = gsap.timeline();
+                    drinkHover
+                    .to(largeDrink, { opacity: 0, duration: 0.3 })
+                    .set(largeDrink, { display: "none" });
+                }, 100);
             });
-
 
             // Click animation
             trigger.addEventListener("click", () => {
+                // If active, clicking on it closes it
                 if (activeId === id) {
-                    closeDrinkItem();
+                    closeAnimation();
                     return;
                 }
+
+                // If active, don't play this animation
                 if (activeId) return;
+
+                // Set this id to active
                 activeId = id;
 
-                gsap.to(tickerWrap, { opacity: 0, duration: 0.1 });
-                tickerTimelines[id].pause();
+                // Pause ticker + hide opacity
+                tickerTimeline.pause(0);
+                gsap.to(tickerWrap, { opacity: 0, duration: 0.3 });
 
-                gsap.set(instruction, { opacity: 0 });
-                
-                const itemText = relatedDrink.querySelector(".item-text");
-                const smallDrink = relatedDrink.querySelector(".small-drink-wrapper");
-                const itemDrinkWrap = relatedDrink.querySelector(".item-drink-wrapper");
+                // Hide related large drink + keep instructions hidden
+                const drinkHover = gsap.timeline();
+                drinkHover
+                .to(largeDrink, { opacity: 0, duration: 0.3 })
+                .set(".instruction-wrapper", { opacity: 0 }, "<")
+                .set(".instruction-wrapper", { display: "none" })
+                .set(largeDrink, { display: "none" }, "<");
 
-                gsap.to(itemDrinkWrap, { opacity: 0, duration: 0.1 });
-
+                // Reveal bio 
                 setTimeout(() => {
-                    gsap.set(itemDrinkWrap, { display: "none" });
-                    gsap.set(relatedDrink, { zIndex: "900" });
-                    gsap.to([closeWrapper, itemText, smallDrink], { opacity: 1, duration: 0.1 });
-                    gsap.set(closeWrapper, { pointerEvents: "auto" });
+                    const bioClickOpen = gsap.timeline();
+                    bioClickOpen
+                    .set(bio, { display: "flex" })
+                    .set(relatedItem, { zIndex: 900 }, "<")
+                    .set(".close-wrapper-big", { display: "flex" }, "<")
+                    .to(bio, { opacity: 1, duration: 0.3 });
                 }, 300);
+
+                freezeScroll();
             });
         });
     });
