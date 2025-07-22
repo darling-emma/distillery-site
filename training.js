@@ -1,7 +1,11 @@
-console.log("page script connected - FOUC fix")
+console.log("page script connected - V2")
 
 document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(SplitText, ScrollTrigger)
+    
+    window.addEventListener("load", () => {
+        gsap.to(".smooth-wrapper", { autoAlpha: 1, duration: 1 })
+    });
 
     const matchM = gsap.matchMedia();
 
