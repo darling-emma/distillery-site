@@ -1,4 +1,4 @@
-console.log("per-page connected - v6");
+console.log("per-page connected - v7");
 
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollSmoother, SplitText)
@@ -227,8 +227,8 @@ document.addEventListener("DOMContentLoaded", () => {
             gsap.to(".nav", {
                 scrollTrigger: {
                     trigger: ".footer",
-                    start: "90% bottom",
-                    end: "bottom bottom",
+                    start: "top 15%",
+                    end: "top top",
                     scrub: true,
                 },
                 yPercent: -100
