@@ -1,4 +1,4 @@
-console.log("per-page connected - v7");
+console.log("per-page connected - v7.5");
 
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollSmoother, SplitText)
@@ -223,16 +223,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             FooterAnimation
             .fromTo("html", { "--colors--black": "#000000" }, { "--colors--black": "#ffffff" }, "<");
-
-            gsap.to(".nav", {
-                scrollTrigger: {
-                    trigger: ".footer",
-                    start: "top 15%",
-                    end: "top top",
-                    scrub: true,
-                },
-                yPercent: -100
-            });
 
         }, 1000);
     });
